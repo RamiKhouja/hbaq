@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Layla Thuluth';
+    src: url('/fonts/Layla-Thuluth.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Adobe Arabic';
+    src: url('/fonts/AdobeArabic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hudhud Arabic';
+    src: url('/fonts/Hudhud-AR-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-image: url('/pictures/pattern.png');
+    background-repeat: repeat; /* repeats horizontally + vertically */
+}
+
+
+.primary-btn {
+    @apply px-4 py-2 border border-primary text-white bg-primary rounded-full text-xs md:text-sm font-normal hover:bg-primdark hover:border-primdark;
+}
+
+.secondary-btn {
+    @apply px-4 py-2 border border-primary rounded-full text-sm font-normal hover:bg-primary hover:text-white;
+}
+
+.nav-link-ar {
+    @apply text-primary text-4xl font-medium hover:text-brown-200;
+}
+
+.nav-link-en, .nav-link-fr {
+    @apply text-primary text-xl font-semibold italic hover:text-brown-200;
+}
+
+.nav-link-top-ar {
+    @apply text-primary text-3xl font-medium hover:text-brown-200;
+}
+
+.nav-link-top-en, .nav-link-top-fr {
+    @apply text-primary text-lg font-semibold italic hover:text-brown-200;
+}
+
+
+@media (max-width: 480px) {
+    .phone-display {
+        @apply block;
+    }
+    .large-display {
+        @apply hidden;
+    }
+}
+@media (min-width: 481px) {
+    .phone-display {
+        @apply hidden;
+    }
+    .large-display {
+        @apply block;
+    }
+}
+
+.footer{
+    @apply bg-primary w-full text-white mt-16 z-50;
+}
+.footer .wrapper {
+    @apply mx-auto max-w-6xl w-full px-5 lg:px-4 xl:px-0 relative py-20;
+}
+.footer .title {
+    @apply absolute top-4 text-brown-800 font-bold uppercase;
+}
+.footer .body {
+    @apply grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 sm:gap-4 md:gap-8 lg:gap-16 xl:gap-24;
+}
+
+.footer .foot{
+    @apply w-full flex justify-center items-center py-9 bg-brown-800;
+   
+}
+.footer .section-title {
+    @apply text-white font-bold leading-relaxed mb-4;
+}
+.links ul {
+    @apply flex justify-between md:block;
+}
+.links li{
+    @apply text-sm md:text-base md:mb-4;
+}
+.footer p.description{
+    @apply text-gray-200 mb-[5%] text-justify;
+}
+.footer input{
+    @apply w-full px-6 py-2 placeholder:text-base placeholder:text-gray-500 rounded-full text-primary;
+}
+.footer .socials li {
+    @apply flex space-x-3 items-center mb-4 text-sm md:text-base;
+}
+
+.footer .socials .icon {
+    @apply w-9 h-9 p-2 bg-primary rounded-full;
+}
+
+
+/* Pagination container spacing */
+.swiper-pagination {
+    margin-top: 28px !important;
+    position: relative !important;
+}
+
+/* Default bullet */
+.swiper-pagination-bullet {
+    width: 16px !important;
+    height: 16px !important;
+    background: #B59483 !important; /* default dot color */
+    opacity: 1 !important;
+}
+
+/* Active + hover bullet */
+.swiper-pagination-bullet-active,
+.swiper-pagination-bullet:hover {
+    background: #351E10 !important; /* active or hover color */
+}
+
+
+.home-section-title {
+    @apply text-brown-800 lang-ar:font-hudhud lang-ar:text-3xl lang-ar:lg:text-5xl font-medium text-2xl lg:text-5xl;
+}
+
+.home-section-description {
+    @apply font-medium lang-ar:font-normal mt-4 text-brown-700 lang-ar:text-lg lang-ar:lg:text-3xl text-lg lg:text-xl;
+}
