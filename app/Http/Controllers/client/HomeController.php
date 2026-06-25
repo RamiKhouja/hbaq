@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Service;
 use App\Models\Cart;
 use App\Models\About;
-use App\Models\Ceo;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
@@ -26,7 +25,23 @@ class HomeController extends Controller
         //$user = auth()->user();
         $categories = Category::where('parent_id',null)->where('type','menu')->with('children')->get();
         $eventCategories = Category::where('parent_id',null)->where('type','event')->with('children')->get();
-        $featured = Product::where('is_featured', true)->where('unit', '!=', 'pack')->take(20)->get();
+        $featured = Product::with(['prices' => function ($q) {
+                $q->orderBy('min_qty');
+            }])->where(function ($q) {
+                $q->where('is_featured', true)
+                    ->orWhere('is_new', true)
+                    ->orWhereHas('prices', function ($query) {
+                        $query->where('discount_price', '>', 0)
+                            ->where(function ($dateQuery) {
+                                $dateQuery->whereNull('start_date')
+                                    ->orWhere('start_date', '<=', now()->toDateString());
+                            })
+                            ->where(function ($dateQuery) {
+                                $dateQuery->whereNull('end_date')
+                                    ->orWhere('end_date', '>=', now()->toDateString());
+                            });
+                    });
+        })->where('unit', '!=', 'pack')->take(20)->get();
         $services = Service::where('show_in_home', true)->take(3)->get();
         $prodCats = Category::with(['products'])->get()->map(function ($category) {
             return [
@@ -36,7 +51,6 @@ class HomeController extends Controller
         });
         $testimonials = Testimonial::where('is_approved', true)->get();
         $about = About::first();
-        $ceo = CEO::first();
         
         // $products = DB::table('products')->join('purchases','purchases.product_id','=','products.id')
         //     ->where('purchases.cart_id','=',$user->cart->id)
@@ -45,13 +59,12 @@ class HomeController extends Controller
         // $cart->purchases = $products;
         return inertia('Client/Home', [
             'categories' => $categories,
-            'eventCategories' => $eventCategories,
+            // 'eventCategories' => $eventCategories,
             'featured' => $featured,
-            'prodCats' => $prodCats,
-            'services' => $services,
-            'about' => $about,
-            'ceo' => $ceo,
-            'testimonials' => $testimonials
+            // 'prodCats' => $prodCats,
+            // 'services' => $services,
+            // 'about' => $about,
+            // 'testimonials' => $testimonials
         ]);
     }
 

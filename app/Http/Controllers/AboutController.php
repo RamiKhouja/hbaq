@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\About;
-use App\Models\Ceo;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -125,71 +124,5 @@ class AboutController extends Controller
         return redirect('/admin/about')
             ->with('success', 'About section saved successfully!');
     }
-
-
-
-    public function createCeo()
-    {
-        $ceo = Ceo::first();
-        return inertia('Admin/Ceo/Create', ['abt' => $ceo]);
-    }
-
-    public function storeCeo(Request $request)
-    {
-
-        //Log::info('The Store function called', ['request' => $request->all()]);
-        
-        // $validated = $request->validate([
-        //     'title_en' => 'required|string|max:255',
-        //     'title_fr' => 'required|string|max:255',
-        //     'title_ar' => 'required|string|max:255',
-        //     'name_en' => 'required|string|max:255',
-        //     'name_fr' => 'required|string|max:255',
-        //     'name_ar' => 'required|string|max:255',
-        //     'paragraph_1_en' => 'required|string',
-        //     'paragraph_1_fr' => 'required|string',
-        //     'paragraph_1_ar' => 'required|string',
-        //     'paragraph_2_en' => 'nullable|string',
-        //     'paragraph_2_fr' => 'nullable|string',
-        //     'paragraph_2_ar' => 'nullable|string',
-        // ]);
-
-        //Log::info('The Store function called', ['validated' => $validated]);
-
-        $ceo = Ceo::firstOrNew();
-
-        $ceo->title = json_encode([
-            'en' => $request->input('title_en'),
-            'ar' => $request->input('title_ar'),
-            'fr' => $request->input('title_fr'),
-        ]);
-
-        $ceo->name = json_encode([
-            'en' => $request->input('name_en'),
-            'ar' => $request->input('name_ar'),
-            'fr' => $request->input('name_fr'),
-        ]);
     
-        $ceo->paragraph_1 = json_encode([
-            'en' => $request->input('paragraph_1_en'),
-            'ar' => $request->input('paragraph_1_ar'),
-            'fr' => $request->input('paragraph_1_fr'),
-        ]);
-    
-        $ceo->paragraph_2 = json_encode([
-            'en' => $request->input('paragraph_2_en'),
-            'ar' => $request->input('paragraph_2_ar'),
-            'fr' => $request->input('paragraph_2_fr'),
-        ]);
-
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->storePublicly('pictures/ceo');
-            $ceo->image = $imagePath;
-        }
-
-        $ceo->save();
-
-        return redirect()->route('admin.ceo.create')->with('success', 'Ceo information updated successfully!');
-    }
 }

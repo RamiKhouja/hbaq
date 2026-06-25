@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'firstname', 'lastname', 'email', 'picture', 'role', 'password',
-        'phone', 'country','address','address_2','zip','city','state'
+        'phone', 'company_id', 'country','address','address_2','zip','city','state'
     ];
 
     /**
@@ -46,13 +46,14 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function cart() {
         return $this->hasOne(Cart::class);
     }
-    // public function company(){
-
-    //     return $this->belongsTo(Company::class);
-    // }
     // public function wallet()
     // {
     //     return $this->hasOne(Wallet::class);

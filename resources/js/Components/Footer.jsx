@@ -1,4 +1,5 @@
 import {PhoneIcon, EnvelopeIcon, MapPinIcon} from '@heroicons/react/24/solid'
+import { Leaf } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
@@ -25,6 +26,54 @@ export default function Footer() {
 
     const { t, i18n } = useTranslation();
     return (
+    <div>
+        <footer id="contact" className="border-t border-slate-200 bg-white">
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
+            <div className="md:col-span-2 lg:col-span-1">
+                <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-600 text-white">
+                    <Leaf className="h-5 w-5" />
+                </div>
+                <div>
+                    <p className="text-lg font-extrabold text-slate-900">Hbaq | حبق</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Organic Grocery</p>
+                </div>
+                </div>
+                <p className="mt-5 text-sm leading-7 text-slate-600">
+                A homepage template inspired by an organic grocery Figma style, adapted into a reusable React layout for Laravel + Inertia projects.
+                </p>
+            </div>
+
+            <div>
+                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Quick Links</h4>
+                <div className="mt-5 space-y-3 text-sm text-slate-600">
+                <a href="#" className="block hover:text-green-700">Shop All</a>
+                <a href="#" className="block hover:text-green-700">Wholesale</a>
+                <a href="#" className="block hover:text-green-700">New Arrivals</a>
+                <a href="#" className="block hover:text-green-700">Contact</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Information</h4>
+                <div className="mt-5 space-y-3 text-sm text-slate-600">
+                <a href="#" className="block hover:text-green-700">About Us</a>
+                <a href="#" className="block hover:text-green-700">Delivery Policy</a>
+                <a href="#" className="block hover:text-green-700">Privacy Policy</a>
+                <a href="#" className="block hover:text-green-700">Terms & Conditions</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Contact</h4>
+                <div className="mt-5 space-y-3 text-sm text-slate-600">
+                <p>+216 00 000 000</p>
+                <p>hello@freshmart.com</p>
+                <p>Tunis, Tunisia</p>
+                </div>
+            </div>
+          </div>
+        </footer>
         <div className="bg-brown-800" dir={i18n.language==='ar' ? 'rtl' : 'ltr'}>
             <div className="mx-auto max-w-7xl px-6 pb-8  lg:px-8" >
                 <div className="pt-8 md:flex md:items-center md:justify-between">
@@ -37,10 +86,11 @@ export default function Footer() {
                         ))}
                     </div>
                     <p className="mt-8 text-lg text-white md:order-1 md:mt-0">
-                        &copy; {new Date().getFullYear()} {t('footer.mesmia')}. {t('footer.all-rights')}.
+                        &copy; {new Date().getFullYear()} {t('footer.Hbaq')}. {t('footer.all-rights')}.
                     </p>
                 </div>
             </div>
         </div>
+    </div>
     )
 }

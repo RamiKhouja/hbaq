@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next'
 import Modal from './Modal';
+import { Search } from 'lucide-react';
 
 function SearchBar({visibility, type}) {
     const {t, i18n} = useTranslation();
@@ -36,7 +37,7 @@ function SearchBar({visibility, type}) {
         ? (
         <div className=" relative rounded-md">
             <div className={`pointer-events-none absolute inset-y-0 ${i18n.language=='ar'?'right-0 pr-3':'left-0 pl-3'} flex items-center`}>
-                <MagnifyingGlassIcon className="h-4 w-4 text-primary" aria-hidden="true" />
+                <Search className="h-4 w-4 text-primary" aria-hidden="true" />
             </div>
             <input
                 type="text"
@@ -44,7 +45,7 @@ function SearchBar({visibility, type}) {
                 id="search"
                 value={searchTerm}
                 onChange={handleInputChange}
-                className={`block w-full rounded-md border-1 border-primary py-0 ${i18n.language=='ar'?'pr-10 text-right':'pl-10'} bg-transparent text-brown-800 placeholder:text-brown-600 sm:text-sm sm:leading-6 focus:outline-none`}
+                className={`block w-full max-w-48 rounded-full border-1 border-primary py-0 ${i18n.language=='ar'?'pr-10 text-right':'pl-10'} bg-transparent text-brown-800 placeholder:text-brown-600 sm:text-sm sm:leading-6 focus:outline-none`}
                 placeholder={t('navigation.search')}
             />
         </div>

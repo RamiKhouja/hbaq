@@ -6,6 +6,98 @@
         "set": "Ensemble",
         "no-results": "Aucun résultat",
         "orders-accepted-12-hours": "Les commandes sont acceptées au moins 12 heures à l'avance.",
+        "homepage": {
+            "top": {
+                "badge": "Produits frais • Détail & Gros",
+                "title": "Fruits et légumes frais livrés avec soin",
+                "description": "Achetez des produits biologiques de qualité pour la maison ou passez des commandes en gros pour supermarchés, hôtels et restaurants.",
+                "shop_now": "Acheter",
+                "explore_wholesale": "Découvrir le gros",
+                "stats": {
+                    "customers": "Clients satisfaits",
+                    "orders": "Commandes quotidiennes",
+                    "freshness": "Taux de fraîcheur"
+                },
+                "offer": {
+                    "title": "Offre spéciale de la semaine",
+                    "discount": "Jusqu'à 25%",
+                    "subtitle": "Boxes de fruits et légumes sélectionnés"
+                }
+            },
+            "categories": {
+                "eyebrow": "Par catégorie",
+                "title": "Essentiels d'épicerie biologique pour chaque client",
+                "description": "Du shopping ménager à l'approvisionnement pour restaurants et grossistes, parcourez des catégories sélectionnées pour B2C et B2B.",
+                "browse": "Parcourir la catégorie"
+            },
+            "featured": {
+                "eyebrow": "Produits en vedette",
+                "title": "Les meilleures ventes de la semaine",
+                "description": "Une section produits prête pour la marketplace avec badges de remise, actions rapides et prix connectables à votre backend Laravel."
+            },
+            "product": {
+                "fresh_stock": "Stock frais disponible",
+                "price_popup": {
+                    "title": "Tarifs entreprise",
+                    "tooltip": "Voir les tarifs entreprise",
+                    "qty": "Qté",
+                    "price": "Prix",
+                    "discount": "Remise"
+                }
+            },
+            "wholesale": {
+                "badge": "Pour acheteurs B2B",
+                "title": "Commandes en gros pour supermarchés, restaurants et revendeurs",
+                "description": "Ajoutez votre flux d'intégration grossiste, tarification par compte, quantités minimales, planification des livraisons et gestion des factures.",
+                "become_partner": "Devenir partenaire grossiste",
+                "request_price": "Demander la grille tarifaire",
+                "why_title": "Pourquoi les entreprises nous choisissent",
+                "points": {
+                    "tiered_pricing": "Tarification par paliers selon le groupe de clients",
+                    "moq_support": "Support MOQ pour paniers et cartons en gros",
+                    "delivery_slots": "Créneaux de livraison pour acheteurs récurrents",
+                    "invoice_flow": "Facturation et paiement par compte"
+                }
+            },
+            "about": {
+                "badge": "À propos de FreshMart",
+                "title": "Alimentation saine, agriculteurs de confiance, expérience e‑commerce moderne",
+                "description": "Idéal pour raconter l'histoire de votre marque et expliquer votre proposition de valeur pour familles et acheteurs professionnels.",
+                "stats": { "farms": "Partenaires agricoles", "cities": "Villes desservies", "online": "Commande en ligne", "rating": "Note clients" }
+            },
+            "testimonials": {
+                "eyebrow": "Témoignages",
+                "title": "Ce que disent nos clients",
+                "description": "La preuve sociale fonctionne particulièrement bien pour les épiceries et boutiques grossistes. Restez concis et crédible.",
+                "role_wholesale": "Acheteur en gros",
+                "role_retail": "Client détail",
+                "quote_1": "La qualité des produits est constamment excellente et le processus de commande en gros est très fluide.",
+                "quote_2": "Belle page d'accueil, commande facile et légumes frais toujours livrés à l'heure."
+            },
+            "newsletter": {
+                "badge": "Newsletter",
+                "title": "Recevez nos offres hebdomadaires et nouveautés grossistes",
+                "description": "Ajoutez votre capture d'e-mails pour les promotions, arrivages et notifications saisonnières.",
+                "placeholder": "Entrez votre adresse e-mail",
+                "subscribe": "S'abonner"
+            },
+            "stats": {
+                "fast_delivery": { "title": "Livraison rapide", "text": "Livraison le jour même en ville et expédition planifiée pour le gros." },
+                "fresh": { "title": "100% Produits frais", "text": "Fruits et légumes sourcés quotidiennement auprès de fermes de confiance." },
+                "quality": { "title": "Qualité garantie", "text": "Produits inspectés avec emballage fiable." },
+                "b2b": { "title": "Support B2B", "text": "Support dédié pour détaillants, restaurants et revendeurs." }
+            },
+            "deals": {
+                "seasonal": "Offre saisonnière",
+                "heading_left": "Boxes de fruits frais pour les familles",
+                "desc_left": "Utilisez cette bannière pour offres hebdomadaires et promotions limitées.",
+                "discover": "Découvrir les offres",
+                "farm_to_table": "De la ferme à l'assiette",
+                "heading_right": "Légumes locaux cueillis quotidiennement",
+                "desc_right": "Parfait pour mettre en avant confiance, traçabilité et qualité biologique.",
+                "learn_more": "En savoir plus"
+            }
+        },
         "navigation": {
             "home": "Accueil",
             "shop": "Menu",
@@ -50,10 +142,6 @@
             "our-courses": "Nos Cours",
             "description": "Découvrez nos formations enregistrées avec professionnalisme pour un apprentissage clair et flexible. Un contenu de qualité, pratique et accessible à tous les niveaux, pour apprendre à votre rythme."
         },
-        "ceo": {
-            "hafedh-yaiche": "M Hafedh Yaiche",
-            "book-consultation": "Réservez Consultation"
-        },
         "testimonial": {
             "happy-clients": "Nos Clients Sont Satisfaits",
             "any-feedback": "Des Commentaires?"
@@ -77,7 +165,7 @@
             "all-rights": "Tous drois réservés"
         },
         "owl-products": {
-            "featured": "Nos meilleures ventes",
+            "featured": "Best Seller",
             "new-arrivals": "Nouveautés",
             "shop-collection": "Découvrez notre collection complète",
             "subtitle": "Découvrez les produits les plus populaires parmi nos clients, les saveurs les plus délicieuses et les meilleurs choix qui prouvent leur excellence à chaque fois.",

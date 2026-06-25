@@ -170,6 +170,9 @@ export default function Index({products, auth}) {
                       Price
                     </th> 
                     <th scope="col" className="py-3.5 pr-3 text-sm font-semibold text-gray-900">
+                      Stock
+                    </th> 
+                    <th scope="col" className="py-3.5 pr-3 text-sm font-semibold text-gray-900">
                       {t('admin.product.list.category')}
                     </th> 
                     <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -224,7 +227,12 @@ export default function Index({products, auth}) {
                         }
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                        {product.price} {t('product.tnd')}
+                        {product.prices?.length
+                          ? `${product.prices[0].price} DT${product.prices.length > 1 ? ` +${product.prices.length - 1}` : ''}`
+                          : '-'}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                        {product.stock ?? 0} {product.unit}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                         {product.categories?.map((category)=>(<p key={category.id}>
@@ -268,6 +276,3 @@ export default function Index({products, auth}) {
     </AdminLayout>
   )
 }
-
-
-

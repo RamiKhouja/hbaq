@@ -1,5 +1,4 @@
 import { Fragment, useState } from 'react'
-import { Search, ShoppingCart, User, Leaf } from 'lucide-react';
 import { Disclosure, Popover, PopoverButton, PopoverPanel, Transition } from '@headlessui/react'
 import { Bars3Icon, UserIcon, ShoppingCartIcon, XMarkIcon, HeartIcon, GlobeAltIcon, MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from 'react-i18next';
@@ -32,65 +31,58 @@ export default function ClientLayout({ children, showMain, user, categories, eve
     i18n.changeLanguage(lang);
   }
 
-  // const isPath = (path) => {
-  //   const regex = new RegExp(`^${path}`);
-  //   return regex.test(window.location.pathname);
-  // }
+  const isPath = (path) => {
+    const regex = new RegExp(`^${path}`);
+    return regex.test(window.location.pathname);
+  }
 
   const [cartOpen, setCartOpen] = useState(false)
   const [openSearch, setOpenSearch] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [logoImg] = useState('/pictures/logo.png');
-  const [searchVisible] = useState(window.location.pathname==='/');
+  const [logoImg, setILogoImg] = useState('/pictures/logo.png');
+  const [logoVisibility, setLogoVisibility] = useState(window.location.pathname==='/' ? 'lg:hidden': 'lg:block');
+  const [bannerVisibility, setBannerVisibility] = useState(window.location.pathname==='/' ? 'lg:block': 'lg:hidden');
+  const [searchVisible, setSearchVisible] = useState(window.location.pathname==='/');
+  const [topMain, setTopMain] = useState(window.location.pathname==='/' ? 'lg:top-[380px]':'lg:top-[272px]');
+  const [subHeaderTop, setSubHeaderTop] = useState(window.location.pathname==='/' ? 'lg:mt-48':'');
+  const [hasShadow, setHasShadow] = useState(window.location.pathname==='/' ? 'shadow lg:shadow-none lg:top-12':'shadow top-0');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isLargeScreen = window.matchMedia('(min-width: 1024px)').matches;
+      if(isLargeScreen && (window.location.pathname==='/')) {
+        if (window.scrollY > 200) {
+          setLogoVisibility('lg:block');
+          setBannerVisibility('lg:hidden');
+          setSearchVisible(false);
+          setTopMain('lg:top-[272px]');
+          setSubHeaderTop('');
+          setHasShadow('shadow top-0');
+        } else {
+          setLogoVisibility('lg:hidden');
+          setBannerVisibility('lg:block');
+          setSearchVisible(true);
+          setTopMain('lg:top-[380px]');
+          setSubHeaderTop('lg:mt-48');
+          setHasShadow('shadow lg:shadow-none lg:top-12');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   
   return (
-      <div className={`min-h-full ${lang==='ar' ? 'font-naskh' : 'font-noto'}`}>
-        <header className="hidden z-40 w-full top-0 border-b border-slate-200 bg-white/90 backdrop-blur">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:flex-nowrap lg:px-8">
-            <div className="min-w-0 flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-green-600 text-white shadow-sm sm:h-11 sm:w-11">
-                <Leaf className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">Hbaq | حبق</p>
-                <p className="truncate text-[10px] uppercase tracking-[0.18em] text-slate-500 sm:text-xs">Organic Grocery Store</p>
-              </div>
-            </div>
-
-            <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 lg:flex">
-              <a href="#" className="transition hover:text-green-700">Home</a>
-              <a href="#categories" className="transition hover:text-green-700">Categories</a>
-              <a href="#products" className="transition hover:text-green-700">Shop</a>
-              <a href="#wholesale" className="transition hover:text-green-700">Wholesale</a>
-              <a href="#about" className="transition hover:text-green-700">About</a>
-              <a href="#contact" className="transition hover:text-green-700">Contact</a>
-            </nav>
-
-            <div className="flex items-center gap-2 sm:gap-3">
-              <button className="rounded-full border border-slate-200 p-2.5 text-slate-600 transition hover:border-green-600 hover:text-green-700 sm:p-3">
-                <Search className="h-4 w-4" />
-              </button>
-              <button className="rounded-full border border-slate-200 p-2.5 text-slate-600 transition hover:border-green-600 hover:text-green-700 sm:p-3">
-                <User className="h-4 w-4" />
-              </button>
-              <button className="relative rounded-full border border-slate-200 p-2.5 text-slate-600 transition hover:border-green-600 hover:text-green-700 sm:p-3">
-                <ShoppingCart className="h-4 w-4" />
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">2</span>
-              </button>
-            </div>
-
-            <nav className="-mx-1 flex w-full gap-2 overflow-x-auto px-1 pb-1 text-sm font-medium text-slate-600 lg:hidden">
-              <a href="#" className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:border-green-600 hover:text-green-700">Home</a>
-              <a href="#categories" className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:border-green-600 hover:text-green-700">Categories</a>
-              <a href="#products" className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:border-green-600 hover:text-green-700">Shop</a>
-              <a href="#wholesale" className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:border-green-600 hover:text-green-700">Wholesale</a>
-              <a href="#about" className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:border-green-600 hover:text-green-700">About</a>
-              <a href="#contact" className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:border-green-600 hover:text-green-700">Contact</a>
-            </nav>
-          </div>
-        </header>
-        <Disclosure as="nav" className={`bg-white fixed lg:hidden z-40 w-full`}>
+      <div className={`min-h-full ${lang==='ar' ? 'font-adobe' : 'font-nanum italic font-medium'}`}>
+        <div className={`w-full hidden ${bannerVisibility} bg-brown-800 text-center py-2 z-50 fixed`}>
+          <p className='text-white text-2xl font-medium font-adobe'>{t("orders-accepted-12-hours")}</p>
+        </div>
+        <Disclosure as="nav" className={`bg-white fixed lg:hidden z-40 w-full ${hasShadow} ${lang==='ar' ? 'font-layla-thuluth' :''}`}>
           {({ open }) => (
             <>
               <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative'>
@@ -148,7 +140,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                             <span className='text-white text-xs font-semibold'>{cart.length}</span>
                           </div>
                       )}
-                      <ShoppingCart className="h-6 w-6" aria-hidden="true" />
+                      <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                     {/* Mobile menu button */}
                     <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-primary hover:text-brown-600 focus:outline-none">
@@ -182,7 +174,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                 <div className="border-t border-brown-400 pb-3 pt-4" dir={lang==='ar' ? 'rtl' : 'ltr'}>
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <User className="h-6 w-6 text-primary" aria-hidden="true" />
+                      <UserIcon className="h-6 w-6 text-primary" aria-hidden="true" />
                     </div>
                     <div className="mx-3">
                       <div className="text-base font-medium text-primary">{user?.firstname} {user?.lastname}</div>
@@ -259,27 +251,114 @@ export default function ClientLayout({ children, showMain, user, categories, eve
             </>
           )}
         </Disclosure>
-        <div className={`bg-white hidden lg:block lg:fixed z-40 w-full`}>
+        <div className={`bg-white hidden lg:block lg:fixed z-40 w-full ${hasShadow} ${lang==='ar' ? 'font-layla-thuluth' :''}`}>
         <div className="relative w-full">
           <div className='mx-auto px-4 sm:px-6 lg:px-8 relative'>
             <div className="flex h-[72px] lg:h-20 items-center justify-between">
-              <div className="min-w-0 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-green-600 text-white shadow-sm sm:h-11 sm:w-11">
-                  <Leaf className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="truncate text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">Hbaq | حبق</p>
-                  <p className="truncate text-[10px] uppercase tracking-[0.18em] text-slate-500 sm:text-xs">Organic Grocery Store</p>
+              <div className="flex items-center">
+                <div className="hidden lg:block">
+                  <div className="mx-10 flex items-baseline gap-x-4">
+                    <Dropdown>
+                      <Dropdown.Trigger>
+                        <button
+                          type="button"
+                          className="relative flex items-center text-primary hover:text-brown-800 focus:outline-none"
+                        >
+                          <GlobeAltIcon className="h-5 w-5 mr-1.5" aria-hidden="true" />
+                          <p className={`${lang=='ar' ? 'text-xl mb-1.5' : 'text-base'} font-medium`}>
+                            {lang==='ar' ? ('عربية') : lang==='en' ? ('English') : ('Français')}
+                          </p>
+                          <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                        </button>
+                      </Dropdown.Trigger>
+                        <Dropdown.Content width='36'>
+                          <Dropdown.Link  className='hover:bg-brown-100/50 font-medium font-layla-thuluth text-xl' onClick={()=>changeLanguage('ar')} as="button">
+                            عربية
+                          </Dropdown.Link>
+                          <Dropdown.Link className='hover:bg-brown-100/50 font-medium font-nanum' onClick={()=>changeLanguage('en')} as="button" >
+                            English
+                          </Dropdown.Link>
+                          <Dropdown.Link className='hover:bg-brown-100/50 font-medium font-nanum' onClick={()=>changeLanguage('fr')} as="button">
+                            Français
+                          </Dropdown.Link>
+                      </Dropdown.Content>
+                    </Dropdown>
+                  </div>
                 </div>
               </div>
-              <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 lg:flex" dir={lang==='ar' ? 'rtl' : 'ltr'}>
-                <a href="#" className="transition hover:text-green-700">Home</a>
-                <a href="#categories" className="transition hover:text-green-700">Categories</a>
-                <a href="#products" className="transition hover:text-green-700">Shop</a>
-                <a href="#wholesale" className="transition hover:text-green-700">Wholesale</a>
-                <a href="#about" className="transition hover:text-green-700">About</a>
-                <a href="#contact" className="transition hover:text-green-700">Contact</a>
-              </nav>
+              <div className={`hidden ${logoVisibility} `}>
+                <div className="flex items-center justify-center gap-x-6" dir={lang==='ar' ? 'rtl' : 'ltr'}>
+                  <div className='group'>
+                    <button className={` nav-link-top-${lang} flex items-center gap-x-1 focus:outline-none`}>
+                      <p className={`${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                          {t('navigation.categories')}
+                      </p>
+                      <ChevronDownIcon aria-hidden="true" className="size-5 lang-ar:mt-2" />
+                    </button>
+                    <div className="absolute left-0 top-full w-full bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <div className="mx-auto grid max-w-7xl grid-cols-5 gap-x-16 px-6 py-10 lg:px-8 ">
+                        {categories?.map(category => (
+                          <Link href={`/menu/${category.url}`} key={category.id} className='group'>
+                          <div className='text-center'>
+                              <img src={`/${category.image}`} className='w-full mx-auto group-hover:shadow-xl aspect-square rounded-2xl object-cover' alt="" />
+                              <p className='mt-4 lg:mt-6 text-xl lang-ar:text-3xl text-primary cursor-pointer font-semibold lang-ar:font-medium group-hover:text-primary'>
+                              {i18n.language === 'en' ? category?.name?.en : i18n.language === 'fr' ? category?.name?.fr : category?.name?.ar}
+                              </p>
+                          </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <Link href={'/'} className={`nav-link-top-${lang} ${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                      {t('navigation.mesmia-salon')}
+                  </Link>
+                  <Link href={'/'}>
+                    <div className="mx-8">
+                      <img
+                        className='h-12'
+                        src={logoImg}
+                        alt="Mesmia"
+                      />
+                    </div>
+                  </Link>
+                  <div className='group'>
+                    <button className={`nav-link-top-${lang} flex items-center gap-x-1 focus:outline-none`}>
+                      <p className={`${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                          {t('navigation.special-occasion')}
+                      </p>
+                      <ChevronDownIcon aria-hidden="true" className="size-5  lang-ar:mt-2" />
+                    </button>
+                    <div className="absolute left-0 top-full w-full bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <div className="mx-auto grid max-w-7xl grid-cols-5 gap-x-16 px-6 py-10 lg:px-8 ">
+                        {eventCategories?.map(category => (
+                          <Link href={`/occasion/${category.url}`} key={category.id} className='group'>
+                          <div className='text-center'>
+                              <img src={`/${category.image}`} className='w-full mx-auto group-hover:shadow-xl aspect-square rounded-2xl object-cover' alt="" />
+                              <p className='mt-4 lg:mt-6 text-xl lang-ar:text-3xl text-primary cursor-pointer font-semibold lang-ar:font-medium group-hover:text-primary'>
+                              {i18n.language === 'en' ? category?.name?.en : i18n.language === 'fr' ? category?.name?.fr : category?.name?.ar}
+                              </p>
+                          </div>
+                          </Link>
+                        ))}
+                        <div className="col-span-2 flex flex-col justify-center">
+                          <div className="text-center">
+                            <p className="text-2xl max-w-72 mx-auto lang-ar:text-4xl lang-ar:font-layla-thuluth text-brown-800 font-semibold mb-4">
+                              {t('navigation.special-occasion-title')}
+                            </p>
+                            <p className="text-base lang-ar:text-xl lang-ar:font-layla-thuluth text-brown-800 font-normal">
+                              {t('navigation.special-occasion-description')}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <Link href={'/'} className={`nav-link-top-${lang} ${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                      {t('navigation.discounts')}
+                  </Link>
+                </div>
+              </div>
               <div className="hidden lg:block">
                 <div className="flex items-center md:ml-6 gap-x-6">
                   <button
@@ -288,32 +367,11 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                     className="hidden md:block lg:hidden relative rounded-full bg-primary py-1 px-1.5 text-brown-200 hover:text-white focus:outline-none focus:ring-offset-primary"
                   >
                     <span className="absolute -inset-1.5" />
-                    <Search className="h-6 w-6" aria-hidden="true" />
+                    <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                   
 
                   <SearchBar visibility={searchVisible} />
-                  <Dropdown>
-                    <Dropdown.Trigger>
-                      <button
-                        type="button"
-                        className="relative mt-1 text-primary hover:text-brown-800 focus:outline-none"
-                      >
-                        <GlobeAltIcon className="h-5 w-5" aria-hidden="true" />
-                      </button>
-                    </Dropdown.Trigger>
-                      <Dropdown.Content width='36'>
-                        <Dropdown.Link  className='hover:bg-brown-100/50 font-medium font-layla-thuluth text-xl' onClick={()=>changeLanguage('ar')} as="button">
-                          عربية
-                        </Dropdown.Link>
-                        <Dropdown.Link className='hover:bg-brown-100/50 font-medium font-nanum' onClick={()=>changeLanguage('en')} as="button" >
-                          English
-                        </Dropdown.Link>
-                        <Dropdown.Link className='hover:bg-brown-100/50 font-medium font-nanum' onClick={()=>changeLanguage('fr')} as="button">
-                          Français
-                        </Dropdown.Link>
-                    </Dropdown.Content>
-                  </Dropdown>
                   <Dropdown>
                     <Dropdown.Trigger>
                       <button
@@ -322,7 +380,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                       >
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        <User className='h-5 w-5 2xl:h-6 2xl:w-6' />
+                        <UserIcon className='h-5 w-5 2xl:h-6 2xl:w-6' />
                       </button>
                     </Dropdown.Trigger>
                     {user
@@ -354,7 +412,35 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                     )}
                     
                   </Dropdown>
-                  
+                  <Dropdown>
+                    <Dropdown.Trigger>
+                      <button
+                          type="button"
+                          className="mt-1 text-primary hover:text-brown-800  focus:outline-none relative"
+                      >
+                        <span className="absolute -inset-1.5" />
+                        {likedItems && likedItems.length>0 && (
+                          <div className="absolute bg-primary ring-1 ring-white rounded-full -top-0.5 -right-0.5 w-2 h-2  flex justify-center items-center">
+                          </div>
+                        )}
+                        <HeartIcon className="h-5 w-5 2xl:h-6 2xl:w-6" aria-hidden="true" />
+                      </button>
+                    </Dropdown.Trigger>
+                    {likedItems && likedItems.length > 0 && (
+                    <Dropdown.Content type={"liked"}>
+                      {likedItems?.map(item => (
+                        <div 
+                          key={item.product.id}
+                          className={
+                            ` ${i18n.language==='ar' ? 'text-right' : 'text-left'} block w-full px-4 py-2 leading-5 text-brown-800 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out`
+                          }
+                        >
+                          <ProductItem product={item.product} />
+                        </div>
+                      ))}
+                    </Dropdown.Content>
+                    )}
+                  </Dropdown>
                   {/* <button
                     type="button"
                     // onClick={()=>setCartOpen(true)}
@@ -372,7 +458,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                         <span className='text-white text-base font-adobe font-semibold'>{cart.length}</span>
                       </div>
                     )}
-                    <ShoppingCart className="h-5 w-5 2xl:h-6 2xl:w-6" aria-hidden="true" />
+                    <ShoppingCartIcon className="h-5 w-5 2xl:h-6 2xl:w-6" aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -380,8 +466,27 @@ export default function ClientLayout({ children, showMain, user, categories, eve
           </div>
         </div>
         </div>
+        <div className={`bg-white py-8 hidden lg:absolute lg:top-28 w-full ${bannerVisibility} ${lang==='ar' ? 'font-layla-thuluth' :''}`}>
+          <div className="flex pb-12 justify-center">
+            <img src={'/pictures/main-logo.png'} alt="Mesmia" className='h-32 z-40'/>
+          </div>
+          <div className="mx-auto flex items-center justify-center gap-x-12 text-4xl" dir={lang==='ar' ? 'rtl' : 'ltr'}>
+            <Link href={'/'} className={`nav-link-${lang} ${window.location.pathname === '/' ? 'current-link' : ''}`}>
+              {t('navigation.categories')}
+            </Link>
+            <Link href={'/'} className={`nav-link-${lang} ${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                {t('navigation.special-occasion')}
+            </Link>
+            <Link href={'/'} className={`nav-link-${lang} ${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                {t('navigation.discounts')}
+            </Link>
+            <Link href={'/'} className={`nav-link-${lang} ${window.location.pathname === '/' ? 'current-link' : ''}`}>
+                {t('navigation.mesmia-salon')}
+            </Link>
+          </div>
+        </div>
         <Cart open={cartOpen} setOpen={setCartOpen} cart={cart} />
-        <main className={`absolute top-14 w-full`}>
+        <main className={`absolute top-14 ${window.location.pathname=='/' ? topMain : ''} w-full`}>
           <ServiceModal open={modalOpen} setOpen={setModalOpen} user={user} />
           <div className={`mx-auto py-4 ${!showMain && !noLimits && 'sm:px-6 lg:px-8 max-w-7xl'}`}>
             {children}

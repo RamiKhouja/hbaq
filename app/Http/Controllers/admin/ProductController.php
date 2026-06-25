@@ -13,6 +13,7 @@ use App\Models\Attribute;
 use App\Models\AttOption;
 use App\Models\ProductOption;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -21,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('categories')->paginate(30);
+        $products = Product::with('categories', 'prices')->paginate(30);
         return inertia('Admin/Product/Index', [
             'products' => $products,
         ]);
@@ -51,24 +52,21 @@ class ProductController extends Controller
             'description_en' => 'nullable|string',
             'description_ar' => 'nullable|string',
             'description_fr' => 'nullable|string',
-            'price' => 'required',
-            'weight' => 'nullable',
             'unit' => 'string',
+            'stock' => 'nullable|numeric|min:0|max:99999999.99',
             'is_featured' => 'nullable|boolean',
             'is_null' => 'nullable|boolean',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_discount' => 'nullable',
-            'discount_price' => 'nullable',
-            'discount_percentage' => 'nullable',
-            'discount_start' => 'nullable',
-            'discount_end' => 'nullable',
-            'ingredients_en' => 'nullable',
-            'ingredients_ar' => 'nullable',
-            'ingredients_fr' => 'nullable',
-            'instructions_en' => 'nullable',
-            'instructions_ar' => 'nullable',
-            'instructions_fr' => 'nullable',
+            'product_prices' => 'required|array|min:1',
+            'product_prices.*.price' => 'required|numeric|min:0|max:99999999.99',
+            'product_prices.*.min_qty' => 'nullable|integer|min:0',
+            'product_prices.*.max_qty' => 'nullable|integer|min:1',
+            'product_prices.*.discount_price' => 'nullable|numeric|min:0|max:99999999.99',
+            'product_prices.*.discount_percentage' => 'nullable|numeric|between:0,100',
+            'product_prices.*.start_date' => 'nullable|date',
+            'product_prices.*.end_date' => 'nullable|date',
         ]);
+        $this->validateProductPrices($request->input('product_prices', []));
 
         $name = array(
             'en' => $request->input('name_en'),
@@ -81,34 +79,11 @@ class ProductController extends Controller
             'fr' => $request->input('description_fr')
         );
 
-        $ingredients = array(
-            'en' => $request->input('ingredients_en'),
-            'ar' => $request->input('ingredients_ar'),
-            'fr' => $request->input('ingredients_fr')
-        );
-
-        $instructions = array(
-            'en' => $request->input('instructions_en'),
-            'ar' => $request->input('instructions_ar'),
-            'fr' => $request->input('instructions_fr')
-        );
-
         $product = new Product();
         $product->name = $name;
         $product->description = $description;
-        $product->instructions = $instructions;
-        $product->ingredients = $ingredients;
-        $product->price= $request->input('price');
         $product->unit= $request->input('unit');
-        $product->weight= $request->input('weight');
-        $product->is_discount = $request->input('is_discount');
-        $product->discount_price = $request->input('discount_price');
-        $product->discount_percentage = $request->input('discount_percentage');
-        if($product->discount_price != null && $product->discount_price >0) {
-            $product->discount_start = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('discount_start'));
-            $product->discount_end = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('discount_end'));
-            $product->price_after_discount = round(($request->input('price') - $request->input('discount_price')),2);
-        }
+        $product->stock = $request->input('stock', 0);
         $product->is_new = $request->input('is_new');
         $product->is_featured = $request->input('is_featured');
         $product->url = strtolower(str_replace(' ', '-', trim($request->input('name_en'))));
@@ -118,6 +93,7 @@ class ProductController extends Controller
         }
         
         $product->save();
+        $this->syncProductPrices($product, $request->input('product_prices', []));
 
         $categories = $request->input('categories');
         foreach ($categories as $category) {
@@ -149,8 +125,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::with('categories')->with('pictures')->find($product->id);
-        // $prices = $product->prices;
+        $product = Product::with('categories', 'pictures', 'prices')->find($product->id);
         return inertia('Admin/Product/Show', [
             'product' => $product,
         ]);
@@ -161,7 +136,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::with('categories')->with('pictures')->find($product->id);
+        $product = Product::with('categories', 'pictures', 'prices')->find($product->id);
         $categories = Category::all();
         return inertia('Admin/Product/Edit', [
             'prod' => $product,
@@ -184,29 +159,25 @@ class ProductController extends Controller
             'description_ar' => 'nullable|string',
             'description_fr' => 'nullable|string',
 
-            'price' => 'required',
-            'weight' => 'nullable',
             'unit' => 'string',
+            'stock' => 'nullable|numeric|min:0|max:99999999.99',
 
             'is_featured' => 'nullable|boolean',
             'is_new' => 'nullable|boolean',
 
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_prices' => 'required|array|min:1',
+            'product_prices.*.id' => 'nullable|integer|exists:product_prices,id',
+            'product_prices.*.price' => 'required|numeric|min:0|max:99999999.99',
+            'product_prices.*.min_qty' => 'nullable|integer|min:0',
+            'product_prices.*.max_qty' => 'nullable|integer|min:1',
+            'product_prices.*.discount_price' => 'nullable|numeric|min:0|max:99999999.99',
+            'product_prices.*.discount_percentage' => 'nullable|numeric|between:0,100',
+            'product_prices.*.start_date' => 'nullable|date',
+            'product_prices.*.end_date' => 'nullable|date',
 
-            'is_discount' => 'nullable',
-            'discount_price' => 'nullable',
-            'discount_percentage' => 'nullable',
-            'discount_start' => 'nullable',
-            'discount_end' => 'nullable',
-
-            'ingredients_en' => 'nullable',
-            'ingredients_ar' => 'nullable',
-            'ingredients_fr' => 'nullable',
-
-            'instructions_en' => 'nullable',
-            'instructions_ar' => 'nullable',
-            'instructions_fr' => 'nullable',
         ]);
+        $this->validateProductPrices($request->input('product_prices', []));
 
         /* ---------- Translations ---------- */
         $product->name = [
@@ -221,59 +192,12 @@ class ProductController extends Controller
             'fr' => $request->input('description_fr'),
         ];
 
-        $product->ingredients = [
-            'en' => $request->input('ingredients_en'),
-            'ar' => $request->input('ingredients_ar'),
-            'fr' => $request->input('ingredients_fr'),
-        ];
-
-        $product->instructions = [
-            'en' => $request->input('instructions_en'),
-            'ar' => $request->input('instructions_ar'),
-            'fr' => $request->input('instructions_fr'),
-        ];
-
         /* ---------- Basic Fields ---------- */
-        $product->price = $request->input('price');
         $product->unit = $request->input('unit');
-        $product->weight = $request->input('weight');
+        $product->stock = $request->input('stock', 0);
 
         $product->is_featured = $request->input('is_featured');
         $product->is_new = $request->input('is_new');
-
-        /* ---------- Discount Logic ---------- */
-        $product->is_discount = $request->input('is_discount');
-        $product->discount_price = $request->input('discount_price');
-        $product->discount_percentage = $request->input('discount_percentage');
-
-        if (
-            $request->filled('discount_price') &&
-            $request->input('discount_price') > 0
-        ) {
-            if($request->input('discount_start') && $request->input('discount_start')!="null") {
-                $product->discount_start = \Carbon\Carbon::createFromFormat(
-                    'Y-m-d',
-                    $request->input('discount_start')
-                );
-            }
-
-            if($request->input('discount_end') && $request->input('discount_end')!="null") {
-                $product->discount_end = \Carbon\Carbon::createFromFormat(
-                    'Y-m-d',
-                    $request->input('discount_end')
-            );
-            }
-
-            $product->price_after_discount = round(
-                $request->input('price') - $request->input('discount_price'),
-                2
-            );
-        } else {
-            // Reset discount if unchecked
-            $product->discount_start = null;
-            $product->discount_end = null;
-            $product->price_after_discount = null;
-        }
 
         /* ---------- URL ---------- */
         $product->url = strtolower(
@@ -288,6 +212,7 @@ class ProductController extends Controller
         }
 
         $product->save();
+        $this->syncProductPrices($product, $request->input('product_prices', []));
 
         /* ---------- Categories ---------- */
         $product->categories()->sync(
@@ -339,6 +264,76 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('admin.products.index');
+    }
+
+    private function syncProductPrices(Product $product, array $prices): void
+    {
+        $keptIds = [];
+
+        foreach ($prices as $price) {
+            $data = [
+                'price' => $price['price'] ?? 0,
+                'min_qty' => $price['min_qty'] ?? 0,
+                'max_qty' => $price['max_qty'] ?? 1,
+                'discount_price' => $price['discount_price'] ?? null,
+                'discount_percentage' => $price['discount_percentage'] ?? null,
+                'start_date' => $price['start_date'] ?? null,
+                'end_date' => $price['end_date'] ?? null,
+            ];
+
+            if (!empty($price['id'])) {
+                $productPrice = $product->prices()->where('id', $price['id'])->first();
+
+                if ($productPrice) {
+                    $productPrice->update($data);
+                    $keptIds[] = $productPrice->id;
+                }
+            } else {
+                $productPrice = $product->prices()->create($data);
+                $keptIds[] = $productPrice->id;
+            }
+        }
+
+        $product->prices()
+            ->when(count($keptIds) > 0, fn ($query) => $query->whereNotIn('id', $keptIds))
+            ->delete();
+    }
+
+    private function validateProductPrices(array $prices): void
+    {
+        $errors = [];
+
+        foreach ($prices as $index => $price) {
+            $fieldPrefix = "product_prices.$index";
+            $basePrice = floatval($price['price'] ?? 0);
+            $minQty = intval($price['min_qty'] ?? 0);
+            $maxQty = intval($price['max_qty'] ?? 1);
+            $discountPrice = isset($price['discount_price']) ? floatval($price['discount_price']) : 0;
+
+            if ($maxQty < $minQty) {
+                $errors["$fieldPrefix.max_qty"] = 'Max qty must be greater than or equal to min qty.';
+            }
+
+            if ($discountPrice > 0 && $basePrice <= 0) {
+                $errors["$fieldPrefix.discount_price"] = 'Set a price before adding a discount.';
+            }
+
+            if ($discountPrice > 0 && $discountPrice >= $basePrice) {
+                $errors["$fieldPrefix.discount_price"] = 'Discount price must be less than price.';
+            }
+
+            if (
+                !empty($price['start_date']) &&
+                !empty($price['end_date']) &&
+                strtotime($price['end_date']) < strtotime($price['start_date'])
+            ) {
+                $errors["$fieldPrefix.end_date"] = 'End date must be after or equal to start date.';
+            }
+        }
+
+        if (count($errors) > 0) {
+            throw ValidationException::withMessages($errors);
+        }
     }
 
     public function importOptions(Request $request) {
@@ -399,7 +394,6 @@ class ProductController extends Controller
             $product->sku = $data[13];
             $product->url = $url;
             $product->description = $description;
-            $product->weight = intval($data[20]);
             $product->brand_id = intval($data[23]);
             $product->is_new = 0;
             $product->is_featured = 0;

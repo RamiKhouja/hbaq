@@ -53,7 +53,11 @@ const CreateCategory = ({parentCats, auth}) => {
   };
 
   const handleTypeChange = (type) => {
-    setSelectedType(type)
+    setSelectedType(type);
+    setCategory({
+      ...category,
+      type: type ? type.value : '',
+    });
   }
 
   const handleSubmit = (e) => {
@@ -68,6 +72,7 @@ const CreateCategory = ({parentCats, auth}) => {
     formData.append('description_en', category.description_en);
     formData.append('description_ar', category.description_ar);
     formData.append('description_fr', category.description_fr);
+    formData.append('type', selectedType ? selectedType.value : category.type);
 
     // Append image if it exists
     if (category.image) {

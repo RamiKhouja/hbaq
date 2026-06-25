@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->default('user');
+            $table->foreignId('company_id')->nullable()->index();
             $table->string('phone')->nullable();
             $table->string('picture')->nullable();
             $table->string('birth_day')->nullable();

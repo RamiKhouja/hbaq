@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\CompanyGroupController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ProductPriceController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\PriceOptionController;
@@ -133,10 +134,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/about', [AboutController::class, 'store'])->name('about.store');
         //Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
 
-        Route::get('/ceo/create', [AboutController::class, 'createCeo'])->name('ceo.create');
-        Route::post('/ceo', [AboutController::class, 'storeCeo'])->name('ceo.store');
-
         Route::get('/sales/orders/history',[OrderController::class, 'history'])->name('orders.history');
+
+        Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
+        Route::get('/company/create', [CompanyController::class, 'create'])->name('company.create');
+        Route::post('/company', [CompanyController::class, 'store'])->name('company.store');
+        Route::get('/company/show/{company}', [CompanyController::class, 'show'])->name('company.show');
+        Route::get('/company/edit/{company}', [CompanyController::class, 'edit'])->name('company.edit');
+        Route::post('/company/update/{company}', [CompanyController::class, 'update'])->name('company.update');
+        Route::delete('/company/{company}', [CompanyController::class, 'destroy'])->name('company.delete');
 
     });
 
@@ -167,6 +173,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/catalog/products/import', [ProductController::class, 'import'])->name('products.import');
         //Route::post('/catalog/products/import', [ProductController::class, 'importOptions'])->name('products.import');
         Route::get('/catalog/products/update-urls', [ProductController::class, 'updateUrls'])->name('products.updateurls');
+
+        Route::get('/catalog/product-prices', [ProductPriceController::class, 'index'])->name('product-prices.index');
+        Route::get('/catalog/product-prices/create', [ProductPriceController::class, 'create'])->name('product-prices.create');
+        Route::post('/catalog/product-prices', [ProductPriceController::class, 'store'])->name('product-prices.store');
+        Route::get('/catalog/product-prices/{productPrice}', [ProductPriceController::class, 'show'])->name('product-prices.show');
+        Route::get('/catalog/product-prices/edit/{productPrice}', [ProductPriceController::class, 'edit'])->name('product-prices.edit');
+        Route::post('/catalog/product-prices/update/{productPrice}', [ProductPriceController::class, 'update'])->name('product-prices.update');
+        Route::delete('/catalog/product-prices/{productPrice}', [ProductPriceController::class, 'destroy'])->name('product-prices.delete');
 
     });
 

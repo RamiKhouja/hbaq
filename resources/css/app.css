@@ -24,11 +24,6 @@
     font-style: normal;
 }
 
-body {
-    background-image: url('/pictures/pattern.png');
-    background-repeat: repeat; /* repeats horizontally + vertically */
-}
-
 
 .primary-btn {
     @apply px-4 py-2 border border-primary text-white bg-primary rounded-full text-xs md:text-sm font-normal hover:bg-primdark hover:border-primdark;
@@ -133,6 +128,27 @@ body {
     background: #351E10 !important; /* active or hover color */
 }
 
+.categories-swiper .swiper-pagination {
+    margin-top: 24px !important;
+}
+
+@media (max-width: 767px) {
+    .categories-swiper .swiper-pagination {
+        display: none !important;
+    }
+}
+
+.categories-swiper .swiper-pagination-bullet {
+    width: 12px !important;
+    height: 12px !important;
+    background: #2E7D32 !important;
+    opacity: 0.35 !important;
+}
+
+.categories-swiper .swiper-pagination-bullet-active {
+    background: #2E7D32 !important;
+    opacity: 1 !important;
+}
 
 .home-section-title {
     @apply text-brown-800 lang-ar:font-hudhud lang-ar:text-3xl lang-ar:lg:text-5xl font-medium text-2xl lg:text-5xl;

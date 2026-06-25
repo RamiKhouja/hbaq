@@ -18,12 +18,17 @@ export default {
                 'nanum' : ['Nanum Myeongjo', 'sans-serif'],
                 'adobe': ['Adobe Arabic', 'sans-serif'],
                 'layla-thuluth': ['Layla Thuluth', 'sans-serif'],
+                'naskh': ['Noto Naskh Arabic', 'sans-serif'],
+                'noto': ['Noto Sans', 'sans-serif'],
                 'hudhud': ['Hudhud Arabic', 'sans-serif'],
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: '#351E10',
-                white: '#FFFFF0',
+                primary: '#2E7D32',
+                light: '#66BB6A',
+                secondary: '#FFA726',
+                tertiary: '#FFD54F',
+                white: '#FFFDF7',
                 brown: {
                     50: '#FFE7D4',
                     100: '#EDCAB8',
@@ -37,7 +42,6 @@ export default {
                     900: '#090605'
                 },
                 primdark: '#2C1508',
-                secondary: '#D9E026',
                 secondark: '#BFC11C',
             }
         },

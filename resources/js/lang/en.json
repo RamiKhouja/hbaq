@@ -6,6 +6,103 @@
       "set": "Set",
       "no-results": "No results",
       "orders-accepted-12-hours": "Orders are accepted at least 12 hours in advance.",
+      "homepage": {
+        "top": {
+          "badge": "Farm Fresh • Retail & Wholesale",
+          "title": "Fresh Fruits & Vegetables Delivered With Care",
+          "description": "Buy premium organic produce for your home or place bulk wholesale orders for supermarkets, hotels, restaurants, and resellers.",
+          "shop_now": "Shop Now",
+          "explore_wholesale": "Explore Wholesale",
+          "stats": {
+            "customers": "Happy Customers",
+            "orders": "Daily Orders",
+            "freshness": "Freshness Rate"
+          },
+          "offer": {
+            "title": "Weekly Special Offer",
+            "discount": "Up to 25% Off",
+            "subtitle": "Selected fruits and veggie boxes"
+          }
+        },
+        "categories": {
+          "eyebrow": "Shop by Category",
+          "title": "Organic grocery essentials for every customer",
+          "description": "From household shopping to restaurant and wholesale supply, browse curated categories designed for both B2C and B2B orders.",
+          "browse": "Browse category"
+        },
+        "featured": {
+          "eyebrow": "Featured Products",
+          "title": "Best selling produce this week",
+          "description": "A marketplace-ready product section with discount badges, quick actions, and pricing that you can later connect to your Laravel backend."
+        },
+        "product": {
+          "fresh_stock": "Fresh stock available",
+          "price_popup": {
+            "title": "Company price tiers",
+            "tooltip": "View company price tiers",
+            "qty": "Qty",
+            "price": "Price",
+            "discount": "Discount"
+          }
+        },
+        "wholesale": {
+          "badge": "For B2B Buyers",
+          "title": "Bulk ordering for supermarkets, restaurants, and resellers",
+          "description": "Add your wholesale onboarding flow, account-based pricing, minimum order quantities, delivery scheduling, and invoice management here.",
+          "become_partner": "Become a Wholesale Partner",
+          "request_price": "Request Price List",
+          "why_title": "Why businesses choose us",
+          "points": {
+            "tiered_pricing": "Tiered pricing by customer group",
+            "moq_support": "MOQ support for wholesale baskets and cartons",
+            "delivery_slots": "Delivery slots for recurring buyers",
+            "invoice_flow": "Invoice and account-based checkout flow"
+          }
+        },
+        "about": {
+          "badge": "About FreshMart",
+          "title": "Healthy food, trusted farmers, modern ecommerce experience",
+          "description": "This section is ideal for telling your brand story and explaining your value proposition for both families and commercial buyers. Keep it focused on quality, sourcing, delivery, and trust.",
+          "stats": {
+            "farms": "Farm partners",
+            "cities": "Cities served",
+            "online": "Online ordering",
+            "rating": "Customer rating"
+          }
+        },
+        "testimonials": {
+          "eyebrow": "Testimonials",
+          "title": "What our customers say",
+          "description": "Social proof works especially well on grocery and wholesale storefronts. Keep testimonials short, specific, and trust-building.",
+          "role_wholesale": "Wholesale Buyer",
+          "role_retail": "Retail Customer",
+          "quote_1": "The produce quality is consistently excellent and the bulk ordering process is very smooth.",
+          "quote_2": "Beautiful homepage, easy ordering, and fresh vegetables always arrive on time."
+        },
+        "newsletter": {
+          "badge": "Newsletter",
+          "title": "Get weekly deals and wholesale updates",
+          "description": "Add your email capture here for promotions, fresh arrivals, and seasonal stock notifications.",
+          "placeholder": "Enter your email address",
+          "subscribe": "Subscribe"
+        },
+        "stats": {
+          "fast_delivery": { "title": "Fast Delivery", "text": "Same-day city delivery and scheduled wholesale dispatch." },
+          "fresh": { "title": "100% Fresh Produce", "text": "Daily sourced fruits and vegetables from trusted farms." },
+          "quality": { "title": "Quality Guaranteed", "text": "Carefully inspected products with reliable packaging." },
+          "b2b": { "title": "B2B Support", "text": "Dedicated support for retailers, restaurants, and resellers." }
+        },
+        "deals": {
+          "seasonal": "Seasonal Offer",
+          "heading_left": "Fresh fruit combo boxes for families",
+          "desc_left": "Use this banner for weekly offers, campaigns, and limited-time discounts.",
+          "discover": "Discover Deals",
+          "farm_to_table": "Farm to Table",
+          "heading_right": "Locally sourced vegetables picked daily",
+          "desc_right": "Perfect place to emphasize trust, traceability, organic quality, or supplier relationships.",
+          "learn_more": "Learn More"
+        }
+      },
       "navigation": {
         "home" : "Home",
         "shop": "Menu",
@@ -50,10 +147,6 @@
         "our-courses": "Our Courses",
         "description": "Discover our professionally recorded training courses, created for a clear and flexible learning experience. With high-quality production and practical, easy-to-follow lessons for all levels, you can learn at your own pace."
       },
-      "ceo": {
-        "hafedh-yaiche": "Mr Hafedh Yaiche",
-        "book-consultation": "Book Consultation"
-      },
       "testimonial": {
         "happy-clients": "Our Clients Are Happy",
         "any-feedback": "Any Feedback?"
@@ -77,7 +170,7 @@
         "all-rights": "All rights reserved"
       },
       "owl-products" : {
-        "featured" : "Our Best Sellers",
+        "featured" : "Best Seller",
         "new-arrivals" : "New Arrivals",
         "shop-collection" : "Discover our entire collection",
         "subtitle": "Explore the most popular products among our customers, the most delicious flavors and the best choices that prove their excellence every time.",
@@ -358,7 +451,6 @@
           "requests": "Requests",
           "messages": "Messages",
           "about":"About",
-          "ceo": "CEO",
           "testimonials": "Testimonials"
         },
         "product": {

@@ -10,19 +10,16 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'main_image', 'url', 'category_id','ingredients',
-        'price', 'description', 'is_new', 'is_featured', 'instructions',
-        'is_discount', 'discount_price', 'discount_percentage', 'weight',
-        'discount_start', 'discount_end', 'unit', 'price_after_discount'
+        'name', 'main_image', 'url', 'category_id',
+        'description', 'is_new', 'is_featured', 'unit', 'stock',
     ];
 
-    public $translatable = ['name', 'description', 'ingredients', 'instructions'];
+    public $translatable = ['name', 'description'];
 
     protected $casts = [
         'name' => 'json',
         'description' => 'json',
-        'ingredients' => 'json',
-        'instructions' => 'json'
+        'stock' => 'decimal:2',
     ];
 
     public function categories()
@@ -38,5 +35,10 @@ class Product extends Model
     public function options()
     {
         return $this->belongsToMany(AttOption::class, 'product_options', 'product_id', 'option_id');
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(ProductPrice::class);
     }
 }

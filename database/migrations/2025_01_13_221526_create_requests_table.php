@@ -22,6 +22,10 @@ return new class extends Migration
             $table->enum('status', ['pending', 'payed', 'canceled', 'advance'])->default('pending');
             $table->decimal('total', 10, 3)->default(0.000);
             $table->decimal('payed', 10, 3)->default(0.000);
+            $table->enum('status', ['pending', 'payed', 'canceled', 'advance', 'closed', 'rejected'])->default('pending')->change();
+            $table->string('payment_method')->nullable();
+            $table->boolean("is_read")->default(false);
+            $table->integer("nb_persons")->nullable();
             $table->timestamps();
         });
     }

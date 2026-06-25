@@ -4,6 +4,7 @@ import Select from 'react-select';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { useTranslation } from 'react-i18next';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import ProductPricesForm, { emptyProductPrice } from '@/Components/ProductPricesForm';
 
 const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
   const {t, i18n} = useTranslation();
@@ -17,6 +18,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
   );
 
   const [submitted, setSubmitted] = useState(false);
+  const dateValue = (value) => value ? String(value).slice(0, 10) : '';
 
   const unitOptions = [
     { label: 'Piece', value: 'piece' },
@@ -38,26 +40,11 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
     description_ar: prod.description?.ar || '',
     description_fr: prod.description?.fr || '',
 
-    ingredients_en: prod.ingredients?.en || '',
-    ingredients_ar: prod.ingredients?.ar || '',
-    ingredients_fr: prod.ingredients?.fr || '',
-
-    instructions_en: prod.instructions?.en || '',
-    instructions_ar: prod.instructions?.ar || '',
-    instructions_fr: prod.instructions?.fr || '',
-
     url: prod.url,
-    price: prod.price || 0.0,
     unit: prod.unit,
-    weight: prod.weight || 0.0,
+    stock: prod.stock ?? 0,
 
     is_featured: prod.is_featured,
-    is_discount: Boolean(prod.is_discount),
-
-    discount_price: prod.discount_price,
-    discount_percentage: prod.discount_percentage,
-    discount_start: prod.discount_start,
-    discount_end: prod.discount_end,
 
     main_image: null,
     pictures: prod.pictures || [],
@@ -65,32 +52,31 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
     categories: prodCats.map(cat => cat.id),
   });
 
+  const [productPrices, setProductPrices] = useState(
+    prod.prices?.length
+      ? prod.prices.map(price => ({
+          id: price.id,
+          price: price.price ?? '',
+          min_qty: price.min_qty ?? 0,
+          max_qty: price.max_qty ?? 1,
+          discount_price: price.discount_price ?? '',
+          discount_percentage: price.discount_percentage ?? '',
+          start_date: dateValue(price.start_date),
+          end_date: dateValue(price.end_date),
+        }))
+      : [emptyProductPrice()]
+  );
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if(name === 'discount_percentage') {
-      setProduct({
-        ...product,
-        discount_percentage: value,
-        discount_price: ((value / 100) * product.price).toFixed(2),
-      });
-      return;
-    } else if(name === 'discount_price') {
-      setProduct({
-        ...product,
-        discount_price: value,
-        discount_percentage: ((value / product.price) * 100).toFixed(2),
-      });
-      return;
-    } else {
-      setProduct({
-        ...product,
-        [name]: files 
-          ? files[0] 
-          : e.target.type === 'checkbox' 
-            ? e.target.checked 
-            : value,
-      });
-    }
+    setProduct({
+      ...product,
+      [name]: files
+        ? files[0]
+        : e.target.type === 'checkbox'
+          ? e.target.checked
+          : value,
+    });
   };
 
   const handleFileChange = (e) => {
@@ -176,29 +162,11 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
     formData.append('name_ar', product.name_ar);
     formData.append('name_fr', product.name_fr);
     formData.append('url', product.url);
-    formData.append('price', product.price);
     formData.append('description_en', product.description_en);
     formData.append('description_ar', product.description_ar);
     formData.append('description_fr', product.description_fr);
-    formData.append('unit', product.unit);
-    formData.append('weight', product.weight);
-
-    formData.append('ingredients_en', product.ingredients_en);
-    formData.append('ingredients_ar', product.ingredients_ar);
-    formData.append('ingredients_fr', product.ingredients_fr);
-
-    formData.append('instructions_en', product.instructions_en);
-    formData.append('instructions_ar', product.instructions_ar);
-    formData.append('instructions_fr', product.instructions_fr);
-
-    formData.append('is_discount', product.is_discount ? 1 : 0);
-
-    if (product.is_discount) {
-      formData.append('discount_price', product.discount_price);
-      formData.append('discount_percentage', product.discount_percentage);
-      formData.append('discount_start', product.discount_start);
-      formData.append('discount_end', product.discount_end);
-    }
+    formData.append('unit', selectedUnit?.value || product.unit);
+    formData.append('stock', product.stock);
 
     product.pictures.forEach((pic, i) => {
       if (pic.file) {
@@ -221,6 +189,14 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
 
     selectedCategories?.forEach((category) => {
       formData.append('categories[]', category.value);
+    });
+
+    productPrices.forEach((priceOption, index) => {
+      Object.entries(priceOption).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          formData.append(`product_prices[${index}][${key}]`, value);
+        }
+      });
     });
 
     if (product.main_image) {
@@ -324,28 +300,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
             </div>
           </div>
         </div>
-        <div className='md:grid md:grid-cols-4 md:gap-x-4 mb-4'>
-          <div className='md:mb-0 mb-4 flex flex-col'>
-            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-            {t('admin.product.new.price')} ({t('product.tnd')}) *
-            </label>
-            <div className="mt-2">
-              <input
-                type="number"
-                name="price"
-                id="price"
-                step={0.1}
-                min={0.00}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Price"
-                value={product.price}
-                onChange={handleChange}
-              />
-              {submitted && product.name_ar=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
-              )}
-            </div>
-          </div>
+        <div className='md:grid md:grid-cols-3 md:gap-x-4 mb-4'>
           <div className='md:mb-0 mb-4'>
               <label htmlFor="parent" className="block text-sm mb-2 font-medium leading-6 text-gray-900">
               {t('admin.product.new.unit')} *
@@ -362,7 +317,27 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 <p className='text-xs text-red-500 mt-1'>{t('admin.product.new.error-category')}</p>
               )}
             </div>
-          <div className='md:col-span-2 md:mb-0 mb-4'>
+          <div className='md:mb-0 mb-4'>
+            <label htmlFor="stock" className="block text-sm mb-2 font-medium leading-6 text-gray-900">
+              Stock
+            </label>
+            <div className="relative">
+              <input
+                type="number"
+                name="stock"
+                id="stock"
+                min="0"
+                step="0.01"
+                value={product.stock}
+                onChange={handleChange}
+                className="block h-[38px] w-full rounded-md border-0 py-1.5 pl-3 pr-16 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm"
+              />
+              <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-gray-500">
+                {selectedUnit?.label || product.unit}
+              </span>
+            </div>
+          </div>
+          <div className='md:mb-0 mb-4'>
           {categories && (
             <div>
               <label htmlFor="parent" className="block text-sm mb-2 font-medium leading-6 text-gray-900">
@@ -383,6 +358,11 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
           )}
           </div>
         </div>
+        <ProductPricesForm
+          prices={productPrices}
+          setPrices={setProductPrices}
+          submitted={submitted}
+        />
         <div className='md:grid md:grid-cols-4 md:gap-4 mb-4 items-center'>
           <div className='mb-4 md:mb-0'>
             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
@@ -403,24 +383,6 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
               )}
             </div>
           </div>
-          <div className='md:mb-0 mb-4'>
-            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-            {t('admin.product.new.weight')}
-            </label>
-            <div className="mt-2">
-              <input
-                type="number"
-                name="weight"
-                id="weight"
-                min={0.00}
-                step={0.01}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Weight"
-                value={product.weight}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
           <div className="relative flex items-start md:mx-auto">
             <div className={`${lang=='ar'? 'ml-3':'mr-3'} text-sm leading-6`}>
               <label htmlFor="comments" className="font-medium text-gray-900">
@@ -438,101 +400,6 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
               />
             </div>
           </div>
-          <div className="relative flex items-start md:mx-auto">
-            <div className="mr-3 text-sm leading-6">
-              <label htmlFor="is_discount" className="font-medium text-gray-900">
-                In Discount
-              </label>
-            </div>
-            <div className="flex h-6 items-center">
-              <input
-                id="is_discount"
-                name="is_discount"
-                type="checkbox"
-                checked={product.is_discount}
-                onChange={handleChange}
-                className="h-4 w-4 rounded border-gray-300 text-brown-600 focus:ring-brown-600"
-              />
-            </div>
-          </div>
-        </div>
-        <div className='md:grid md:grid-cols-4 md:gap-4 mb-4'>
-          {product.is_discount && (
-          <>
-          <div>
-            <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
-              Discount Percentage
-            </label>
-            <div className="relative mt-2 rounded-md shadow-sm">
-              <input
-                type="number"
-                placeholder="0.00"
-                step={0.01}
-                min={0.00}
-                id="discount_percentage"
-                name="discount_percentage"
-                value={product.discount_percentage}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 py-1.5 pl-3 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-gray-500 sm:text-sm" id="price-currency">
-                  %
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className='mb-4 md:mb-0'>
-            <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
-              Discount Price
-            </label>
-            <div className="relative mt-2 rounded-md shadow-sm">
-              <input
-                type="number"
-                placeholder="0.00"
-                step={0.01}
-                min={0.00}
-                id="discount_price"
-                name="discount_price"
-                value={product.discount_price}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 py-1.5 pl-10 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-gray-500 sm:text-sm" id="price-currency">
-                  TND
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className='mb-4 md:mb-0'>
-              <label htmlFor="parent" className="block text-sm font-medium leading-6 text-gray-900">
-                Discount Start
-              </label>
-              <input
-                type="date"
-                id="discount_start"
-                name="discount_start"
-                value={product.discount_start}
-                onChange={handleChange}
-                className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-            <div>
-              <label htmlFor="parent" className="block text-sm font-medium leading-6 text-gray-900">
-                Discount End
-              </label>
-              <input
-                type="date"
-                id="discount_end"
-                name="discount_end"
-                value={product.discount_end}
-                onChange={handleChange}
-                className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </>
-        )}
         </div>
         <div className="grid md:grid-cols-2 gap-x-4 lg:grid-cols-3 mb-4">
           <div>
@@ -653,108 +520,6 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 className="absolute top-0 left-0 opacity-0 w-full h-full cursor-pointer"
                 onChange={handlePicsChange}
                 multiple // Allow multiple file selection
-              />
-            </div>
-          </div>
-        </div>
-        <div className="grid md:grid-cols-2 gap-x-4 lg:grid-cols-3 my-4">
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-            Ingredients English
-            </label>
-            <div className="mt-2">
-              <textarea
-                rows={4}
-                name="ingredients_en"
-                id="ingredients_en"
-                placeholder='Product ingredients'
-                value={product.ingredients_en}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-            Ingredients Arabic
-            </label>
-            <div className="mt-2">
-              <textarea
-                rows={4}
-                name="ingredients_ar"
-                id="ingredients_ar"
-                placeholder='وصفة المنتج'
-                value={product.ingredients_ar}
-                onChange={handleChange}
-                dir='rtl'
-                className="block w-full text-right rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-            Ingredients French
-            </label>
-            <div className="mt-2">
-              <textarea
-                rows={4}
-                name="ingredients_fr"
-                id="ingredients_fr"
-                placeholder='Decrivez vos ingredients'
-                value={product.ingredients_fr}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="grid md:grid-cols-2 gap-x-4 lg:grid-cols-3 my-4">
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-            Instructions English
-            </label>
-            <div className="mt-2">
-              <textarea
-                rows={4}
-                name="instructions_en"
-                id="instructions_en"
-                placeholder='Product use instructions'
-                value={product.instructions_en}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-            Instructions Arabic
-            </label>
-            <div className="mt-2">
-              <textarea
-                rows={4}
-                name="instructions_ar"
-                id="instructions_ar"
-                placeholder='تعاليم استخدام المنتج'
-                value={product.instructions_ar}
-                onChange={handleChange}
-                dir='rtl'
-                className="block w-full text-right rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
-            Instructions French
-            </label>
-            <div className="mt-2">
-              <textarea
-                rows={4}
-                name="instructions_fr"
-                id="instructions_fr"
-                placeholder="Instructions d'utilisation"
-                value={product.instructions_fr}
-                onChange={handleChange}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>

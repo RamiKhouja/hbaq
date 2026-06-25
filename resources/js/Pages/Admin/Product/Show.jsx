@@ -82,12 +82,12 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
               <p className="text-2xl text-gray-800">{product.name.ar}</p>
               <table className="my-4 border-0">
                 <tr>
-                  <td><p className="text-gray-600">Price :</p></td>
-                  <td><p className="text-gray-800">{product.price} TND</p></td>
-                </tr>
-                <tr>
                   <td><p className="text-gray-600">{t('admin.product.show.url')} :</p></td>
                   <td><p className="text-gray-800 col-span-4">{product.url}</p></td>
+                </tr>
+                <tr>
+                  <td><p className="text-gray-600">Stock :</p></td>
+                  <td><p className="text-gray-800 col-span-4">{product.stock ?? 0} {product.unit}</p></td>
                 </tr>
                 {product.categories && (
                 <tr>
@@ -113,9 +113,41 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
                   <td><p className="text-gray-800 col-span-4">{product.is_new ? t('yes') : t('no')}</p></td>
                 </tr> */}
               </table>
-              {prices && prices.map((po)=>(
-                <div key={po.id}></div>
-              ))}
+              <div className="mt-6">
+                <h2 className="mb-3 text-base font-semibold text-gray-900">Price options</h2>
+                <div className="overflow-x-auto rounded-md border border-gray-200">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Price</th>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Qty</th>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Discount</th>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Dates</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 bg-white">
+                      {product.prices?.map((priceOption) => (
+                        <tr key={priceOption.id}>
+                          <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-900">{priceOption.price} DT</td>
+                          <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-700">
+                            {priceOption.min_qty} - {priceOption.max_qty}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-700">
+                            {priceOption.discount_price
+                              ? `${priceOption.discount_price} DT (${priceOption.discount_percentage || 0}%)`
+                              : '-'}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-700">
+                            {priceOption.start_date || priceOption.end_date
+                              ? `${priceOption.start_date || '-'} / ${priceOption.end_date || '-'}`
+                              : '-'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
           

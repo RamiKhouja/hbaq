@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('zip');
             $table->string('type');
             $table->string('address_1');
-            $table->string('address_2')->nullable;
-            $table->foreignId('user_id');
+            $table->string('address_2')->nullable();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignId('company_id')->nullable()->index();
 
             $table->timestamps();
         });
