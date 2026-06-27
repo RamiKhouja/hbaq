@@ -35,6 +35,11 @@
                 "title": "Les meilleures ventes de la semaine",
                 "description": "Une section produits prête pour la marketplace avec badges de remise, actions rapides et prix connectables à votre backend Laravel."
             },
+            "seasonal": {
+                "eyebrow": "Produit de saison",
+                "title": "Sélection fraîche de saison",
+                "description": "Des produits mis en avant pour la saison, avec la même commande rapide et les prix dynamiques."
+            },
             "product": {
                 "fresh_stock": "Stock frais disponible",
                 "price_popup": {
@@ -174,6 +179,7 @@
             "set": "Ensemble",
             "add-cart": "Ajouter au panier",
             "new": "Nouveau",
+            "season": "Saison",
             "sale": "Remise",
             "per-category": "Choisissez parmi nos catégories"
         },
@@ -197,6 +203,7 @@
             "attributes": "Attributs",
             "is_new": "Nouveau",
             "is_featured": "En vedette",
+            "is_season": "Produit de saison",
             "in_sale": "En solde",
             "filter": "Filtrer",
             "reset": "Réinitialiser",

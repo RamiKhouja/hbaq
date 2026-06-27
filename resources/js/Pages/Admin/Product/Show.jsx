@@ -108,6 +108,10 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
                   <td><p className="text-gray-600">Best Seller :</p></td>
                   <td><p className="text-gray-800 col-span-4">{product.is_featured ? t('yes') : t('no')}</p></td>
                 </tr>
+                <tr>
+                  <td><p className="text-gray-600">Product of the season :</p></td>
+                  <td><p className="text-gray-800 col-span-4">{product.is_season ? t('yes') : t('no')}</p></td>
+                </tr>
                 {/* <tr>
                   <td><p className="text-gray-600">{t('admin.product.show.new')} :</p></td>
                   <td><p className="text-gray-800 col-span-4">{product.is_new ? t('yes') : t('no')}</p></td>

@@ -178,6 +178,9 @@ export default function Index({products, auth}) {
                     <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                       Best Seller
                     </th>
+                    <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                      Season
+                    </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
                       <span className="sr-only">Edit</span>
                     </th>
@@ -240,6 +243,7 @@ export default function Index({products, auth}) {
                         </p>))}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{product.is_featured?t('yes'):t('no')}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{product.is_season?t('yes'):t('no')}</td>
                       <td className="py-4 px-4 text-right text-sm font-medium flex gap-x-2 items-center">
                         <Link title={t('admin.product.list.view-prod')} href={`/admin/catalog/products/show/${product.id}`} className="text-gray-800 hover:text-brown-900">
                           <EyeIcon className='w-5 h-5'/>

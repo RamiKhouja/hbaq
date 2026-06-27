@@ -20,7 +20,7 @@ function Testimonials() {
       },
     ];
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <section className="mx-auto max-w-7xl xl:max-w-screen-2xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <SectionTitle
             eyebrow={t('homepage.testimonials.eyebrow')}
             title={t('homepage.testimonials.title')}

@@ -42,6 +42,13 @@ class HomeController extends Controller
                             });
                     });
         })->where('unit', '!=', 'pack')->take(20)->get();
+        $seasonal = Product::with(['prices' => function ($q) {
+                $q->orderBy('min_qty');
+            }])
+            ->where('is_season', true)
+            ->where('unit', '!=', 'pack')
+            ->take(20)
+            ->get();
         $services = Service::where('show_in_home', true)->take(3)->get();
         $prodCats = Category::with(['products'])->get()->map(function ($category) {
             return [
@@ -61,6 +68,7 @@ class HomeController extends Controller
             'categories' => $categories,
             // 'eventCategories' => $eventCategories,
             'featured' => $featured,
+            'seasonal' => $seasonal,
             // 'prodCats' => $prodCats,
             // 'services' => $services,
             // 'about' => $about,

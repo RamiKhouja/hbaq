@@ -4,13 +4,14 @@ import { Link } from '@inertiajs/react';
 import { AdjustmentsHorizontalIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 
-function ShopFilter({brands, categories, setOpen, attributes}) {
+function ShopFilter({brands = [], categories = [], setOpen = () => {}, attributes = []}) {
     const {t, i18n} = useTranslation();
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [isNew, setIsNew] = useState(false);
     const [isFeatured, setIsFeatured] = useState(false);
+    const [isSeason, setIsSeason] = useState(false);
     const [isDiscount, setIsDiscount] = useState(false);
     const [minPrice, setMinPrice] = useState();
     const [maxPrice, setMaxPrice] = useState();
@@ -45,9 +46,10 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
           ...params.options.split(',').map(o => parseInt(o, 10))
           ]);
       }
-        params.discount && params.discount=='true' && setIsDiscount(params.discount);
-        params.new && params.new=='true' && setIsNew(params.new);
-        params.featured && params.featured=='true' && setIsFeatured(params.featured);
+        params.discount && params.discount=='true' && setIsDiscount(true);
+        params.new && params.new=='true' && setIsNew(true);
+        params.featured && params.featured=='true' && setIsFeatured(true);
+        params.season && params.season=='true' && setIsSeason(true);
         params.min && setMinPrice(parseFloat(params.min,2));
         params.max && setMaxPrice(parseFloat(params.max,2));
     
@@ -91,6 +93,7 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
         selectedOptions && selectedOptions.length>0 && queryParams.append('options', selectedOptions.join(','));
         isNew && queryParams.append('new', isNew);
         isFeatured && queryParams.append('featured', isFeatured);
+        isSeason && queryParams.append('season', isSeason);
         isDiscount && queryParams.append('discount', isDiscount);
         minPrice && queryParams.append('min', minPrice);
         maxPrice && queryParams.append('max', maxPrice);
@@ -166,7 +169,7 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
                 {t('shop.categories')}
               </label>
               {categories.map((category) => (
-                <div className="relative flex items-start">
+                <div key={category.id} className="relative flex items-start">
                   <div className="flex h-6 items-center">
                     <input
                       id={`category-${category.id}`}
@@ -186,6 +189,7 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
                 </div>
               ))}
             </div>
+            {brands.length > 0 && (
             <div className='mb-8'>
               <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
                 {t('shop.brands')}
@@ -227,10 +231,12 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
                 )}
               </button>
             </div>
+            )}
             <div className='mb-8'>
               <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
                 {t('shop.attributes')}
               </label>
+                {false && (
                 <div className="relative flex items-start">
                   <div className="flex h-6 items-center">
                     <input
@@ -249,6 +255,7 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
                     </label>
                   </div>
                 </div>
+                )}
                 <div className="relative flex items-start">
                   <div className="flex h-6 items-center">
                     <input
@@ -264,6 +271,24 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
                   <div className="mx-3 text-sm leading-6">
                     <label htmlFor="comments" className="font-medium text-gray-900">
                       {t('shop.is_featured')}
+                    </label>
+                  </div>
+                </div>
+                <div className="relative flex items-start">
+                  <div className="flex h-6 items-center">
+                    <input
+                      id="season"
+                      aria-describedby="season-description"
+                      name="season"
+                      type="checkbox"
+                      checked={isSeason}
+                      onChange={()=>setIsSeason(!isSeason)}
+                      className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                  </div>
+                  <div className="mx-3 text-sm leading-6">
+                    <label htmlFor="season" className="font-medium text-gray-900">
+                      {t('shop.is_season')}
                     </label>
                   </div>
                 </div>
@@ -287,7 +312,7 @@ function ShopFilter({brands, categories, setOpen, attributes}) {
                 </div>
             </div>
             {/* Attributes map */}
-            {attributes && attributes.map((attribute)=> {
+            {attributes.length > 0 && attributes.map((attribute)=> {
             if (attribute.filtrable) return(
               <div className='mb-8'>
                 <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">

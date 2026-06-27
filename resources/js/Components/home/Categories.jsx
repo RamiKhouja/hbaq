@@ -11,7 +11,7 @@ import { Link } from '@inertiajs/react';
 function Categories({ categories }) {
   const { t, i18n } = useTranslation();
   return (
-    <section id="categories" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+    <section id="categories" className="mx-auto max-w-7xl xl:max-w-screen-2xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
       <SectionTitle
         eyebrow={t('homepage.categories.eyebrow')}
         title={t('homepage.categories.title')}
@@ -27,7 +27,7 @@ function Categories({ categories }) {
         breakpoints={{
           640: { slidesPerView: 2.25, spaceBetween: 24 },
           1024: { slidesPerView: 3, spaceBetween: 24 },
-          1280: { slidesPerView: 4, spaceBetween: 24 }
+          1280: { slidesPerView: 4, spaceBetween: 24 },
         }}
       >
             {categories.map((category) => (

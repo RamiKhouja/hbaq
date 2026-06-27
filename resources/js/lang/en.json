@@ -35,6 +35,11 @@
           "title": "Best selling produce this week",
           "description": "A marketplace-ready product section with discount badges, quick actions, and pricing that you can later connect to your Laravel backend."
         },
+        "seasonal": {
+          "eyebrow": "Product of the Season",
+          "title": "Fresh seasonal picks",
+          "description": "Handpicked products highlighted for the season, with the same quick ordering and live pricing experience."
+        },
         "product": {
           "fresh_stock": "Fresh stock available",
           "price_popup": {
@@ -179,6 +184,7 @@
         "set" : "Set",
         "add-cart" : "Add to Cart",
         "new" : "New",
+        "season" : "Season",
         "sale" : "Sale",
         "per-category": "Choose among our categories"
       },
@@ -202,6 +208,7 @@
         "attributes" : "Attributes",
         "is_new" : "New",
         "is_featured" : "Featured",
+        "is_season" : "Product of the season",
         "in_sale" : "In Sale",
         "filter" : "Filter",
         "reset" : "Reset",

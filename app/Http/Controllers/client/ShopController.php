@@ -21,37 +21,83 @@ class ShopController extends Controller
         $allCategories = Category::where('parent_id',null)->where('type','menu')->with('children')->get();
         $eventCategories = Category::where('parent_id',null)->where('type','event')->with('children')->get();
 
-        $categories = Category::where('type', 'menu')->get();
+        $filterCategories = Category::where('type', 'menu')->orderBy('id')->get();
+        $selectedCategories = collect(explode(',', $request->input('categories', '')))
+            ->filter()
+            ->map(fn ($category) => (int) $category)
+            ->values();
 
-        // Filter products based on the parameters
-        
+        $hasActiveDiscount = function ($query) {
+            $query->where('discount_price', '>', 0)
+                ->where(function ($dateQuery) {
+                    $dateQuery->whereNull('start_date')
+                        ->orWhere('start_date', '<=', now()->toDateString());
+                })
+                ->where(function ($dateQuery) {
+                    $dateQuery->whereNull('end_date')
+                        ->orWhere('end_date', '>=', now()->toDateString());
+                });
+        };
 
-        if ($categories) {
-            $categories = explode(',', $categories);
-            // $productsQuery->whereHas('categories', function ($query) use ($categories) {
-            //     $query->whereIn('category_id', $categories);
-            // });
+        $productsQuery = Product::with([
+            'categories',
+            'prices' => fn ($query) => $query->orderBy('min_qty'),
+        ])->latest();
+
+        if ($selectedCategories->isNotEmpty()) {
+            $productsQuery->whereHas('categories', function ($query) use ($selectedCategories) {
+                $query->whereIn('categories.id', $selectedCategories);
+            });
         }
-        
 
-        $prodCats = Category::with(['products'])->where('type','menu')->get()->map(function ($category) {
-            return [
-                'category' => $category,
-                'products' => $category->products // Assuming the relationship is defined in Category model
-            ];
-        });
-        $selectedCat = null;
-        if($categories && count($categories)>0) {
-            $selectedCat = $categories[0];
+        if ($request->boolean('featured')) {
+            $productsQuery->where('is_featured', true);
         }
+
+        if ($request->boolean('season')) {
+            $productsQuery->where('is_season', true);
+        }
+
+        if ($request->boolean('discount')) {
+            $productsQuery->whereHas('prices', $hasActiveDiscount);
+        }
+
+        if ($request->filled('min')) {
+            $minPrice = (float) $request->input('min');
+            $productsQuery->whereHas('prices', function ($query) use ($minPrice, $hasActiveDiscount) {
+                $query->where(function ($priceQuery) use ($minPrice, $hasActiveDiscount) {
+                    $priceQuery->where('price', '>=', $minPrice)
+                        ->orWhere(function ($discountQuery) use ($minPrice, $hasActiveDiscount) {
+                            $hasActiveDiscount($discountQuery);
+                            $discountQuery->where('discount_price', '>=', $minPrice);
+                        });
+                });
+            });
+        }
+
+        if ($request->filled('max')) {
+            $maxPrice = (float) $request->input('max');
+            $productsQuery->whereHas('prices', function ($query) use ($maxPrice, $hasActiveDiscount) {
+                $query->where(function ($priceQuery) use ($maxPrice, $hasActiveDiscount) {
+                    $priceQuery->where('price', '<=', $maxPrice)
+                        ->orWhere(function ($discountQuery) use ($maxPrice, $hasActiveDiscount) {
+                            $hasActiveDiscount($discountQuery);
+                            $discountQuery->where('discount_price', '<=', $maxPrice);
+                        });
+                });
+            });
+        }
+
+        $products = $productsQuery->paginate(12)->withQueryString();
 
         
 
         return inertia('Client/Shop', [
             'categories' => $allCategories,
             'eventCategories'=> $eventCategories,
-            'prodCats' => $prodCats,
-            'selectedCat' => $selectedCat
+            'filterCategories' => $filterCategories,
+            'products' => $products,
+            'filters' => $request->only(['categories', 'featured', 'season', 'discount', 'min', 'max']),
         ]);
     }
 

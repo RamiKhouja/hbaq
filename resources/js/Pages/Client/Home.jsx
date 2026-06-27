@@ -11,7 +11,7 @@ import Testimonials from '@/Components/home/Testimonials';
 import Newsletter from '@/Components/home/Newsletter';
 import { useTranslation } from 'react-i18next';
 
-export default function Home({auth, categories, featured}) {
+export default function Home({auth, categories, featured, seasonal}) {
   const {i18n} = useTranslation();
   
   return (
@@ -22,9 +22,10 @@ export default function Home({auth, categories, featured}) {
         <TopBanner />
         <StatsBanner />
         <Categories categories={categories} />
-        <FeaturedProducts featured={featured} />
+        <FeaturedProducts products={seasonal} type="seasonal" />
         <Wholesale />
         <Deals />
+        <FeaturedProducts products={featured} type="featured" />
         <About />
         <Testimonials />
         <Newsletter />

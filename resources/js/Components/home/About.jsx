@@ -5,7 +5,7 @@ function About() {
     const { t } = useTranslation();
     return (
    <section id="about" className="bg-white py-12 sm:py-16">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div className="mx-auto grid max-w-7xl xl:max-w-screen-2xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="overflow-hidden rounded-[2rem] shadow-lg">
             <img
             src="https://images.unsplash.com/photo-1506617420156-8e4536971650?auto=format&fit=crop&w=1200&q=80"

@@ -113,7 +113,7 @@ export default function Product({auth, categories, product, related, eventCatego
                       className="h-80 lg:h-[500px] object-cover object-center rounded-2xl"
                     />
                     <div className='absolute top-4 right-4 flex gap-x-2 items-center'>
-                    {product.is_discount === 1 && (
+                    {product.is_discount && (
                         <div className="bg-lime-800 rounded-xl px-4 py-1 shadow-lg">
                             <p className={`text-white font-semibold ${lang === 'ar' ? 'text-2xl font-adobe': 'text-xl'}`}>{t('owl-products.sale')} {Math.round(product.discount_percentage)}%</p>
                         </div>
@@ -128,7 +128,7 @@ export default function Product({auth, categories, product, related, eventCatego
             <div className="flex justify-center rounded-2xl relative">
               <img src={'/'+product?.main_image} alt="" className="h-80 lg:h-[500px] object-cover object-center rounded-2xl" />
               <div className='absolute top-4 right-4 flex gap-x-2 items-center'>
-                {product.is_discount === 1 && (
+                {product.is_discount && (
                     <div className="bg-lime-800 rounded-xl px-4 py-1 shadow-lg">
                         <p className={`text-white font-semibold ${lang === 'ar' ? 'text-2xl font-adobe': 'text-xl'}`}>{t('owl-products.sale')} {Math.round(product.discount_percentage)}%</p>
                     </div>

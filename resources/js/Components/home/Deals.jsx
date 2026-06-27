@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 function Deals() {
   const { t } = useTranslation();
   return (
-    <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+    <section className="mx-auto max-w-7xl xl:max-w-screen-2xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-2">
         <div className="overflow-hidden rounded-[2rem] bg-[#fff2d9] p-6 shadow-sm sm:p-8">
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">{t('homepage.deals.seasonal')}</span>

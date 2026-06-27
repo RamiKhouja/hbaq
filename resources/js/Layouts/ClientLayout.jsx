@@ -383,7 +383,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
         <Cart open={cartOpen} setOpen={setCartOpen} cart={cart} />
         <main className={`absolute top-14 w-full`}>
           <ServiceModal open={modalOpen} setOpen={setModalOpen} user={user} />
-          <div className={`mx-auto py-4 ${!showMain && !noLimits && 'sm:px-6 lg:px-8 max-w-7xl'}`}>
+          <div className={`mx-auto py-4 ${!showMain && !noLimits && 'sm:px-6 lg:px-8 max-w-full'}`}>
             {children}
           </div>
           <Footer/>

@@ -6,7 +6,7 @@ function TopBanner() {
   return (
     <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#eff7df] via-[#f7f9f2] to-[#fff4df]" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 md:py-20 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-24">
+        <div className="relative mx-auto grid max-w-7xl xl:max-w-screen-2xl items-center gap-10 px-4 py-12 sm:px-6 md:py-20 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-24">
             <div>
               <span className="inline-flex rounded-full border border-green-200 bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-green-700 shadow-sm sm:px-4 sm:text-xs">
                 {t('homepage.top.badge')}

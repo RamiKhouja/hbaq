@@ -36,6 +36,7 @@ const CreateProduct = ({categories, auth}) => {
     main_image: null,
     is_new: false,
     is_featured: false,
+    is_season: false,
     categories: [],
     pictures: [],
   });
@@ -124,6 +125,7 @@ const CreateProduct = ({categories, auth}) => {
     const formData = new FormData();
     formData.append('is_new', product.is_new ? 1 : 0); 
     formData.append('is_featured', product.is_featured ? 1 : 0);
+    formData.append('is_season', product.is_season ? 1 : 0);
     formData.append('name_en', product.name_en);
     formData.append('name_ar', product.name_ar);
     formData.append('name_fr', product.name_fr);
@@ -396,6 +398,23 @@ const CreateProduct = ({categories, auth}) => {
                 name="is_featured"
                 type="checkbox"
                 checked={product.is_featured}
+                onChange={handleChange}
+                className="h-4 w-4 rounded border-gray-300 text-brown-600 focus:ring-brown-600"
+              />
+            </div>
+          </div>
+          <div className="relative flex items-start">
+            <div className={`${lang=='ar'? 'ml-3':'mr-3'} text-sm leading-6`}>
+              <label htmlFor="is_season" className="font-medium text-gray-900">
+              Product of the season
+              </label>
+            </div>
+            <div className="flex h-6 items-center">
+              <input
+                id="is_season"
+                name="is_season"
+                type="checkbox"
+                checked={product.is_season}
                 onChange={handleChange}
                 className="h-4 w-4 rounded border-gray-300 text-brown-600 focus:ring-brown-600"
               />

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 function Wholesale() {
   const { t } = useTranslation();
   return (
-    <section id="wholesale" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <section id="wholesale" className="mx-auto max-w-7xl xl:max-w-screen-2xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-green-700 to-emerald-500 p-6 text-white shadow-xl sm:p-8 md:p-12">
             <span className="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em]">{t('homepage.wholesale.badge')}</span>
