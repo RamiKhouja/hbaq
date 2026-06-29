@@ -53,6 +53,13 @@ class Product extends Model
         return $this->hasMany(ProductPrice::class);
     }
 
+    public function packs()
+    {
+        return $this->belongsToMany(Pack::class, 'pack_products')
+            ->withPivot(['weight', 'quantity'])
+            ->withTimestamps();
+    }
+
     public function getPriceAttribute()
     {
         return $this->displayPriceOption()?->price ?? 0;

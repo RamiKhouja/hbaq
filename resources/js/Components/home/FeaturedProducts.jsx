@@ -19,6 +19,7 @@ function FeaturedProducts({featured, products, type = 'featured'}) {
             eyebrow={t(`${sectionKey}.eyebrow`)}
             title={t(`${sectionKey}.title`)}
             description={t(`${sectionKey}.description`)}
+            link={`/shop?${type}=true`}
         />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

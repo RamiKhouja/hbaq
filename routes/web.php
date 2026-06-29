@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\CompanyGroupController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\PackController as AdminPackController;
 use App\Http\Controllers\admin\ProductPriceController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\CompanyController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\admin\RequestController;
 
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\client\ShopController;
+use App\Http\Controllers\client\PackController as ClientPackController;
 use App\Http\Controllers\client\ClientContactController;
 use App\Http\Controllers\client\ShowController;
 use App\Http\Controllers\client\CartController;
@@ -56,6 +58,8 @@ use Inertia\Inertia;
 Route::group([], function(){
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+    Route::get('/gift-packs', [ClientPackController::class, 'index'])->name('packs.index');
+    Route::get('/gift-packs/{url}', [ClientPackController::class, 'show'])->name('packs.show');
     Route::get('/search', [ShopController::class, 'search'])->name('search');
     Route::get('/menu', [ShopController::class, 'categories'])->name('shop.categories');
     Route::get('/menu/{url}', [ShopController::class, 'catprods'])->name('shop.catprods');
@@ -173,6 +177,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/catalog/products/import', [ProductController::class, 'import'])->name('products.import');
         //Route::post('/catalog/products/import', [ProductController::class, 'importOptions'])->name('products.import');
         Route::get('/catalog/products/update-urls', [ProductController::class, 'updateUrls'])->name('products.updateurls');
+
+        Route::get('/catalog/packs', [AdminPackController::class, 'index'])->name('packs.index');
+        Route::get('/catalog/packs/create', [AdminPackController::class, 'create'])->name('packs.create');
+        Route::post('/catalog/packs', [AdminPackController::class, 'store'])->name('packs.store');
+        Route::get('/catalog/packs/edit/{pack}', [AdminPackController::class, 'edit'])->name('packs.edit');
+        Route::post('/catalog/packs/update/{pack}', [AdminPackController::class, 'update'])->name('packs.update');
+        Route::delete('/catalog/packs/{pack}', [AdminPackController::class, 'destroy'])->name('packs.delete');
 
         Route::get('/catalog/product-prices', [ProductPriceController::class, 'index'])->name('product-prices.index');
         Route::get('/catalog/product-prices/create', [ProductPriceController::class, 'create'])->name('product-prices.create');

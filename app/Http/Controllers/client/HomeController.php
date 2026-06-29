@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Pack;
 use App\Models\Service;
 use App\Models\Cart;
 use App\Models\About;
@@ -49,6 +50,14 @@ class HomeController extends Controller
             ->where('unit', '!=', 'pack')
             ->take(20)
             ->get();
+        $packs = Pack::with('products', 'pictures')
+            ->where(function ($q) {
+                $q->where('is_featured', true)
+                    ->orWhere('is_new', true)
+                    ->orWhere('discount_price', '>', 0);
+            })
+            ->take(8)
+            ->get();
         $services = Service::where('show_in_home', true)->take(3)->get();
         $prodCats = Category::with(['products'])->get()->map(function ($category) {
             return [
@@ -69,6 +78,7 @@ class HomeController extends Controller
             // 'eventCategories' => $eventCategories,
             'featured' => $featured,
             'seasonal' => $seasonal,
+            'packs' => $packs,
             // 'prodCats' => $prodCats,
             // 'services' => $services,
             // 'about' => $about,

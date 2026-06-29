@@ -4,7 +4,7 @@ import {
   Bars3Icon, BellIcon, UsersIcon, UserGroupIcon, XMarkIcon, TagIcon,
   Square3Stack3DIcon, EnvelopeIcon, ShoppingBagIcon, MegaphoneIcon,
   CalendarDaysIcon, PencilSquareIcon, ChatBubbleOvalLeftEllipsisIcon,
-  UserCircleIcon,
+  UserCircleIcon, GiftIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from '@inertiajs/react'
@@ -86,6 +86,7 @@ export default function AdminLayout({ children, user }) {
       { id: 1, name: t('admin.navigation.team'), visible: hasRole(['admin']), href: '/admin/team/users', icon: UsersIcon, current: false||isPath('/admin/team/*'), open: false||isPath('/admin/team/*')},
       { id: 2, name: t('admin.navigation.categories'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/categories', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/categories/*') },
       { id: 3, name: t('admin.navigation.products'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/products', icon: TagIcon, current: false||isPath('/admin/catalog/products/*')},
+      { id: 10, name: 'Packs', visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packs', icon: GiftIcon, current: false||isPath('/admin/catalog/packs/*')},
       { id: 4, name: t('admin.navigation.customers'), visible: hasRole(['admin']), href: '/admin/clients/customers', icon: UserGroupIcon, current: false||isPath('/admin/clients/customers/*') },
       { id: 5, name: t('admin.navigation.orders'), visible: hasRole(['admin', 'staff', 'delivery']), href: '/admin/sales/orders', icon: ShoppingBagIcon, current: false||isPath('/admin/sales/orders/*') },
       // { id: 6, name: t('admin.navigation.services'), visible: hasRole(['admin']), href: '/admin/services', icon: MegaphoneIcon, current: false||isPath('/admin/services/*') },

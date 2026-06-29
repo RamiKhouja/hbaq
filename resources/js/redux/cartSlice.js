@@ -17,9 +17,10 @@ const cartSlice = createSlice({
     },
     addItemToCart: (state, action) => {
       const { product, quantity } = action.payload;
+      const productKey = product.cart_key || product.id;
 
       // Check if the product already exists in the cart
-      const existingItem = state.items.find(item => item.product.id === product.id);
+      const existingItem = state.items.find(item => (item.product.cart_key || item.product.id) === productKey);
 
       if (existingItem) {
         // Update the quantity of the existing product
@@ -33,10 +34,10 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state.items));
     },
     removeItemFromCart: (state, action) => {
-      const productId = action.payload;
+      const productKey = action.payload;
 
       // Remove the product from the cart
-      state.items = state.items.filter(item => item.product.id !== productId);
+      state.items = state.items.filter(item => (item.product.cart_key || item.product.id) !== productKey);
 
       // Save updated cart to localStorage
       localStorage.setItem('cart', JSON.stringify(state.items));
@@ -44,7 +45,7 @@ const cartSlice = createSlice({
     updateQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
 
-      const existingItem = state.items.find(item => item.product.id === productId);
+      const existingItem = state.items.find(item => (item.product.cart_key || item.product.id) === productId);
 
       if (existingItem) {
         // Update the quantity
@@ -52,7 +53,7 @@ const cartSlice = createSlice({
 
         // Remove the item if quantity is zero
         if (quantity === 0) {
-          state.items = state.items.filter(item => item.product.id !== productId);
+          state.items = state.items.filter(item => (item.product.cart_key || item.product.id) !== productId);
         }
       }
 

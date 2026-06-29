@@ -16,12 +16,12 @@ export default function Cart({open,setOpen, cart}) {
   const normalize = (value) => Math.round((Number(value) + Number.EPSILON) * 10) / 10;
   const handleUpdateQuantity = (product, quantity) => {
     if(quantity>0) {
-      dispatch(updateQuantity({ productId: product.id, quantity: normalize(quantity) }));
+      dispatch(updateQuantity({ productId: product.cart_key || product.id, quantity: normalize(quantity) }));
     }
   };
 
   const handleRemoveItem = (product) => {
-    dispatch(removeItemFromCart(product.id));
+    dispatch(removeItemFromCart(product.cart_key || product.id));
   };
 
   const handleClearCart = () => {
@@ -101,7 +101,7 @@ export default function Cart({open,setOpen, cart}) {
                       <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
                             {cart.map((item) => (
-                              <li key={item.product.id} className="flex py-6">
+                              <li key={item.product.cart_key || item.product.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-gray-200">
                                   <img
                                    
@@ -116,7 +116,7 @@ export default function Cart({open,setOpen, cart}) {
                                     <div className={`flex justify-between items-center ${lang==='ar' ? 'text-2xl font-medium' : 'text-base font-semibold'} text-brown-800`}>
                                       <h3>
                                  
-                                        <a href={`/product/${item.product.url}`}>
+                                        <a href={item.product.item_type === 'pack' ? `/gift-packs/${item.product.url}` : `/product/${item.product.url}`}>
                                           {lang=='ar' ? item.product.name.ar : lang=='en' ? item.product.name.en : item.product.name.fr}
                                         </a>
                                       </h3>

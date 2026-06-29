@@ -49,7 +49,7 @@ function ShopFilter({brands = [], categories = [], setOpen = () => {}, attribute
         params.discount && params.discount=='true' && setIsDiscount(true);
         params.new && params.new=='true' && setIsNew(true);
         params.featured && params.featured=='true' && setIsFeatured(true);
-        params.season && params.season=='true' && setIsSeason(true);
+        params.seasonal && params.seasonal=='true' && setIsSeason(true);
         params.min && setMinPrice(parseFloat(params.min,2));
         params.max && setMaxPrice(parseFloat(params.max,2));
     
@@ -93,7 +93,7 @@ function ShopFilter({brands = [], categories = [], setOpen = () => {}, attribute
         selectedOptions && selectedOptions.length>0 && queryParams.append('options', selectedOptions.join(','));
         isNew && queryParams.append('new', isNew);
         isFeatured && queryParams.append('featured', isFeatured);
-        isSeason && queryParams.append('season', isSeason);
+        isSeason && queryParams.append('seasonal', isSeason);
         isDiscount && queryParams.append('discount', isDiscount);
         minPrice && queryParams.append('min', minPrice);
         maxPrice && queryParams.append('max', maxPrice);
@@ -277,9 +277,9 @@ function ShopFilter({brands = [], categories = [], setOpen = () => {}, attribute
                 <div className="relative flex items-start">
                   <div className="flex h-6 items-center">
                     <input
-                      id="season"
-                      aria-describedby="season-description"
-                      name="season"
+                      id="seasonal"
+                      aria-describedby="seasonal-description"
+                      name="seasonal"
                       type="checkbox"
                       checked={isSeason}
                       onChange={()=>setIsSeason(!isSeason)}
@@ -287,7 +287,7 @@ function ShopFilter({brands = [], categories = [], setOpen = () => {}, attribute
                     />
                   </div>
                   <div className="mx-3 text-sm leading-6">
-                    <label htmlFor="season" className="font-medium text-gray-900">
+                    <label htmlFor="seasonal" className="font-medium text-gray-900">
                       {t('shop.is_season')}
                     </label>
                   </div>

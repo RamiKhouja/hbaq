@@ -275,7 +275,8 @@ export default function ClientLayout({ children, showMain, user, categories, eve
               <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 lg:flex" dir={lang==='ar' ? 'rtl' : 'ltr'}>
                 <a href="#" className="transition hover:text-green-700">Home</a>
                 <a href="#categories" className="transition hover:text-green-700">Categories</a>
-                <a href="#products" className="transition hover:text-green-700">Shop</a>
+                <Link href="/shop" className="transition hover:text-green-700">Shop</Link>
+                <Link href="/gift-packs" className="transition hover:text-green-700">Gift Packs</Link>
                 <a href="#wholesale" className="transition hover:text-green-700">Wholesale</a>
                 <a href="#about" className="transition hover:text-green-700">About</a>
                 <a href="#contact" className="transition hover:text-green-700">Contact</a>

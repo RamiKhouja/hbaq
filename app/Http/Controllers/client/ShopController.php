@@ -54,7 +54,7 @@ class ShopController extends Controller
             $productsQuery->where('is_featured', true);
         }
 
-        if ($request->boolean('season')) {
+        if ($request->boolean('seasonal')) {
             $productsQuery->where('is_season', true);
         }
 
@@ -97,7 +97,7 @@ class ShopController extends Controller
             'eventCategories'=> $eventCategories,
             'filterCategories' => $filterCategories,
             'products' => $products,
-            'filters' => $request->only(['categories', 'featured', 'season', 'discount', 'min', 'max']),
+            'filters' => $request->only(['categories', 'featured', 'seasonal', 'discount', 'min', 'max']),
         ]);
     }
 
