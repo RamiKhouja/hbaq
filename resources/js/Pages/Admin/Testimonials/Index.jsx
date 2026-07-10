@@ -3,7 +3,7 @@ import { router, Head, Link, usePage } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
-import { EyeIcon } from '@heroicons/react/24/solid';
+import { EyeIcon, StarIcon } from '@heroicons/react/24/solid';
 import { Dialog, Switch, Transition } from '@headlessui/react';
 import axios from 'axios';
 
@@ -105,6 +105,12 @@ export default function Index({feedbacks, auth}) {
                     {t('admin.brand.list.phone')}
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Profession
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Rating
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                     {t('admin.brand.list.message')}
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -122,6 +128,17 @@ export default function Index({feedbacks, auth}) {
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{item.name}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{item.phone}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{item.profession}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                        <div className="flex items-center gap-0.5 text-amber-400">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <StarIcon
+                              key={index}
+                              className={`h-4 w-4 ${index < (item.rating ?? 5) ? 'fill-current' : 'fill-transparent stroke-current'}`}
+                            />
+                          ))}
+                        </div>
+                      </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{truncateString(item.message, 7)}</td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 flex gap-x-2 items-center">
                         <Switch

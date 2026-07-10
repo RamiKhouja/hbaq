@@ -26,7 +26,6 @@ const CreateAbout = ({ auth, abt }) => {
     picture_2: null,
     picture_3: null,
     picture_4: null,
-    picture_5: null,
   });
 
   const handleChange = (e) => {
@@ -101,9 +100,6 @@ const CreateAbout = ({ auth, abt }) => {
     }
     if (about.picture_4) {
       formData.append('picture_4', about.picture_4);
-    }
-    if (about.picture_5) {
-      formData.append('picture_5', about.picture_5);
     }
 
     console.log(about);
@@ -272,7 +268,7 @@ const CreateAbout = ({ auth, abt }) => {
           </p>
         </div>  
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
+          {Array.from({ length: 4 }, (_, i) => i + 1).map((num) => (
             <div key={`picture_${num}`}>
               <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Picture {num}

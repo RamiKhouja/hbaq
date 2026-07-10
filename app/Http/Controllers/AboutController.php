@@ -70,7 +70,6 @@ class AboutController extends Controller
             'picture_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'picture_3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'picture_4' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'picture_5' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // JSON Fields
@@ -111,7 +110,7 @@ class AboutController extends Controller
         }
 
         // FIXED Pictures loop
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 4; $i++) {
             if ($request->hasFile("picture_$i")) {
                 $about->{"picture_$i"} = $request
                     ->file("picture_$i")

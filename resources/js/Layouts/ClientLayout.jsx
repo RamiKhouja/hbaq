@@ -41,7 +41,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
   const [openSearch, setOpenSearch] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [logoImg] = useState('/pictures/logo.png');
+  const [logoImg] = useState('/pictures/hbaq-logo.png');
   const [searchVisible] = useState(window.location.pathname==='/');
   
   return (
@@ -101,7 +101,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                         <img
                           className="h-12"
                           src={logoImg}
-                          alt="Twin Peaks"
+                          alt="Hbaq"
                         />
                       </div>
                     </Link>
@@ -263,15 +263,13 @@ export default function ClientLayout({ children, showMain, user, categories, eve
         <div className="relative w-full">
           <div className='mx-auto px-4 sm:px-6 lg:px-8 relative'>
             <div className="flex h-[72px] lg:h-20 items-center justify-between">
-              <div className="min-w-0 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-green-600 text-white shadow-sm sm:h-11 sm:w-11">
-                  <Leaf className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="truncate text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">Hbaq | حبق</p>
-                  <p className="truncate text-[10px] uppercase tracking-[0.18em] text-slate-500 sm:text-xs">Organic Grocery Store</p>
-                </div>
-              </div>
+              <Link href={'/'} className="flex shrink-0 items-center">
+                <img
+                  className="h-12 w-auto"
+                  src={logoImg}
+                  alt="Hbaq"
+                />
+              </Link>
               <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 lg:flex" dir={lang==='ar' ? 'rtl' : 'ltr'}>
                 <a href="#" className="transition hover:text-green-700">Home</a>
                 <a href="#categories" className="transition hover:text-green-700">Categories</a>

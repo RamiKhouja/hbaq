@@ -1,9 +1,13 @@
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
 function Wholesale() {
   const { t } = useTranslation();
+  const { auth } = usePage().props;
+  const isAuthenticated = Boolean(auth?.user);
+
   return (
     <section id="wholesale" className="mx-auto max-w-7xl xl:max-w-screen-2xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
@@ -14,12 +18,12 @@ function Wholesale() {
             {t('homepage.wholesale.description')}
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-            <button className="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-green-700 transition hover:bg-slate-100 sm:w-auto">
+            {!isAuthenticated && (<Link href={'/register'} className="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-green-700 transition hover:bg-slate-100 sm:w-auto">
                 {t('homepage.wholesale.become_partner')}
-            </button>
-            <button className="w-full rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:w-auto">
-                {t('homepage.wholesale.request_price')}
-            </button>
+            </Link>)}
+            <Link href={'/shop'} className="w-full rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:w-auto">
+                {t('homepage.wholesale.discover_products')}
+            </Link>
             </div>
         </div>
 

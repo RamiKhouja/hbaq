@@ -1,15 +1,34 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function About() {
-    const { t } = useTranslation();
+function About({ about }) {
+    const { t, i18n } = useTranslation();
+    const lang = i18n.language;
+
+    const localized = (value) => {
+        if (!value) return '';
+
+        try {
+            const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+            return parsed?.[lang] || parsed?.en || parsed?.fr || parsed?.ar || '';
+        } catch (error) {
+            return value;
+        }
+    };
+
+    const image = about?.image
+        ? `/${about.image}`
+        : 'https://images.unsplash.com/photo-1506617420156-8e4536971650?auto=format&fit=crop&w=1200&q=80';
+    const title = localized(about?.title) || t('homepage.about.title');
+    const description = localized(about?.short_description) || t('homepage.about.description');
+
     return (
    <section id="about" className="bg-white py-12 sm:py-16">
         <div className="mx-auto grid max-w-7xl xl:max-w-screen-2xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="overflow-hidden rounded-[2rem] shadow-lg">
             <img
-            src="https://images.unsplash.com/photo-1506617420156-8e4536971650?auto=format&fit=crop&w=1200&q=80"
-            alt="Organic farm harvest"
+            src={image}
+            alt={title}
             className="h-full min-h-[260px] w-full object-cover sm:min-h-[420px]"
             />
         </div>
@@ -17,9 +36,9 @@ function About() {
             <span className="inline-flex w-fit rounded-full bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
             {t('homepage.about.badge')}
             </span>
-            <h2 className="mt-6 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl md:text-4xl">{t('homepage.about.title')}</h2>
+            <h2 className="mt-6 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl md:text-4xl">{title}</h2>
             <p className="mt-5 text-sm leading-8 text-slate-600 md:text-base">
-            {t('homepage.about.description')}
+            {description}
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[

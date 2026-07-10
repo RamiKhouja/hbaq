@@ -81,8 +81,8 @@ class HomeController extends Controller
             'packs' => $packs,
             // 'prodCats' => $prodCats,
             // 'services' => $services,
-            // 'about' => $about,
-            // 'testimonials' => $testimonials
+            'about' => $about,
+            'testimonials' => $testimonials
         ]);
     }
 

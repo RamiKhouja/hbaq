@@ -36,10 +36,16 @@ class ContactMail extends Mailable
 
     public function build(): ContactMail
     {
-        return $this
+        $email = $this
             ->with(['emailData' => $this->emailData])
             ->text('emails.contact') // Add a plain text version if needed
             ->view('emails.contact', ['emailData' => $this->emailData]);
+
+        if (! empty($this->emailData['from'])) {
+            $email->replyTo($this->emailData['from'], $this->emailData['name'] ?? null);
+        }
+
+        return $email;
     }
 
     /**

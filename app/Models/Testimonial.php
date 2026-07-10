@@ -10,6 +10,6 @@ class Testimonial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','picture','phone','message','is_approved'
+        'name','picture','phone','rating','profession','message','is_approved'
     ];
 }

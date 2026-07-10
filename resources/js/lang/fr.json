@@ -1,5 +1,6 @@
 {
     "translation": {
+        "hbaq": "Hbaq",
         "yes": "Oui",
         "no": "Non",
         "item": "Article",
@@ -55,6 +56,7 @@
                 "title": "Commandes en gros pour supermarchés, restaurants et revendeurs",
                 "description": "Ajoutez votre flux d'intégration grossiste, tarification par compte, quantités minimales, planification des livraisons et gestion des factures.",
                 "become_partner": "Devenir partenaire grossiste",
+                "discover_products": "Découvrir nos produits",
                 "request_price": "Demander la grille tarifaire",
                 "why_title": "Pourquoi les entreprises nous choisissent",
                 "points": {
@@ -65,7 +67,7 @@
                 }
             },
             "about": {
-                "badge": "À propos de FreshMart",
+                "badge": "À propos de Hbaq",
                 "title": "Alimentation saine, agriculteurs de confiance, expérience e‑commerce moderne",
                 "description": "Idéal pour raconter l'histoire de votre marque et expliquer votre proposition de valeur pour familles et acheteurs professionnels.",
                 "stats": { "farms": "Partenaires agricoles", "cities": "Villes desservies", "online": "Commande en ligne", "rating": "Note clients" }
@@ -74,17 +76,50 @@
                 "eyebrow": "Témoignages",
                 "title": "Ce que disent nos clients",
                 "description": "La preuve sociale fonctionne particulièrement bien pour les épiceries et boutiques grossistes. Restez concis et crédible.",
+                "add_button": "Partager votre avis frais",
                 "role_wholesale": "Acheteur en gros",
                 "role_retail": "Client détail",
                 "quote_1": "La qualité des produits est constamment excellente et le processus de commande en gros est très fluide.",
-                "quote_2": "Belle page d'accueil, commande facile et légumes frais toujours livrés à l'heure."
+                "quote_2": "Belle page d'accueil, commande facile et légumes frais toujours livrés à l'heure.",
+                "form": {
+                    "success": "Merci pour votre avis !",
+                    "image": "Photo",
+                    "name": "Nom",
+                    "name_placeholder": "Votre nom complet",
+                    "phone": "Téléphone",
+                    "phone_placeholder": "+216 20 123 456",
+                    "profession": "Profession",
+                    "profession_placeholder": "Commerçant, chef, acheteur...",
+                    "rating": "Note",
+                    "rating_aria": "{{count}} étoile",
+                    "message": "Message",
+                    "message_placeholder": "Dites-nous ce qui était frais, simple ou utile.",
+                    "submit": "Envoyer l'avis"
+                }
             },
             "newsletter": {
-                "badge": "Newsletter",
-                "title": "Recevez nos offres hebdomadaires et nouveautés grossistes",
-                "description": "Ajoutez votre capture d'e-mails pour les promotions, arrivages et notifications saisonnières.",
-                "placeholder": "Entrez votre adresse e-mail",
-                "subscribe": "S'abonner"
+                "badge": "Contact",
+                "title": "Contactez Hbaq",
+                "description": "Envoyez-nous votre question, demande de commande ou demande grossiste. L'équipe Hbaq vous répondra bientôt.",
+                "success": "Message envoyé avec succès.",
+                "error": "Impossible d'envoyer votre message. Veuillez réessayer.",
+                "contact": {
+                    "address": "Adresse",
+                    "phone": "Téléphone",
+                    "email": "Email"
+                },
+                "form": {
+                    "name": "Nom",
+                    "name_placeholder": "Votre nom",
+                    "phone": "Téléphone",
+                    "optional": "(optionnel)",
+                    "email": "Email",
+                    "email_placeholder": "vous@example.com",
+                    "message": "Message",
+                    "message_placeholder": "Comment pouvons-nous vous aider ?",
+                    "sending": "Envoi...",
+                    "submit": "Envoyer le message"
+                }
             },
             "stats": {
                 "fast_delivery": { "title": "Livraison rapide", "text": "Livraison le jour même en ville et expédition planifiée pour le gros." },

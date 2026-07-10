@@ -1,8 +1,11 @@
+import { Link, usePage } from '@inertiajs/react';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
 function TopBanner() {
   const { t } = useTranslation();
+  const { auth } = usePage().props;
+  const isAuthenticated = Boolean(auth?.user);
   return (
     <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#eff7df] via-[#f7f9f2] to-[#fff4df]" />
@@ -19,12 +22,14 @@ function TopBanner() {
               </p>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <button className="w-full rounded-full bg-green-600 px-7 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition hover:bg-green-700 sm:w-auto">
+                <Link href={'/shop'} className="w-full rounded-full bg-green-600 px-7 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition hover:bg-green-700 sm:w-auto">
                   {t('homepage.top.shop_now')}
-                </button>
-                <button className="w-full rounded-full border border-slate-300 bg-white px-7 py-4 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900 sm:w-auto">
+                </Link>
+                {!isAuthenticated && (
+                <Link href={'/register'} className="w-full rounded-full border border-slate-300 bg-white px-7 py-4 text-sm font-semibold text-slate-700 transition hover:border-slate-900 hover:text-slate-900 sm:w-auto">
                   {t('homepage.top.explore_wholesale')}
-                </button>
+                </Link>
+                )}
               </div>
 
               <div className="mt-10 grid max-w-xl grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3">

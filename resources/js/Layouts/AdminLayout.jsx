@@ -93,7 +93,7 @@ export default function AdminLayout({ children, user }) {
       // { id: 7, name: t('admin.navigation.requests'), visible: hasRole(['admin']), href: '/admin/requests', icon: CalendarDaysIcon, current: false||isPath('/admin/requests/*') },
       { id: 8, name: t('admin.navigation.messages'), visible: hasRole(['admin']), href: '/admin/contacts', icon: EnvelopeIcon, current: false||isPath('/admin/contacts/*') },
       { id: 9, name: t('admin.navigation.about'), visible: hasRole(['admin']), href: '/admin/about', icon: PencilSquareIcon, current: false||isPath('/admin/about/*') },
-      // { id: 11, name: t('admin.navigation.testimonials'), visible: hasRole(['admin']), href: '/admin/testimonials', icon: ChatBubbleOvalLeftEllipsisIcon, current: false||isPath('/admin/testimonials/*') },
+      { id: 11, name: t('admin.navigation.testimonials'), visible: hasRole(['admin']), href: '/admin/testimonials', icon: ChatBubbleOvalLeftEllipsisIcon, current: false||isPath('/admin/testimonials/*') },
     ]);
   }, [i18n.language]);
 
