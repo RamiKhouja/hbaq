@@ -7,6 +7,10 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
+use App\Mail\NewOrderAdminMail;
+use App\Mail\OrderPreparingMail;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -14,7 +18,7 @@ class OrderController extends Controller
     {
         // Validate the request
         $validated = $request->validate([
-            'status' => 'required|string',
+            'status' => ['required', Rule::in(['pending'])],
             'subTotal' => 'required|numeric|min:0',
             'total' => 'required|numeric|min:0',
             'user_id' => 'nullable|exists:users,id',
@@ -25,8 +29,9 @@ class OrderController extends Controller
             'cutlery' => 'boolean',
             'deliveryman_id' => 'nullable|exists:users,id',
             'profile_id' => 'nullable|exists:profiles,id',
-            'payment_method' => 'required|string',
-            'shipping_method' => 'required|string'
+            'payment_method' => ['required', Rule::in(['cash'])],
+            'shipping_method' => ['required', Rule::in(['delivery'])],
+            'language' => ['nullable', Rule::in(['en', 'fr', 'ar'])],
         ]);
 
         // Create the order
@@ -38,17 +43,53 @@ class OrderController extends Controller
             'purchases' => json_encode($validated['purchases']), // Store as JSON
             'delivery' => $validated['delivery'],
             'message' => $validated['message'] ?? null,
-            'cutlery' => $validated['cutlery'] ?? true,
+            'cutlery' => $validated['cutlery'] ?? false,
             'deliveryman_id' => $validated['deliveryman_id'] ?? null,
             'profile_id' => $validated['profile_id'] ?? null,
             'payment_method' => $validated['payment_method'],
-            'shipping_method' => $validated['shipping_method']
+            'shipping_method' => $validated['shipping_method'],
+            'language' => $validated['language'] ?? 'fr',
         ]);
+
+        $this->notifyAdmins($order);
 
         return response()->json([
             'message' => 'Order created successfully',
             'order' => $order
         ], 201);
+    }
+
+    private function notifyAdmins(Order $order): void
+    {
+        $person = $order->user_id
+            ? User::find($order->user_id)
+            : $order->profile()->first();
+
+        $customer = [
+            'name' => trim(($person?->firstname ?? '').' '.($person?->lastname ?? '')),
+            'phone' => $person?->phone,
+            'address' => implode(', ', array_filter([
+                $person?->address,
+                $person?->address_2,
+                $person?->city,
+                $person?->state,
+                $person?->zip,
+            ])),
+        ];
+
+        User::where('role', 'admin')
+            ->whereNotNull('email')
+            ->each(function (User $admin) use ($order, $customer) {
+                try {
+                    Mail::to($admin->email)->send(new NewOrderAdminMail($order, $customer));
+                } catch (\Throwable $exception) {
+                    Log::error('Unable to send new order email to admin.', [
+                        'admin_id' => $admin->id,
+                        'order_id' => $order->id,
+                        'error' => $exception->getMessage(),
+                    ]);
+                }
+            });
     }
 
     public function update(Request $request, $id) {
@@ -69,7 +110,7 @@ class OrderController extends Controller
     
                 if($status== "success") {
                     $order = Order::find($id);
-                    $order->status = 'paid';
+                    $order->status = 'preparing';
                     $order->save();
                     
                     return redirect()->route('order.details', ['order' => $id])
@@ -85,19 +126,7 @@ class OrderController extends Controller
     }
 
     public function list($id, $role) {
-        $orders = Order::when($role === 'delivery', function ($query) use ($id) {
-                $query->where('phase', 'delivery')
-                ->where('deliveryman_id', $id);
-            }, function ($query) {
-                $query->whereNotIn('phase', ['closed', 'canceled']);
-            })
-            ->where(function ($query) {
-                $query->where('payment_method', '!=', 'credit-card')
-                    ->orWhere(function ($q) {
-                        $q->where('payment_method', 'credit-card')
-                            ->where('status', 'paid');
-                    });
-            })
+        $orders = Order::whereNotIn('status', ['done', 'close'])
             ->get();
         return response()->json($orders, 201);
     }
@@ -119,18 +148,7 @@ class OrderController extends Controller
     public function paginate(Request $request) {
         $user = auth()->user();
         $orders = Order::with(['user', 'profile'])
-            ->when($user->role === 'delivery', function ($query) {
-                $query->where('phase', 'delivery');
-            }, function ($query) {
-                $query->whereNotIn('phase', ['closed', 'canceled']);
-            })
-            ->where(function ($query) {
-                $query->where('payment_method', '!=', 'credit-card')
-                    ->orWhere(function ($q) {
-                        $q->where('payment_method', 'credit-card')
-                            ->where('status', 'paid');
-                    });
-            })
+            ->whereNotIn('status', ['done', 'close'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
             
@@ -146,32 +164,51 @@ class OrderController extends Controller
 
     public function change(Request $request, Order $order)
     {
+        abort_unless(auth()->check() && auth()->user()->role === 'admin', 403);
+
         $validated = $request->validate([
-            'status' => ['nullable', Rule::in(['pending', 'paid', 'canceled', 'closed'])],
-            'phase' => ['nullable', Rule::in(['pending', 'serving', 'delivery', 'closed', 'canceled'])],
-            'deliveryman_id' => ['nullable']
+            'status' => ['required', Rule::in($order->getAvailableActions())],
         ]);
 
-        if (isset($validated['status'])) {
-            $order->status = $validated['status'];
-        }
-
-        if (isset($validated['phase'])) {
-            $order->phase = $validated['phase'];
-        }
-
-        if(isset($validated['deliveryman_id'])) {
-            $order->deliveryman_id = $validated['deliveryman_id'];
-        }
-
-
+        $order->status = $validated['status'];
         $order->save();
+
+        if ($validated['status'] === 'preparing') {
+            $this->notifyCustomerOrderIsPreparing($order);
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Order updated successfully.',
             'order' => $order
         ]);
+    }
+
+    private function notifyCustomerOrderIsPreparing(Order $order): void
+    {
+        $person = $order->user_id
+            ? User::find($order->user_id)
+            : $order->profile()->first();
+
+        if (! $person?->email) {
+            Log::warning('Unable to send preparing email: customer has no email.', [
+                'order_id' => $order->id,
+            ]);
+
+            return;
+        }
+
+        $customerName = trim(($person->firstname ?? '').' '.($person->lastname ?? ''));
+
+        try {
+            Mail::to($person->email)->send(new OrderPreparingMail($order, $customerName));
+        } catch (\Throwable $exception) {
+            Log::error('Unable to send order preparing email to customer.', [
+                'order_id' => $order->id,
+                'customer_email' => $person->email,
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 
 }

@@ -119,6 +119,13 @@ export default function ShowHistory({open, setOpen, order, user}) {
                                 <p className={`mt-2 sm:mt-0 lg:text-lg text-right`}>Qty : {purchase.quantity}</p>
                               </div>
                               <p className="text-gray-500 mt-1">{purchase.product.price} DT</p>
+                              {purchase.product.type === 'custom_pack' && (
+                                <div className="mt-3 rounded-lg bg-gray-50 p-3 text-gray-700">
+                                  <p><strong>Package:</strong> {purchase.product.package?.name?.en}</p>
+                                  <p className="mt-1"><strong>Contents:</strong> {purchase.product.custom_products?.map((product) => `${product.quantity} × ${product.name?.en}`).join(', ')}</p>
+                                  {purchase.product.custom_message && <p className="mt-1"><strong>Pack message:</strong> “{purchase.product.custom_message}”</p>}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </li>

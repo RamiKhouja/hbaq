@@ -34,11 +34,13 @@ function Categories({ categories }) {
           <SwiperSlide key={category.id ?? category.name.en}>
             <div className="group overflow-hidden rounded-[2rem] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl my-8">
               <div className="overflow-hidden">
-                <img
-                  src={category.image}
-                      alt={category.name?.[i18n.language] ?? category.name?.en}
-                  className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-64"
-                />
+                <Link href={'/menu/' + category.url}>
+                  <img
+                    src={category.image}
+                    alt={category.name?.[i18n.language] ?? category.name?.en}
+                    className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-64"
+                  />
+                </Link>
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-slate-900">{category.name?.[i18n.language] ?? category.name?.en}</h3>

@@ -12,21 +12,8 @@ class OrderController extends Controller
     //
     public function index() {
         $user = auth()->user();
-        $delivery_men = User::where('role', 'delivery')->get();
         $orders = Order::with(['user', 'profile'])
-            ->when($user->role === 'delivery', function ($query) use ($user) {
-                $query->where('phase', 'delivery')
-                ->where('deliveryman_id', $user->id);
-            }, function ($query) {
-                $query->whereNotIn('phase', ['closed', 'canceled']);
-            })
-            ->where(function ($query) {
-                $query->where('payment_method', '!=', 'credit-card')
-                    ->orWhere(function ($q) {
-                        $q->where('payment_method', 'credit-card')
-                            ->where('status', 'paid');
-                    });
-            })
+            ->whereNotIn('status', ['done', 'close'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
             
@@ -37,7 +24,7 @@ class OrderController extends Controller
 
         return inertia('Admin/Order/Index', [
             'orders' => $orders,
-            'deliverymen' => $delivery_men
+            'deliverymen' => []
         ]);
     }
 

@@ -42,7 +42,7 @@ export default {
                     900: '#090605'
                 },
                 primdark: '#2C1508',
-                secondark: '#BFC11C',
+                secondark: '#F29000',
             }
         },
     },

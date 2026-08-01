@@ -10,10 +10,16 @@
         "homepage": {
             "top": {
                 "badge": "Produits frais • Détail & Gros",
+                "organic": "100 % biologique",
                 "title": "Fruits et légumes frais livrés avec soin",
                 "description": "Achetez des produits biologiques de qualité pour la maison ou passez des commandes en gros pour supermarchés, hôtels et restaurants.",
                 "shop_now": "Acheter",
                 "explore_wholesale": "Découvrir le gros",
+                "slides": {
+                    "tomatoes": "Tomates en gros",
+                    "apples": "Pommes en gros",
+                    "grapes": "Raisins en gros"
+                },
                 "stats": {
                     "customers": "Clients satisfaits",
                     "orders": "Commandes quotidiennes",
@@ -128,10 +134,10 @@
                 "b2b": { "title": "Support B2B", "text": "Support dédié pour détaillants, restaurants et revendeurs." }
             },
             "deals": {
-                "seasonal": "Offre saisonnière",
-                "heading_left": "Boxes de fruits frais pour les familles",
-                "desc_left": "Utilisez cette bannière pour offres hebdomadaires et promotions limitées.",
-                "discover": "Découvrir les offres",
+                "seasonal": "Coffret personnalisé",
+                "heading_left": "Composez votre propre coffret cadeau",
+                "desc_left": "Choisissez leurs produits préférés, sélectionnez l’emballage idéal et ajoutez un message personnel pour créer un cadeau rien que pour eux.",
+                "discover": "Créer mon coffret",
                 "farm_to_table": "De la ferme à l'assiette",
                 "heading_right": "Légumes locaux cueillis quotidiennement",
                 "desc_right": "Parfait pour mettre en avant confiance, traçabilité et qualité biologique.",
@@ -346,6 +352,7 @@
             "grand-tunis" : "Grand Tunis",
             "store-pickup" : "Retrait à Twin Peaks",
             "need-cutlery": "Avez-vous besoin de couverts avec votre commande?",
+            "pay-meal-voucher": "Payer avec des tickets restaurant",
             "any-comments" : "Des Commentaires?",
             "dont-hesitate-comment": "N'hésitez pas de nous passer vos commentaires 😊",
             "street-name": "123 Nom de Rue",
@@ -371,12 +378,16 @@
             "view": "Voir",
             "delivery": "Livraison",
             "cutlery": "Couvert",
+            "meal-voucher": "Ticket restaurant",
             "yes" : "Oui",
             "no" : "Non",
-            "pending": "En attente de paiement",
-            "paid": "Payé",
-            "canceled": "Annulé",
-            "closed": "Fermé",
+            "pending": "En attente",
+            "preparing": "En préparation",
+            "delivering": "En livraison",
+            "done": "Terminée",
+            "cancel": "Annulée",
+            "close": "Fermée",
+            "view-details": "Voir les détails",
             "order-created-success": "Commande créée avec succès !"
         },
         "service": {

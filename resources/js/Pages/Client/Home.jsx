@@ -20,13 +20,13 @@ export default function Home({auth, categories, featured, seasonal, packs, about
     <div className="min-h-screen bg-[#f7f9f2] text-slate-800">
 
       <main dir={i18n.language==='ar'?'rtl':'ltr'}>
-        <TopBanner />
+        <TopBanner featured={featured} />
         <StatsBanner />
         <Categories categories={categories} />
         <FeaturedProducts products={seasonal} type="seasonal" />
         <Wholesale />
-        <Deals />
         <GiftPacks packs={packs} />
+        <Deals />
         <FeaturedProducts products={featured} type="featured" />
         <About about={about} />
         <Testimonials testimonials={testimonials} />

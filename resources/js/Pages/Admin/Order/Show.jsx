@@ -1,35 +1,22 @@
-import { useState } from 'react'
 import { 
-  Dialog, DialogBackdrop, DialogPanel, DialogTitle,
-  Label, Listbox, ListboxButton, ListboxOption, ListboxOptions
+  Dialog, DialogBackdrop, DialogPanel, DialogTitle
  } from '@headlessui/react'
-import { BanknotesIcon, CreditCardIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
-import { CheckIcon } from '@heroicons/react/20/solid'
+import { BanknotesIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { router } from '@inertiajs/react';
-import Select from 'react-select';
 import axios from 'axios';
 
 export default function ShowOrder({open, setOpen, order, user, deliverymen}) {
 
-  const [selectedDeliveryman, setSelectedDeliveryman] = useState(null)
   const purchases = order ? JSON.parse(order?.purchases) : null;
   const statusColors = {
     pending: "bg-blue-100 text-blue-600",
-    paid: "bg-green-100 text-green-600",
-    delivery: "bg-orange-100 text-orange-600",
-    closed: "bg-gray-100 text-gray-600",
-    canceled: "bg-red-100 text-red-600",
+    preparing: "bg-orange-100 text-orange-600",
+    delivering: "bg-purple-100 text-purple-600",
+    done: "bg-green-100 text-green-600",
+    cancel: "bg-red-100 text-red-600",
+    close: "bg-gray-100 text-gray-600",
   };
 
-  const devmenOptions = deliverymen.map((man, index) => {
-    return { label: man.firstname + ' ' + man.lastname, value: man.id, key: index };
-  });
-
-  const handleDevmenChange = (selectedOption) => {
-    setSelectedDeliveryman(selectedOption);
-  };
-  
   const renderStatus = (status) => {
     const colorClass = statusColors[status] || "bg-gray-100 text-gray-600"; // Default color
     const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1); // Capitalize
@@ -41,37 +28,8 @@ export default function ShowOrder({open, setOpen, order, user, deliverymen}) {
   };
 
   const handleOrderAction = async (orderId, action) => {
-    let payload = {
-      status: null,
-      phase: null,
-      deliveryman_id: selectedDeliveryman? selectedDeliveryman.value : null
-    };
-  
-    switch (action) {
-      case 'assign_delivery':
-        payload.phase = 'delivery';
-        break;
-      case 'move_to_serving':
-        payload.phase = 'serving';
-        break;
-      case 'complete_order':
-      case 'mark_delivered':
-        payload.phase = 'closed';
-        payload.status = 'paid';
-        break;
-      case 'cancel':
-        payload.status = 'canceled';
-        payload.phase = 'canceled';
-        break;
-      default:
-        console.warn('Unknown action:', action);
-        return;
-    }
-  
     try {
-      const res = await axios.put(`/api/orders/change/${orderId}`, payload);
-      console.log('Order updated:', res.data);
-      // You can refetch orders or update state here if needed
+      const res = await axios.put(`/api/orders/change/${orderId}`, { status: action });
       if (res.data.success) {
         router.visit('/admin/sales/orders', { data: { success: res.data.message } })
       } else {
@@ -128,16 +86,10 @@ export default function ShowOrder({open, setOpen, order, user, deliverymen}) {
                         {renderStatus(order.status)}
                       </div>
                       <div className='text-gray-900 text-sm'>
-                        {order.payment_method == 'credit-card'
-                        ? (<div className="flex items-center gap-x-2">
-                            <p>Payment by Credit Card</p>
-                            <CreditCardIcon className='w-5 h-5'/>
-                          </div>)
-                        : (<div className="flex items-center gap-x-2">
-                            <p>Payment in Cash</p>
-                            <BanknotesIcon className='w-5 h-5'/>
-                          </div>)
-                        }
+                        <div className="flex items-center gap-x-2">
+                          <p>{order.cutlery ? 'Meal voucher (Ticket restaurant)' : 'Pay at delivery'}</p>
+                          <BanknotesIcon className='w-5 h-5'/>
+                        </div>
                       </div>
                       <p className="text-gray-900">
                         {user?.firstname + ' ' + user?.lastname}
@@ -177,6 +129,13 @@ export default function ShowOrder({open, setOpen, order, user, deliverymen}) {
                                 <p className={`mt-2 sm:mt-0 lg:text-lg text-right`}>Qty : {purchase.quantity}</p>
                               </div>
                               <p className="text-gray-500 mt-1">{purchase.product.price} DT</p>
+                              {purchase.product.type === 'custom_pack' && (
+                                <div className="mt-3 rounded-lg bg-gray-50 p-3 text-gray-700">
+                                  <p><strong>Package:</strong> {purchase.product.package?.name?.en}</p>
+                                  <p className="mt-1"><strong>Contents:</strong> {purchase.product.custom_products?.map((product) => `${product.quantity} × ${product.name?.en}`).join(', ')}</p>
+                                  {purchase.product.custom_message && <p className="mt-1"><strong>Pack message:</strong> “{purchase.product.custom_message}”</p>}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </li>
@@ -196,55 +155,38 @@ export default function ShowOrder({open, setOpen, order, user, deliverymen}) {
                       <p>{user?.state}, {user?.zip}</p>
                     </div>
                   </div>
-                  {order?.available_actions?.includes('assign_delivery') && (
-                    <div className='mb-4 md:w-1/2'>
-                      <label htmlFor="parent" className="block text-sm mb-2 font-medium leading-6 text-gray-900">
-                        Delivery Person
-                      </label>
-                      <Select 
-                        name='deliveryman' 
-                        options={devmenOptions} 
-                        isMulti={false} 
-                        value={selectedDeliveryman} 
-                        placeholder="Assign delivery person"
-                        onChange={handleDevmenChange}
-                      />
-                    </div>
-                  )}
                   <div className="my-8 flex flex-row-reverse">
-                    <div className='lg:flex gap-4'>
-                      {order?.available_actions?.includes('assign_delivery') && (
+                    <div className='flex flex-wrap gap-4'>
+                      {order?.available_actions?.includes('preparing') && (
                         <button
-                        disabled={!selectedDeliveryman}
-                          className="rounded-lg flex gap-x-2 items-center bg-brown-800 disabled:bg-gray-400 disabled:cursor-not-allowed px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown-800"
-                          onClick={() => handleOrderAction(order.id, 'assign_delivery')}
+                          className="rounded-lg bg-orange-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-700"
+                          onClick={() => handleOrderAction(order.id, 'preparing')}
                         >
-                          <img src="/pictures/global/delivery-white.png" className='w-6 h-6' alt="" />
-                          Send to Delivery
+                          Start Preparing
                         </button>
                       )}
-                      {order?.available_actions?.includes('move_to_serving') && (
+                      {order?.available_actions?.includes('delivering') && (
                         <button
-                          className="rounded-lg bg-orange-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                          onClick={() => handleOrderAction(order.id, 'move_to_serving')}
+                          className="rounded-lg bg-purple-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-700"
+                          onClick={() => handleOrderAction(order.id, 'delivering')}
                         >
-                          Move to Serving
+                          Start Delivery
                         </button>
                       )}
-                      {order?.available_actions?.includes('complete_order') && (
+                      {order?.available_actions?.includes('done') && (
                         <button
                           className="rounded-lg bg-green-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-                          onClick={() => handleOrderAction(order.id, 'complete_order')}
+                          onClick={() => handleOrderAction(order.id, 'done')}
                         >
-                          Complete Order
+                          Mark as Done
                         </button>
                       )}
-                      {order?.available_actions?.includes('mark_delivered') && (
+                      {order?.available_actions?.includes('close') && (
                         <button
-                          className="rounded-lg bg-green-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-                          onClick={() => handleOrderAction(order.id, 'mark_delivered')}
+                          className="rounded-lg bg-gray-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800"
+                          onClick={() => handleOrderAction(order.id, 'close')}
                         >
-                          Mark as Delivered
+                          Close Order
                         </button>
                       )}
                       {order?.available_actions?.includes('cancel') && (

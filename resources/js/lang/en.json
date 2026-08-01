@@ -10,10 +10,16 @@
       "homepage": {
         "top": {
           "badge": "Farm Fresh • Retail & Wholesale",
+          "organic": "100% Organic",
           "title": "Fresh Fruits & Vegetables Delivered With Care",
           "description": "Buy premium organic produce for your home or place bulk wholesale orders for supermarkets, hotels, restaurants, and resellers.",
           "shop_now": "Shop Now",
           "explore_wholesale": "Explore Wholesale",
+          "slides": {
+            "tomatoes": "Wholesale Tomatoes",
+            "apples": "Wholesale Apples",
+            "grapes": "Wholesale Grapes"
+          },
           "stats": {
             "customers": "Happy Customers",
             "orders": "Daily Orders",
@@ -133,10 +139,10 @@
           "b2b": { "title": "B2B Support", "text": "Dedicated support for retailers, restaurants, and resellers." }
         },
         "deals": {
-          "seasonal": "Seasonal Offer",
-          "heading_left": "Fresh fruit combo boxes for families",
-          "desc_left": "Use this banner for weekly offers, campaigns, and limited-time discounts.",
-          "discover": "Discover Deals",
+          "seasonal": "Custom Gift Pack",
+          "heading_left": "Build your own personal gift pack",
+          "desc_left": "Choose their favorite products, select the perfect package, and add a heartfelt message to create a gift made especially for them.",
+          "discover": "Start Building",
           "farm_to_table": "Farm to Table",
           "heading_right": "Locally sourced vegetables picked daily",
           "desc_right": "Perfect place to emphasize trust, traceability, organic quality, or supplier relationships.",
@@ -351,6 +357,7 @@
         "grand-tunis": "Grand Tunis",
         "store-pickup" : "Pick up in Store",
         "need-cutlery": "Do you need cutlery with your order?",
+        "pay-meal-voucher": "Pay with Meal voucher",
         "any-comments" : "Any Comments?",
         "dont-hesitate-comment": "Don't hesitate to write us your comments 😊",
         "street-name": "123 Street Name",
@@ -376,12 +383,16 @@
         "view": "View",
         "delivery": "Delivery",
         "cutlery": "Cutlery",
+        "meal-voucher": "Pay with Meal voucher",
         "yes" : "Yes",
         "no" : "No",
-        "pending": "Payment Pending",
-        "paid": "Paid",
-        "canceled": "Canceled",
-        "closed": "Closed",
+        "pending": "Pending",
+        "preparing": "Preparing",
+        "delivering": "Delivering",
+        "done": "Done",
+        "cancel": "Canceled",
+        "close": "Closed",
+        "view-details": "View order details",
         "order-created-success": "Order Created Successfully !"
       },
       "service": {

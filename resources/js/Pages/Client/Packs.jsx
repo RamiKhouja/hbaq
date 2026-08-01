@@ -24,13 +24,18 @@ export default function Packs({ auth, packs, categories, eventCategories }) {
       <Head title="Gift Packs" />
       <div className="w-full px-6 py-24 lg:px-0" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8">
+          <div className="mb-8 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
+            <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-green-700">
               {i18n.language === 'ar' ? 'باقات الهدايا' : 'Gift Packs'}
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-brown-800 lg:text-5xl">
               {i18n.language === 'ar' ? 'باقات حبق الجاهزة' : 'Hbaq gift packs'}
             </h1>
+            </div>
+            <Link href="/gift-packs/build-your-own" className="rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white shadow hover:bg-brown-800">
+              {i18n.language === 'ar' ? 'كوّن باقتك' : i18n.language === 'fr' ? 'Composez votre coffret' : 'Build your own pack'}
+            </Link>
           </div>
 
           {packList.length > 0 ? (

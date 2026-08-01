@@ -48,16 +48,11 @@ export default function Index({orders, deliverymen, auth}) {
 
   const statusColors = {
     pending: "bg-blue-100 text-blue-600",
-    paid: "bg-green-100 text-green-700",
-    closed: "bg-gray-100 text-gray-600",
-    canceled: "bg-red-100 text-red-600",
-  };
-
-  const phaseColors = {
-    pending: "bg-blue-100 text-blue-600",
-    serving: "bg-orange-100 text-orange-600",
-    delivery: "bg-green-100 text-green-600",
-    closed: "bg-gray-100 text-gray-600",
+    preparing: "bg-orange-100 text-orange-600",
+    delivering: "bg-purple-100 text-purple-600",
+    done: "bg-green-100 text-green-700",
+    cancel: "bg-red-100 text-red-600",
+    close: "bg-gray-100 text-gray-600",
   };
   
   const renderStatus = (status) => {
@@ -66,16 +61,6 @@ export default function Index({orders, deliverymen, auth}) {
     return (
       <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${colorClass}`}>
         {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
-      </span>
-    );
-  };
-
-  const renderPhase = (phase) => {
-    const colorClass = phaseColors[phase] || "bg-gray-100 text-gray-600"; // Default color
-    const formattedPhase = phase.charAt(0).toUpperCase() + phase.slice(1); // Capitalize
-    return (
-      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${colorClass}`}>
-        {formattedPhase}
       </span>
     );
   };
@@ -132,7 +117,7 @@ export default function Index({orders, deliverymen, auth}) {
                     N°
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
-                    Phase
+                    Status
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                     Client
@@ -158,7 +143,7 @@ export default function Index({orders, deliverymen, auth}) {
                   {orders && orders.data.map( (item, index) => (
                     <tr key={item.id}>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{index+1}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{renderPhase(item.phase)}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{renderStatus(item.status)}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                         {item.user 
                           ? (item.user.firstname + ' ' + item.user.lastname)
@@ -173,7 +158,7 @@ export default function Index({orders, deliverymen, auth}) {
                           ? (<CreditCardIcon className='w-4 h-4 text-brown-800' />)
                           : (<BanknotesIcon className='w-4 h-4 text-brown-800' />)
                         }
-                        {renderStatus(item.status)}
+                        {item.cutlery ? 'Meal voucher' : 'Pay at delivery'}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm">
                         {item.shipping_method=='delivery' 

@@ -157,3 +157,12 @@
 .home-section-description {
     @apply font-medium lang-ar:font-normal mt-4 text-brown-700 lang-ar:text-lg lang-ar:lg:text-3xl text-lg lg:text-xl;
 }
+/* Fade featured products out completely before the next one enters. */
+.top-banner-products-swiper .swiper-slide {
+    transition-delay: 0ms !important;
+    transition-duration: 1000ms !important;
+}
+
+.top-banner-products-swiper .swiper-slide-active {
+    transition-delay: 1000ms !important;
+}

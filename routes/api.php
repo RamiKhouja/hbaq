@@ -35,7 +35,7 @@ Route::post('/orders', [OrderController::class, 'store']);
 Route::get('/payment-response/{order}', [OrderController::class, 'update']);
 Route::get('/orders/{id}/role/{role}', [OrderController::class, 'list']);
 Route::get('/orders/paginated', [OrderController::class, 'paginate']);
-Route::put('/orders/change/{order}', [OrderController::class, 'change']);
+Route::put('/orders/change/{order}', [OrderController::class, 'change'])->middleware(['web', 'auth']);
 Route::get('/request-payment-response/{request}', [RequestController::class, 'paymentUpdate']);
 Route::get('/contact/unread', [ContactController::class, 'unread']);
 Route::put('/contact/read', [ContactController::class, 'read']);

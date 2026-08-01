@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\PackController as AdminPackController;
+use App\Http\Controllers\admin\PackageController as AdminPackageController;
 use App\Http\Controllers\admin\ProductPriceController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\CompanyController;
@@ -59,6 +60,7 @@ Route::group([], function(){
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
     Route::get('/gift-packs', [ClientPackController::class, 'index'])->name('packs.index');
+    Route::get('/gift-packs/build-your-own', [ClientPackController::class, 'build'])->name('packs.build');
     Route::get('/gift-packs/{url}', [ClientPackController::class, 'show'])->name('packs.show');
     Route::get('/search', [ShopController::class, 'search'])->name('search');
     Route::get('/menu', [ShopController::class, 'categories'])->name('shop.categories');
@@ -152,7 +154,7 @@ Route::middleware('auth')->group(function () {
 
     Route::group([
         'prefix'=>'admin',
-        'middleware' => ['auth', 'has.role:admin,staff'],
+        'middleware' => ['auth', 'has.role:admin'],
         'as'=> 'admin.'
     ], function(){
 
@@ -185,6 +187,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/catalog/packs/update/{pack}', [AdminPackController::class, 'update'])->name('packs.update');
         Route::delete('/catalog/packs/{pack}', [AdminPackController::class, 'destroy'])->name('packs.delete');
 
+        Route::get('/catalog/packages', [AdminPackageController::class, 'index'])->name('packages.index');
+        Route::get('/catalog/packages/create', [AdminPackageController::class, 'create'])->name('packages.create');
+        Route::post('/catalog/packages', [AdminPackageController::class, 'store'])->name('packages.store');
+        Route::get('/catalog/packages/edit/{package}', [AdminPackageController::class, 'edit'])->name('packages.edit');
+        Route::post('/catalog/packages/update/{package}', [AdminPackageController::class, 'update'])->name('packages.update');
+        Route::delete('/catalog/packages/{package}', [AdminPackageController::class, 'destroy'])->name('packages.delete');
+
         Route::get('/catalog/product-prices', [ProductPriceController::class, 'index'])->name('product-prices.index');
         Route::get('/catalog/product-prices/create', [ProductPriceController::class, 'create'])->name('product-prices.create');
         Route::post('/catalog/product-prices', [ProductPriceController::class, 'store'])->name('product-prices.store');
@@ -197,7 +206,7 @@ Route::middleware('auth')->group(function () {
 
     Route::group([
         'prefix'=>'admin',
-        'middleware' => ['auth', 'has.role:admin,staff,delivery'],
+        'middleware' => ['auth', 'has.role:admin'],
         'as'=> 'admin.'
     ], function(){
         Route::get('/sales/orders',[OrderController::class, 'index'])->name('orders.index');

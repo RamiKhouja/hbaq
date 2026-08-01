@@ -87,6 +87,7 @@ export default function AdminLayout({ children, user }) {
       { id: 2, name: t('admin.navigation.categories'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/categories', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/categories/*') },
       { id: 3, name: t('admin.navigation.products'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/products', icon: TagIcon, current: false||isPath('/admin/catalog/products/*')},
       { id: 10, name: 'Packs', visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packs', icon: GiftIcon, current: false||isPath('/admin/catalog/packs/*')},
+      { id: 12, name: 'Packages', visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packages', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/packages/*')},
       { id: 4, name: t('admin.navigation.customers'), visible: hasRole(['admin']), href: '/admin/clients/customers', icon: UserGroupIcon, current: false||isPath('/admin/clients/customers/*') },
       { id: 5, name: t('admin.navigation.orders'), visible: hasRole(['admin', 'staff', 'delivery']), href: '/admin/sales/orders', icon: ShoppingBagIcon, current: false||isPath('/admin/sales/orders/*') },
       // { id: 6, name: t('admin.navigation.services'), visible: hasRole(['admin']), href: '/admin/services', icon: MegaphoneIcon, current: false||isPath('/admin/services/*') },

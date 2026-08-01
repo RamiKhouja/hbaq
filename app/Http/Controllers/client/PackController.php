@@ -5,6 +5,8 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Pack;
+use App\Models\Package;
+use App\Models\Product;
 
 class PackController extends Controller
 {
@@ -49,6 +51,27 @@ class PackController extends Controller
                 })
                 ->take(4)
                 ->get(),
+        ]);
+    }
+
+    public function build()
+    {
+        if (auth()->check() && auth()->user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return inertia('Client/BuildPack', [
+            'categories' => Category::whereNull('parent_id')->where('type', 'menu')->with('children')->get(),
+            'eventCategories' => Category::whereNull('parent_id')->where('type', 'event')->with('children')->get(),
+            'productCategories' => Category::where('type', 'menu')->orderBy('name->en')->get(['id', 'name']),
+            'products' => Product::where('stock', '>', 0)
+                ->with([
+                    'categories:id,name',
+                    'prices' => fn ($query) => $query->orderBy('min_qty'),
+                ])
+                ->orderBy('name->en')
+                ->get(),
+            'packages' => Package::where('is_active', true)->orderBy('price')->get(),
         ]);
     }
 }
