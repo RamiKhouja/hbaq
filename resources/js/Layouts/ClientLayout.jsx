@@ -326,7 +326,7 @@ export default function ClientLayout({ children, showMain, user, categories, eve
                     </Dropdown.Trigger>
                     {user
                     ? (
-                      <Dropdown.Content type={"profile"}>
+                      <Dropdown.Content>
                         <p className='text-base text-gray-800 font-semibold px-4 pt-2 pb-3'>
                           {user?.firstname} {user?.lastname}
                         </p>

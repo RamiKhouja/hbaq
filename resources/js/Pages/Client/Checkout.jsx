@@ -33,6 +33,7 @@ export default function Checkout({auth, user, categories, eventCategories}) {
   const [state, setState] = useState(user?.state || "Tunis");
   const [zip, setZip] = useState(user?.zip);
   const [message, setMessage] = useState();
+  const [isProcessingCash, setIsProcessingCash] = useState(false);
 
   //console.log(env.APP_URL)
 
@@ -141,13 +142,20 @@ export default function Checkout({auth, user, categories, eventCategories}) {
   }
 
   const payCash = async () => {
-    let orderResult = await createNewOrder('cash');
-    if (createOrder.fulfilled.match(orderResult)) {
-      dispatch(clearCart());
-      const orderId = orderResult.payload;
-      window.location.href = `/order/${orderId}?success=true`;
+    if (isProcessingCash) return;
+
+    setIsProcessingCash(true);
+
+    try {
+      const orderResult = await createNewOrder('cash');
+      if (createOrder.fulfilled.match(orderResult)) {
+        dispatch(clearCart());
+        const orderId = orderResult.payload;
+        window.location.href = `/order/${orderId}?success=true`;
+      }
+    } finally {
+      setIsProcessingCash(false);
     }
-    
   }
 
   return (
@@ -288,12 +296,21 @@ export default function Checkout({auth, user, categories, eventCategories}) {
               </div>
               <div>
                 <button 
-                  disabled={!addressValid}
+                  disabled={!addressValid || isProcessingCash}
                   className="inline-flex items-center gap-x-2 bg-primary border border-primary hover:bg-secondark hover:border-secondark text-white font-bold py-1 px-4 rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
                   onClick={()=>payCash()}
                 >
-                  <BanknotesIcon className='w-5 h-5' />
-                  {t('checkout.cash-on-delivery')}
+                  {isProcessingCash ? (
+                    <>
+                      <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" aria-hidden="true" />
+                      {t('checkout.processing')}
+                    </>
+                  ) : (
+                    <>
+                      <BanknotesIcon className='w-5 h-5' />
+                      {t('checkout.cash-on-delivery')}
+                    </>
+                  )}
                 </button>
               </div>
             </dl>
@@ -602,12 +619,21 @@ export default function Checkout({auth, user, categories, eventCategories}) {
         </form>
         <div className="flex flex-col gap-y-6 px-4 sm:px-10 md:max-w-lg md:w-full md:mx-auto md:px-0 items-center lg:hidden">
           <button 
-            disabled={!addressValid}
+            disabled={!addressValid || isProcessingCash}
             className="inline-flex items-center gap-x-2 justify-center bg-primary border border-primary hover:bg-brown-800 text-white font-bold py-2 w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={()=>payCash()}
           >
-            <BanknotesIcon className='w-5 h-5' />
-            {t('checkout.cash-on-delivery')}
+            {isProcessingCash ? (
+              <>
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" aria-hidden="true" />
+                {t('checkout.processing')}
+              </>
+            ) : (
+              <>
+                <BanknotesIcon className='w-5 h-5' />
+                {t('checkout.cash-on-delivery')}
+              </>
+            )}
           </button>
         </div>
       </div>

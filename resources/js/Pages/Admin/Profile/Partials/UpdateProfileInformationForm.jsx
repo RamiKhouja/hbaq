@@ -26,7 +26,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+                <h2 className="text-lg font-medium text-gray-900">Informations du profil</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
                     Update your account's profile information and email address.
@@ -35,7 +35,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="firstname" value="Firstname" />
+                    <InputLabel htmlFor="firstname" value="Prénom" />
 
                     <TextInput
                         id="firstname"
@@ -50,7 +50,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.firstname} />
                 </div>
                 <div>
-                    <InputLabel htmlFor="name" value="Lastname" />
+                    <InputLabel htmlFor="name" value="Nom" />
 
                     <TextInput
                         id="lastname"
@@ -105,7 +105,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>Enregistrer</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -114,7 +114,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">Saved.</p>
+                        <p className="text-sm text-gray-600">Enregistré.</p>
                     </Transition>
                 </div>
             </form>

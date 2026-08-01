@@ -47,7 +47,7 @@ export default function Index({contacts, auth}) {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">Contact Messages</h1>
+          <h1 className="text-base font-semibold leading-6 text-gray-900">Messages de contact</h1>
           <p className="mt-2 text-sm text-gray-500">
             List of messages
           </p>
@@ -76,7 +76,7 @@ export default function Index({contacts, auth}) {
                       Message
                     </th> 
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
-                      <span className="sr-only">Edit</span>
+                      <span className="sr-only">Modifier</span>
                     </th>
                   </tr>
                 </thead>
@@ -100,12 +100,12 @@ export default function Index({contacts, auth}) {
                       </td>
                       <td className="py-4 px-4 text-right text-sm font-medium flex gap-x-2 items-center">
                       <button 
-                          title='Request Details' className="text-gray-800 hover:text-brown-900"
+                          title='Détails de la demande' className="text-gray-800 hover:text-brown-900"
                           onClick={()=>handleShow(contact.message)}
                         >
                           <EyeIcon className='w-5 h-5'/>
                         </button>
-                        <button title="delete message" type="button" onClick={() => del(contact.id)} className="text-red-800 hover:text-brown-900">
+                        <button title="Supprimer le message" type="button" onClick={() => del(contact.id)} className="text-red-800 hover:text-brown-900">
                           <TrashIcon className='w-5 h-5'/>
                         </button>
                       </td>

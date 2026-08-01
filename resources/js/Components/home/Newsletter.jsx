@@ -1,14 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BuildingStorefrontIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
 function Newsletter() {
   const { t } = useTranslation();
+  const { auth } = usePage().props;
+  const user = auth?.user;
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
+    name: [user?.firstname, user?.lastname].filter(Boolean).join(' '),
+    email: user?.email || '',
+    phone: user?.phone || '',
     message: '',
   });
   const [status, setStatus] = useState({ type: '', message: '' });
@@ -174,9 +177,14 @@ function Newsletter() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-12 w-full rounded-xl bg-green-600 px-8 text-sm font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-8 text-sm font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
             >
-              {isSubmitting ? t('homepage.newsletter.form.sending') : t('homepage.newsletter.form.submit')}
+              {isSubmitting ? (
+                <>
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" aria-hidden="true" />
+                  {t('homepage.newsletter.form.sending')}
+                </>
+              ) : t('homepage.newsletter.form.submit')}
             </button>
           </div>
         </form>

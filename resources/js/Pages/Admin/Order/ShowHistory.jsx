@@ -41,11 +41,11 @@ export default function ShowHistory({open, setOpen, order, user}) {
               <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                 <div className="px-4 sm:px-6">
                   <div className="flex items-start justify-between">
-                    <DialogTitle className="text-lg font-semibold text-gray-900">Order Details</DialogTitle>
+                    <DialogTitle className="text-lg font-semibold text-gray-900">Détails de la commande</DialogTitle>
                     {order && order?.shipping_method==='delivery' && (
                       <div className="flex items-center gap-x-2">
                         <img src="/pictures/global/delivery.png" className='w-8 h-8' alt="" />
-                        <p className="font-medium text-brown-800 text-lg">Delivery</p>
+                        <p className="font-medium text-brown-800 text-lg">Livraison</p>
                       </div>
                     )}
                     <div className="ml-3 flex h-7 items-center">
@@ -55,7 +55,7 @@ export default function ShowHistory({open, setOpen, order, user}) {
                         className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brown-500 focus:ring-offset-2"
                       >
                         <span className="absolute -inset-2.5" />
-                        <span className="sr-only">Close panel</span>
+                        <span className="sr-only">Fermer le panneau</span>
                         <XMarkIcon aria-hidden="true" className="size-6" />
                       </button>
                     </div>
@@ -72,11 +72,11 @@ export default function ShowHistory({open, setOpen, order, user}) {
                       <div className='text-gray-900 text-sm'>
                         {order.payment_method == 'credit-card'
                         ? (<div className="flex items-center gap-x-2">
-                            <p>Payment by Credit Card</p>
+                            <p>Paiement par carte bancaire</p>
                             <CreditCardIcon className='w-5 h-5'/>
                           </div>)
                         : (<div className="flex items-center gap-x-2">
-                            <p>Payment in Cash</p>
+                            <p>Paiement en espèces</p>
                             <BanknotesIcon className='w-5 h-5'/>
                           </div>)
                         }
@@ -87,11 +87,11 @@ export default function ShowHistory({open, setOpen, order, user}) {
                     </div>
                     <div className="text-gray-900 flex flex-col justify-between gap-y-1 h-full flex-1"> {/* Second */}
                       <div className='flex gap-x-4 items-center justify-end'>
-                        <p>Subtotal</p>
+                        <p>Sous-total</p>
                         <p className='text-base font-semibold'>{order.subTotal} DT</p>
                       </div>
                       <div className='flex gap-x-4 items-center justify-end'>
-                        <p>Delivery</p>
+                        <p>Livraison</p>
                         <p className='text-base font-semibold'>{order.delivery??0} DT</p>
                       </div>
                       <div className='flex gap-x-4 items-center justify-end text-lg'>
@@ -121,9 +121,9 @@ export default function ShowHistory({open, setOpen, order, user}) {
                               <p className="text-gray-500 mt-1">{purchase.product.price} DT</p>
                               {purchase.product.type === 'custom_pack' && (
                                 <div className="mt-3 rounded-lg bg-gray-50 p-3 text-gray-700">
-                                  <p><strong>Package:</strong> {purchase.product.package?.name?.en}</p>
-                                  <p className="mt-1"><strong>Contents:</strong> {purchase.product.custom_products?.map((product) => `${product.quantity} × ${product.name?.en}`).join(', ')}</p>
-                                  {purchase.product.custom_message && <p className="mt-1"><strong>Pack message:</strong> “{purchase.product.custom_message}”</p>}
+                                  <p><strong>Emballage :</strong> {purchase.product.package?.name?.en}</p>
+                                  <p className="mt-1"><strong>Contenu :</strong> {purchase.product.custom_products?.map((product) => `${product.quantity} × ${product.name?.en}`).join(', ')}</p>
+                                  {purchase.product.custom_message && <p className="mt-1"><strong>Message du pack :</strong> “{purchase.product.custom_message}”</p>}
                                 </div>
                               )}
                             </div>
@@ -134,7 +134,7 @@ export default function ShowHistory({open, setOpen, order, user}) {
                   </div>
                   <div className="mb-4 text-gray-900 p-4 border border-dashed rounded-lg border-gray-900 grid lg:grid-cols-2 gap-4">
                     <div>
-                      <p className="text-lg">Customer Details</p>
+                      <p className="text-lg">Détails du client</p>
                       <p>{user?.firstname} {user?.lastname}</p>
                       <p className="text-gray-700">{user?.email}</p>
                       <p>{user?.phone}</p>

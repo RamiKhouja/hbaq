@@ -79,7 +79,7 @@ const CreateBrand = ({auth}) => {
               onChange={handleChange}
             />
             {submitted && brand.name=='' && (
-              <p className='text-xs text-red-500'>Brand name required</p>
+              <p className='text-xs text-red-500'>Le nom de la marque est obligatoire</p>
             )}
           </div>
         </div>
@@ -92,7 +92,7 @@ const CreateBrand = ({auth}) => {
               <img
                 id="image-preview"
                 src={brand.logo ? URL.createObjectURL(brand.logo) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>

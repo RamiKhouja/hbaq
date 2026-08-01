@@ -16,7 +16,7 @@ const CreateProduct = ({categories, auth}) => {
 
   const unitOptions = [
     { label: 'Kg', value: 'kg' },
-    { label: 'Piece', value: 'piece' },
+    { label: 'Pièce', value: 'piece' },
     { label: 'Pack', value: 'pack' },
   ];
   const [selectedUnit, setSelectedUnit] = useState(unitOptions[0]);
@@ -180,7 +180,7 @@ const CreateProduct = ({categories, auth}) => {
               <img
                 id="image-preview"
                 src={product.image ? URL.createObjectURL(product.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -201,7 +201,7 @@ const CreateProduct = ({categories, auth}) => {
               />
             </div>
             {submitted && !product.main_image && (
-              <p className='text-xs text-red-500 mt-1'>Please choose an image</p>
+              <p className='text-xs text-red-500 mt-1'>Veuillez choisir une image</p>
             )}
             {/* <input
               type="file"
@@ -221,12 +221,12 @@ const CreateProduct = ({categories, auth}) => {
                 name="name_en"
                 id="name_en"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Product name"
+                placeholder="Nom du produit"
                 value={product.name_en}
                 onChange={handleChange}
               />
               {submitted && product.name_en=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -246,7 +246,7 @@ const CreateProduct = ({categories, auth}) => {
                 onChange={handleChange}
               />
               {submitted && product.name_ar=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -265,7 +265,7 @@ const CreateProduct = ({categories, auth}) => {
                 onChange={handleChange}
               />
               {submitted && product.name_fr=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -343,7 +343,7 @@ const CreateProduct = ({categories, auth}) => {
                 rows={4}
                 name="description_en"
                 id="description_en"
-                placeholder='Fully describe the product.'
+                placeholder='Décrivez complètement le produit.'
                 value={product.description_en}
                 onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"

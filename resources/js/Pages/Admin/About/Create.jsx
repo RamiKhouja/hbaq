@@ -112,7 +112,7 @@ const CreateAbout = ({ auth, abt }) => {
   return (
     <AdminLayout user={auth?.user}>
       <div className="sm:flex-auto mb-8">
-        <h1 className="text-base font-semibold leading-6 text-gray-900">Fill in your about page</h1>
+        <h1 className="text-base font-semibold leading-6 text-gray-900">Remplissez votre page À propos</h1>
         <p className="mt-2 text-sm text-gray-700">
         These informations will appear in the about page as well as in the home page.
         </p>
@@ -149,7 +149,7 @@ const CreateAbout = ({ auth, abt }) => {
               <img
                 id="main-image-preview"
                 src={about.image ? URL.createObjectURL(about.image) : abt.image ? ('/'+abt.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -285,7 +285,7 @@ const CreateAbout = ({ auth, abt }) => {
                           : '/pictures/default.jpg'
                     }
 
-                    alt="Preview"
+                    alt="Aperçu"
                     className='w-32 rounded-lg'
                   />
                 </div>

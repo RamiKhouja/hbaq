@@ -150,6 +150,17 @@
     opacity: 1 !important;
 }
 
+.testimonials-swiper .swiper-pagination-bullet {
+    background: #2E7D32 !important;
+    opacity: 0.35 !important;
+}
+
+.testimonials-swiper .swiper-pagination-bullet-active,
+.testimonials-swiper .swiper-pagination-bullet:hover {
+    background: #2E7D32 !important;
+    opacity: 1 !important;
+}
+
 .home-section-title {
     @apply text-brown-800 lang-ar:font-hudhud lang-ar:text-3xl lang-ar:lg:text-5xl font-medium text-2xl lg:text-5xl;
 }

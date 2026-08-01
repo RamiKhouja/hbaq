@@ -25,7 +25,7 @@ export default function Index({ auth, packs }) {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">Packs</h1>
-            <p className="mt-2 text-sm text-gray-500">Manage gift packs and their included products.</p>
+            <p className="mt-2 text-sm text-gray-500">Gérez les packs cadeaux et les produits qu’ils contiennent.</p>
           </div>
           <div className="mt-4 sm:mt-0">
             <Link href="/admin/catalog/packs/create" className="block rounded-md bg-primary px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-brown-600">
@@ -39,11 +39,11 @@ export default function Index({ auth, packs }) {
             <thead className={lang === 'ar' ? 'text-right' : 'text-left'}>
               <tr>
                 <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Image</th>
-                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Name</th>
-                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Price</th>
+                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Nom</th>
+                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Prix</th>
                 <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Stock</th>
-                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Products</th>
-                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Featured</th>
+                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Produits</th>
+                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Mis en avant</th>
                 <th className="relative px-3 py-3.5"><span className="sr-only">Actions</span></th>
               </tr>
             </thead>
@@ -60,16 +60,16 @@ export default function Index({ auth, packs }) {
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{pack.stock}</td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{pack.products?.length || 0}</td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{pack.is_featured ? 'Yes' : 'No'}</td>
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{pack.is_featured ? 'Oui' : 'Non'}</td>
                   <td className="flex items-center gap-x-2 px-3 py-4 text-right text-sm font-medium">
-                    <Link title="View on site" href="/gift-packs" className="text-gray-800 hover:text-brown-900">
+                    <Link title="Voir sur le site" href="/gift-packs" className="text-gray-800 hover:text-brown-900">
                       <EyeIcon className="h-5 w-5" />
                     </Link>
-                    <Link title="Edit pack" href={`/admin/catalog/packs/edit/${pack.id}`} className="text-gray-800 hover:text-brown-900">
+                    <Link title="Modifier le pack" href={`/admin/catalog/packs/edit/${pack.id}`} className="text-gray-800 hover:text-brown-900">
                       <PencilSquareIcon className="h-5 w-5" />
                     </Link>
                     {auth?.user?.role === 'admin' && (
-                      <button title="Delete pack" type="button" onClick={() => deletePack(pack.id)} className="text-red-800 hover:text-brown-900">
+                      <button title="Supprimer le pack" type="button" onClick={() => deletePack(pack.id)} className="text-red-800 hover:text-brown-900">
                         <TrashIcon className="h-5 w-5" />
                       </button>
                     )}

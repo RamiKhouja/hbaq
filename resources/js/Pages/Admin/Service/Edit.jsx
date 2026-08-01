@@ -90,7 +90,7 @@ const EditService = ({serv, auth}) => {
                 name="name_en"
                 id="name_en"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Product name"
+                placeholder="Nom du produit"
                 value={service.name_en}
                 onChange={handleChange}
               />
@@ -160,7 +160,7 @@ const EditService = ({serv, auth}) => {
                 name="url"
                 id="url"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Product URL"
+                placeholder="URL du produit"
                 value={service.url}
                 onChange={handleChange}
               />
@@ -177,7 +177,7 @@ const EditService = ({serv, auth}) => {
               <img
                 id="image-preview"
                 src={service.image ? URL.createObjectURL(service.image) : serv.image ? ('/'+serv.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -197,7 +197,7 @@ const EditService = ({serv, auth}) => {
               rows={4}
               name="description_en"
               id="description_en"
-              placeholder='Fully describe the service.'
+              placeholder='Décrivez complètement le service.'
               value={service.description_en}
               onChange={handleChange}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"

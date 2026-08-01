@@ -50,16 +50,6 @@ export default function AdminLayout({ children, user }) {
     return () => clearInterval(interval);
   }, [dispatch]);
 
-  const changeLanguage = () => {
-    if(i18n.language==='en') {
-      localStorage.setItem('lang', 'ar');
-      i18n.changeLanguage('ar');
-    }else{
-      localStorage.setItem('lang', 'en');
-      i18n.changeLanguage('en');
-    }
-  }
-
   // useEffect(() => {
   //   if (previousOrderCountRef.current < orders.length) {
   //     setIsMuted(false);
@@ -76,6 +66,21 @@ export default function AdminLayout({ children, user }) {
 
   const { t, i18n } = useTranslation();
 
+  // The administration interface is available in French and Arabic only.
+  // Migrate the former English preference to French when entering the admin.
+  useEffect(() => {
+    if (i18n.language !== 'fr' && i18n.language !== 'ar') {
+      localStorage.setItem('lang', 'fr');
+      i18n.changeLanguage('fr');
+    }
+  }, [i18n]);
+
+  const changeLanguage = () => {
+    const language = i18n.language === 'ar' ? 'fr' : 'ar';
+    localStorage.setItem('lang', language);
+    i18n.changeLanguage(language);
+  }
+
   const hasRole = (roles) => {
     return roles.includes(user.role);
   };
@@ -86,8 +91,8 @@ export default function AdminLayout({ children, user }) {
       { id: 1, name: t('admin.navigation.team'), visible: hasRole(['admin']), href: '/admin/team/users', icon: UsersIcon, current: false||isPath('/admin/team/*'), open: false||isPath('/admin/team/*')},
       { id: 2, name: t('admin.navigation.categories'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/categories', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/categories/*') },
       { id: 3, name: t('admin.navigation.products'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/products', icon: TagIcon, current: false||isPath('/admin/catalog/products/*')},
-      { id: 10, name: 'Packs', visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packs', icon: GiftIcon, current: false||isPath('/admin/catalog/packs/*')},
-      { id: 12, name: 'Packages', visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packages', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/packages/*')},
+      { id: 10, name: t('admin.navigation.packs'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packs', icon: GiftIcon, current: false||isPath('/admin/catalog/packs/*')},
+      { id: 12, name: t('admin.navigation.packages'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packages', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/packages/*')},
       { id: 4, name: t('admin.navigation.customers'), visible: hasRole(['admin']), href: '/admin/clients/customers', icon: UserGroupIcon, current: false||isPath('/admin/clients/customers/*') },
       { id: 5, name: t('admin.navigation.orders'), visible: hasRole(['admin', 'staff', 'delivery']), href: '/admin/sales/orders', icon: ShoppingBagIcon, current: false||isPath('/admin/sales/orders/*') },
       // { id: 6, name: t('admin.navigation.services'), visible: hasRole(['admin']), href: '/admin/services', icon: MegaphoneIcon, current: false||isPath('/admin/services/*') },
@@ -390,7 +395,7 @@ export default function AdminLayout({ children, user }) {
                   onClick={()=>changeLanguage()}
                   className="-m-2.5 p-2.5 text-gray-600 hover:text-gray-500"
                 >
-                  <p>{i18n.language==='ar' ? ('English') : ('عربي')}</p>
+                  <p>{i18n.language === 'ar' ? 'Français' : 'العربية'}</p>
                 </button>
                 <button type="button" className="-m-2.5 p-2.5 text-gray-600 hover:text-gray-500">
                   <span className="sr-only">View notifications</span>

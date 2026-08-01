@@ -61,21 +61,21 @@ export default function Index({feedbacks, auth}) {
       );
     } catch (error) {
       console.error('Error toggling approval status:', error);
-      alert('There was an error updating the approval status.');
+      alert('Une erreur est survenue lors de la mise à jour du statut d’approbation.');
     }
   };
 
 
   return (
     <AdminLayout user={auth?.user}>
-      <Head title="Brands" />
+      <Head title="Marques" />
       <div className="px-4 sm:px-6 lg:px-8">
         {flash.success && isAlertVisible &&
         <div className="bg-green-100 rounded-lg text-green-800 px-4 py-3 shadow mb-3" role="alert">
           <div className="flex">
             <div className="py-1"><svg className="fill-current h-6 w-6 text-green-800 mx-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
             <div>
-              <p className="font-bold">Success!</p>
+              <p className="font-bold">Succès !</p>
               <p className="text-sm">{flash.success}</p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function Index({feedbacks, auth}) {
                     {t('admin.brand.list.message')}
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                      <span className="sr-only">Edit</span>
+                      <span className="sr-only">Modifier</span>
                     </th>
                   </tr>
                 </thead>
@@ -148,7 +148,7 @@ export default function Index({feedbacks, auth}) {
                             item.is_approved ? 'bg-primary' : 'bg-gray-200'
                           }`}
                         >
-                          <span className="sr-only">Toggle approval</span>
+                          <span className="sr-only">Changer l’approbation</span>
                           <span
                             aria-hidden="true"
                             className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
@@ -157,7 +157,7 @@ export default function Index({feedbacks, auth}) {
                           />
                         </Switch>
                         <button 
-                          title='Request Details' className="text-gray-800 hover:text-brown-900"
+                          title='Détails de la demande' className="text-gray-800 hover:text-brown-900"
                           onClick={()=>handleShow(item.message)}
                         >
                           <EyeIcon className='w-5 h-5'/>

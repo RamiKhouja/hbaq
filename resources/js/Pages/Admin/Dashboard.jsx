@@ -1,12 +1,12 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head } from '@inertiajs/react';
 const stats = [
-    { name: 'Revenue', value: '$405,091.00', change: '+4.75%', changeType: 'positive' },
-    { name: 'Overdue invoices', value: '$12,787.00', change: '+54.02%', changeType: 'negative' },
-    { name: 'Outstanding invoices', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
-    { name: 'Expenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
+    { name: 'Chiffre d’affaires', value: '$405,091.00', change: '+4.75%', changeType: 'positive' },
+    { name: 'Factures en retard', value: '$12,787.00', change: '+54.02%', changeType: 'negative' },
+    { name: 'Factures impayées', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
+    { name: 'Dépenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
   ]
-  
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
@@ -14,7 +14,7 @@ const stats = [
   export default function Dashboard({auth}) {
     return (
       <AdminLayout user={auth?.user}>
-        <Head title="Dashboard" />
+        <Head title="Tableau de bord" />
         <dl className="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
             <div

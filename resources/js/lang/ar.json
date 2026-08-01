@@ -346,6 +346,7 @@
         "view-history": "شوف طلباتك القديمة",
         "more-options": "خيارات أخرى",
         "cash-on-delivery": "خلّص كي يوصلك",
+        "processing": "جاري المعالجة...",
         "pay-credit-card": "خلّص بالكارطة",
         "delivery": "التوصيل",
         "only-to": "كان لتونس وأريانة",
@@ -468,6 +469,8 @@
           "catalog" : "الكاتالوج",
           "categories" : "الفئات",
           "products": "المنتجات",
+          "packs": "الباقات",
+          "packages": "العبوات",
           "brands": "الماركات",
           "inventory": "السلع",
           "attributes": "الميزات",
@@ -482,7 +485,12 @@
           "settings": "الإعدادات",
           "search": "البحث...",
           "logout": "الخروج",
-          "profile": "الملف الشخصي"
+          "profile": "الملف الشخصي",
+          "services": "الخدمات",
+          "requests": "الطلبات",
+          "messages": "الرسائل",
+          "about": "من نحن",
+          "testimonials": "آراء العملاء"
         },
         "product": {
           "list": {

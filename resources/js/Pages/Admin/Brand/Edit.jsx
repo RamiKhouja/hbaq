@@ -102,7 +102,7 @@ const EditBrand = ({brand, auth}) => {
               <img
                 id="image-preview"
                 src={data.logo ? URL.createObjectURL(data.logo) : ('/'+brand.logo)}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>

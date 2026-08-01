@@ -71,16 +71,16 @@ const UpdateUser = ({user, auth}) => {
     
     return (
         <AdminLayout user={auth?.user}>
-          <h1 className='mb-8 text-lg font-medium'>Edit User</h1>
+          <h1 className='mb-8 text-lg font-medium'>Modifier l’utilisateur</h1>
           <form onSubmit={handleFormSubmit}>
               <div className='mb-8'>
-                <InputLabel htmlFor="image" value="Picture" />
+                <InputLabel htmlFor="image" value="Photo" />
                 <div className="mt-2 flex items-center gap-x-3">
                     <div>
                     <img
                         id="image-preview"
                         src={updatedUser.image ? URL.createObjectURL(updatedUser.image) : user.picture ? ('/'+user.picture) : '/pictures/user.jpg'}
-                        alt="Preview"
+                        alt="Aperçu"
                         className='w-32 rounded-full h-32 object-cover'
                     />
                     </div>
@@ -105,7 +105,7 @@ const UpdateUser = ({user, auth}) => {
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div>
-                      <InputLabel htmlFor="name" value="First name" />
+                      <InputLabel htmlFor="name" value="Prénom" />
   
                       <TextInput
                           id="firstname"
@@ -122,7 +122,7 @@ const UpdateUser = ({user, auth}) => {
                   </div>
 
                   <div>
-                      <InputLabel htmlFor="name" value="Last name" />
+                      <InputLabel htmlFor="name" value="Nom" />
   
                       <TextInput
                           id="lastname"
@@ -166,11 +166,11 @@ const UpdateUser = ({user, auth}) => {
                           onChange={handleChange}
                           className='mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brown-600 sm:text-sm sm:leading-6'
                       >
-                          <option value='admin'>Admin</option>
+                          <option value='admin'>Administrateur</option>
                       </select>
                   </div>
                   <div>
-                      <InputLabel htmlFor="phone" value="Phone number" />
+                      <InputLabel htmlFor="phone" value="Numéro de téléphone" />
   
                       <TextInput
                           id="phone"
