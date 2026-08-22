@@ -20,7 +20,6 @@ class About extends Model
         'picture_2',
         'picture_3',
         'picture_4',
-        'picture_5',
     ];
 
     public $translatable = ['title', 'short_description', 'paragraph_1', 'paragraph_2'];
@@ -32,4 +31,3 @@ class About extends Model
         'paragraph_2' => 'json'
     ];
 }
-

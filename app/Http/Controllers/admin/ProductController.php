@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('categories', 'prices')->paginate(30);
+        $products = Product::with('categories', 'prices')->paginate(20);
         return inertia('Admin/Product/Index', [
             'products' => $products,
         ]);
@@ -55,7 +55,8 @@ class ProductController extends Controller
             'unit' => 'string',
             'stock' => 'nullable|numeric|min:0|max:99999999.99',
             'is_featured' => 'nullable|boolean',
-            'is_null' => 'nullable|boolean',
+            'is_new' => 'nullable|boolean',
+            'is_season' => 'nullable|boolean',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'product_prices' => 'required|array|min:1',
             'product_prices.*.price' => 'required|numeric|min:0|max:99999999.99',
@@ -86,6 +87,7 @@ class ProductController extends Controller
         $product->stock = $request->input('stock', 0);
         $product->is_new = $request->input('is_new');
         $product->is_featured = $request->input('is_featured');
+        $product->is_season = $request->input('is_season');
         $product->url = strtolower(str_replace(' ', '-', trim($request->input('name_en'))));
         if ($request->hasFile('main_image')) {
             $imagePath = $request->file('main_image')->storePublicly('pictures/products');
@@ -164,6 +166,7 @@ class ProductController extends Controller
 
             'is_featured' => 'nullable|boolean',
             'is_new' => 'nullable|boolean',
+            'is_season' => 'nullable|boolean',
 
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'product_prices' => 'required|array|min:1',
@@ -198,6 +201,7 @@ class ProductController extends Controller
 
         $product->is_featured = $request->input('is_featured');
         $product->is_new = $request->input('is_new');
+        $product->is_season = $request->input('is_season');
 
         /* ---------- URL ---------- */
         $product->url = strtolower(
@@ -397,6 +401,7 @@ class ProductController extends Controller
             $product->brand_id = intval($data[23]);
             $product->is_new = 0;
             $product->is_featured = 0;
+            $product->is_season = 0;
             $product->main_image = $images[0];
 
             $product->save();

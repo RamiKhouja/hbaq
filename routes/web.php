@@ -4,7 +4,10 @@ use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\CompanyGroupController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\PackCategoryController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\PackController as AdminPackController;
+use App\Http\Controllers\admin\PackageController as AdminPackageController;
 use App\Http\Controllers\admin\ProductPriceController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\CompanyController;
@@ -15,11 +18,13 @@ use App\Http\Controllers\admin\AttributeController;
 use App\Http\Controllers\admin\AdressController;
 use App\Http\Controllers\admin\ContactController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\HbaqSettingController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\RequestController;
 
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\client\ShopController;
+use App\Http\Controllers\client\PackController as ClientPackController;
 use App\Http\Controllers\client\ClientContactController;
 use App\Http\Controllers\client\ShowController;
 use App\Http\Controllers\client\CartController;
@@ -56,17 +61,23 @@ use Inertia\Inertia;
 Route::group([], function(){
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+    Route::get('/gift-packs', [ClientPackController::class, 'index'])->name('packs.index');
+    Route::get('/gift-packs/build-your-own', [ClientPackController::class, 'build'])->name('packs.build');
+    Route::get('/gift-packs/{url}', [ClientPackController::class, 'show'])->name('packs.show');
     Route::get('/search', [ShopController::class, 'search'])->name('search');
     Route::get('/menu', [ShopController::class, 'categories'])->name('shop.categories');
     Route::get('/menu/{url}', [ShopController::class, 'catprods'])->name('shop.catprods');
     Route::get('/occasion/{url}', [ShopController::class, 'eventprods'])->name('shop.eventprods');
     Route::get('/product/{url}', [ShowController::class, 'index'])->name('product.index');
-    Route::get('/contact',[ClientContactController::class,"create"])->name('contact.create');
+    Route::redirect('/contact', '/#contact')->name('contact.create');
     Route::post('/contact',[ClientContactController::class,"store"]);
     Route::get('/checkout', [CartController::class, "checkout"])->name('checkout');
     Route::get('/services', [ClientServiceController::class, 'list'])->name('services.index');
     Route::get('/service/{url}', [ClientServiceController::class, 'show'])->name('service.show');
     Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+    Route::get('/delivery-policy', fn () => Inertia::render('Client/Policy', ['policy' => 'delivery']))->name('policy.delivery');
+    Route::get('/privacy-policy', fn () => Inertia::render('Client/Policy', ['policy' => 'privacy']))->name('policy.privacy');
+    Route::get('/terms-and-conditions', fn () => Inertia::render('Client/Policy', ['policy' => 'terms']))->name('policy.terms');
     Route::get('/order/{order}',[CartController::class,"orderDetails"])->name('order.details');
     Route::get('/service/request/{request}',[ClientRequestController::class,"requestDetails"])->name('request.details');
 });
@@ -132,9 +143,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/about', [AboutController::class, 'create'])->name('about.create');
         //Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
         Route::post('/about', [AboutController::class, 'store'])->name('about.store');
+        Route::get('/hbaq-settings', [HbaqSettingController::class, 'edit'])->name('hbaq-settings.edit');
+        Route::post('/hbaq-settings', [HbaqSettingController::class, 'update'])->name('hbaq-settings.update');
         //Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
-
-        Route::get('/sales/orders/history',[OrderController::class, 'history'])->name('orders.history');
 
         Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
         Route::get('/company/create', [CompanyController::class, 'create'])->name('company.create');
@@ -148,7 +159,7 @@ Route::middleware('auth')->group(function () {
 
     Route::group([
         'prefix'=>'admin',
-        'middleware' => ['auth', 'has.role:admin,staff'],
+        'middleware' => ['auth', 'has.role:admin'],
         'as'=> 'admin.'
     ], function(){
 
@@ -160,6 +171,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/catalog/categories/edit/{category}', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::post('/catalog/categories/update/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/catalog/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.delete');
+
+        Route::get('/catalog/pack-categories', [PackCategoryController::class, 'index'])->name('pack-categories.index');
+        Route::get('/catalog/pack-categories/create', [PackCategoryController::class, 'create'])->name('pack-categories.create');
+        Route::post('/catalog/pack-categories', [PackCategoryController::class, 'store'])->name('pack-categories.store');
+        Route::get('/catalog/pack-categories/edit/{packCategory}', [PackCategoryController::class, 'edit'])->name('pack-categories.edit');
+        Route::post('/catalog/pack-categories/update/{packCategory}', [PackCategoryController::class, 'update'])->name('pack-categories.update');
+        Route::delete('/catalog/pack-categories/{packCategory}', [PackCategoryController::class, 'destroy'])->name('pack-categories.delete');
 
         Route::get('/catalog/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/catalog/products/show/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -174,6 +192,20 @@ Route::middleware('auth')->group(function () {
         //Route::post('/catalog/products/import', [ProductController::class, 'importOptions'])->name('products.import');
         Route::get('/catalog/products/update-urls', [ProductController::class, 'updateUrls'])->name('products.updateurls');
 
+        Route::get('/catalog/packs', [AdminPackController::class, 'index'])->name('packs.index');
+        Route::get('/catalog/packs/create', [AdminPackController::class, 'create'])->name('packs.create');
+        Route::post('/catalog/packs', [AdminPackController::class, 'store'])->name('packs.store');
+        Route::get('/catalog/packs/edit/{pack}', [AdminPackController::class, 'edit'])->name('packs.edit');
+        Route::post('/catalog/packs/update/{pack}', [AdminPackController::class, 'update'])->name('packs.update');
+        Route::delete('/catalog/packs/{pack}', [AdminPackController::class, 'destroy'])->name('packs.delete');
+
+        Route::get('/catalog/packages', [AdminPackageController::class, 'index'])->name('packages.index');
+        Route::get('/catalog/packages/create', [AdminPackageController::class, 'create'])->name('packages.create');
+        Route::post('/catalog/packages', [AdminPackageController::class, 'store'])->name('packages.store');
+        Route::get('/catalog/packages/edit/{package}', [AdminPackageController::class, 'edit'])->name('packages.edit');
+        Route::post('/catalog/packages/update/{package}', [AdminPackageController::class, 'update'])->name('packages.update');
+        Route::delete('/catalog/packages/{package}', [AdminPackageController::class, 'destroy'])->name('packages.delete');
+
         Route::get('/catalog/product-prices', [ProductPriceController::class, 'index'])->name('product-prices.index');
         Route::get('/catalog/product-prices/create', [ProductPriceController::class, 'create'])->name('product-prices.create');
         Route::post('/catalog/product-prices', [ProductPriceController::class, 'store'])->name('product-prices.store');
@@ -186,10 +218,11 @@ Route::middleware('auth')->group(function () {
 
     Route::group([
         'prefix'=>'admin',
-        'middleware' => ['auth', 'has.role:admin,staff,delivery'],
+        'middleware' => ['auth', 'has.role:admin'],
         'as'=> 'admin.'
     ], function(){
         Route::get('/sales/orders',[OrderController::class, 'index'])->name('orders.index');
+        Route::post('/sales/orders/{order}/bill',[OrderController::class, 'bill'])->name('orders.bill');
     });
 
     Route::group([], function(){
@@ -206,6 +239,7 @@ Route::middleware('auth')->group(function () {
         //Route::get('/orders',[CartController::class,"history"])->name('cart.checkout');
         //Route::get('/orders/download/{order}',[CartController::class,"downloadPDF"])->name('cart.download1');
         Route::get('/orders',[CartController::class,"history"])->name('orders.history');
+        Route::get('/orders/{order}/bill', [OrderController::class, 'clientBill'])->name('orders.bill');
         //Route::get('/product/price/{id}/{quantity}/{type}', [ShopController::class, "calculatePrice"])->name('product.price');
 
     })->middleware(['auth', 'verified']);

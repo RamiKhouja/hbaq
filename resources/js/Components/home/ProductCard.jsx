@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addItemToCart, showAlert } from '@/redux/cartSlice';
 
 const ProductBadge = ({ text, t }) => (
-  <span className={`rounded-full ${ text=== 'sale' ? 'bg-secondary' : text=== 'featured' ? 'bg-primary' : text=== 'new' ? 'bg-yellow-600' : '' } px-3 py-1 text-xs font-semibold text-white`}>
+  <span className={`rounded-full ${ text=== 'sale' ? 'bg-secondary' : text=== 'featured' ? 'bg-primary' : text=== 'season' ? 'bg-emerald-700' : text=== 'new' ? 'bg-yellow-600' : '' } px-3 py-1 text-xs font-semibold text-white`}>
     {t(`owl-products.${text}`)}
   </span>
 );
@@ -199,9 +199,10 @@ function ProductCard({ product }) {
     <div className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <div className="relative">
         <div className="absolute left-4 top-4 z-10">
-          <div className="flex items-center gap-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             {hasDiscount ? <ProductBadge text='sale' t={t} /> : <></>}
             {product.is_featured ? <ProductBadge text='featured' t={t} /> : <></>}
+            {product.is_season ? <ProductBadge text='season' t={t} /> : <></>}
             {product.is_new ? <ProductBadge text='new' t={t} /> : <></>}
           </div>
         </div>
@@ -221,9 +222,10 @@ function ProductCard({ product }) {
               type="button"
               onClick={() => setShowPrices(true)}
               title={t('homepage.product.price_popup.tooltip')}
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-green-50 text-green-700 hover:bg-green-100"
+              className="inline-flex p-1 items-center gap-x-2 justify-center rounded-full bg-green-50 text-green-700 hover:bg-green-100"
             >
               <Info className="h-4 w-4" />
+              <p className="text-xs">{t('homepage.product.price_popup.label')}</p>
             </button>
           )}
         </div>

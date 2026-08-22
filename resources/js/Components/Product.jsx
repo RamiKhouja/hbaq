@@ -51,7 +51,7 @@ function Product({product}) {
                 )}
                 </div>
                 <div className='absolute top-4 right-4 flex gap-x-2 items-center'>
-                {product.is_discount === 1 && (
+                {product.is_discount && (
                     <div className="bg-lime-800 rounded-xl px-2 py-0.5 shadow-lg">
                         <p className={`text-white font-semibold ${lang === 'ar' ? 'text-xl font-adobe': 'text-base'}`}>{t('owl-products.sale')}</p>
                     </div>

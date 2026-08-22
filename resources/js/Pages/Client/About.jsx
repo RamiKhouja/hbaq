@@ -1,137 +1,233 @@
-import Banner from '@/Components/Banner'
 import Contact from '@/Components/Contact'
-import Team from '@/Components/Team'
+import Newsletter from '@/Components/home/Newsletter'
 import ClientLayout from '@/Layouts/ClientLayout'
+import {
+  ArrowPathIcon,
+  BuildingStorefrontIcon,
+  CheckBadgeIcon,
+  ClockIcon,
+  ScaleIcon,
+  SparklesIcon,
+  TruckIcon,
+} from '@heroicons/react/24/outline'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function About({auth, about, users, categories, eventCategories}) {
-  const {t, i18n} = useTranslation();
+  const {i18n} = useTranslation();
   const lang = i18n.language;
+  const isArabic = lang === 'ar';
+
+  const localized = (value) => {
+    if (!value) return '';
+
+    try {
+      const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+      return parsed?.[lang] || parsed?.en || parsed?.fr || parsed?.ar || '';
+    } catch (error) {
+      return value;
+    }
+  };
+
+  const copy = {
+    badge: {
+      en: 'Fresh wholesale produce',
+      fr: 'Produits frais en gros',
+      ar: 'جملة خضروات وغلال طازجة',
+    },
+    heroNote: {
+      en: 'Built for restaurants, hotels, retailers, caterers, and professional kitchens that need consistent fresh fruits and vegetables at scale.',
+      fr: 'Pensé pour les restaurants, hôtels, détaillants, traiteurs et cuisines professionnelles qui ont besoin de fruits et légumes frais en volume.',
+      ar: 'مخصص للمطاعم والنزل والمتاجر والمطابخ المهنية التي تحتاج إلى خضروات وغلال طازجة بكميات ثابتة.',
+    },
+    stats: [
+      { value: '05', label: { en: 'produce families', fr: 'familles de produits', ar: 'عائلات منتجات' } },
+      { value: '24h', label: { en: 'fresh order flow', fr: 'cycle de commande frais', ar: 'دورة طلبات طازجة' } },
+      { value: 'B2B', label: { en: 'wholesale supply', fr: 'approvisionnement pro', ar: 'توريد بالجملة' } },
+    ],
+    pillarsTitle: {
+      en: 'Wholesale service made for daily produce needs',
+      fr: 'Un service de gros adapte aux besoins quotidiens',
+      ar: 'خدمة جملة مصممة للاحتياجات اليومية',
+    },
+    pillars: [
+      {
+        icon: BuildingStorefrontIcon,
+        title: { en: 'Market-grade selection', fr: 'Selection qualite marche', ar: 'اختيار بجودة السوق' },
+        text: {
+          en: 'Seasonal fruits, vegetables, herbs, and essentials selected for kitchens that buy regularly.',
+          fr: 'Fruits, legumes, herbes et essentiels de saison pour les cuisines qui achetent regulierement.',
+          ar: 'غلال وخضروات وأعشاب ومستلزمات موسمية مختارة للمطابخ التي تشتري بانتظام.',
+        },
+      },
+      {
+        icon: ScaleIcon,
+        title: { en: 'Flexible wholesale quantities', fr: 'Quantites de gros flexibles', ar: 'كميات جملة مرنة' },
+        text: {
+          en: 'Order by case, kilo, pack, or recurring need without losing control of quality or budget.',
+          fr: 'Commandez par caisse, kilo, pack ou besoin recurrent sans perdre le controle de la qualite ou du budget.',
+          ar: 'اطلب بالصندوق أو الكيلو أو الحزمة أو حسب الحاجة المتكررة مع الحفاظ على الجودة والميزانية.',
+        },
+      },
+      {
+        icon: TruckIcon,
+        title: { en: 'Reliable delivery rhythm', fr: 'Rythme de livraison fiable', ar: 'نسق توصيل موثوق' },
+        text: {
+          en: 'A supply flow designed to keep shelves, prep stations, and service lines ready.',
+          fr: 'Un flux d approvisionnement concu pour garder les rayons, postes de preparation et services prets.',
+          ar: 'تدفق توريد يحافظ على جاهزية الرفوف ومحطات التحضير وخطوط الخدمة.',
+        },
+      },
+    ],
+    process: [
+      { icon: SparklesIcon, label: { en: 'Source fresh', fr: 'Sourcer frais', ar: 'توريد طازج' } },
+      { icon: CheckBadgeIcon, label: { en: 'Check quality', fr: 'Controler la qualite', ar: 'فحص الجودة' } },
+      { icon: ArrowPathIcon, label: { en: 'Prepare orders', fr: 'Preparer les commandes', ar: 'تحضير الطلبات' } },
+      { icon: ClockIcon, label: { en: 'Deliver on rhythm', fr: 'Livrer au bon rythme', ar: 'توصيل منتظم' } },
+    ],
+  };
+
+  const tr = (value) => value?.[lang] || value?.en || value?.fr || value?.ar || '';
+  const images = [about?.picture_1, about?.picture_2, about?.picture_3, about?.picture_4]
+    .map((picture) => picture ? `/${picture}` : '/pictures/default.jpg');
+
   return (
     <ClientLayout user={auth?.user} categories={categories} eventCategories={eventCategories} noLimits={true}>
-    <div>
-        {/* Hero Section */}
-        <div className="relative isolate -z-10" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <svg
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-brown-100 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
-          >
-            <defs>
-              <pattern
-                x="50%"
-                y={-1}
-                id="1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84"
-                width={200}
-                height={200}
-                patternUnits="userSpaceOnUse"
-              >
-                <path d="M.5 200V.5H200" fill="none" />
-              </pattern>
-            </defs>
-            <svg x="50%" y={-1} className="overflow-visible fill-gray-50">
-              <path
-                d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
-                strokeWidth={0}
-              />
-            </svg>
-            <rect fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)" width="100%" height="100%" strokeWidth={0} />
-          </svg>
-          <div
-            aria-hidden="true"
-            className={`absolute ${lang=='ar'?'right-1/2 left-0 lg:mr-24 xl:mr-48' : 'left-1/2 right-0 lg:ml-24 xl:ml-48'} top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl`}
-          >
-            <div
-              style={{
-                clipPath:
-                  'polygon(63.1% 29.5%, 100% 17.1%, 76.6% 3%, 48.4% 0%, 44.6% 4.7%, 54.5% 25.3%, 59.8% 49%, 55.2% 57.8%, 44.4% 57.2%, 27.8% 47.9%, 35.1% 81.5%, 0% 97.7%, 39.2% 100%, 35.2% 81.4%, 97.2% 52.8%, 63.1% 29.5%)',
-              }}
-              className="aspect-[801/1036] w-[50.0625rem] bg-gradient-to-tr from-brown-200 to-rose-900 opacity-20 lang-ar:-translate-x-1/2"
-            />
-          </div>
-          <div className="overflow-hidden">
-            <div className="mx-auto max-w-7xl px-6 pb-16 pt-16 sm:pt-28 lg:px-8 lg:pt-4">
-              <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
-                <div className="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl">
-                  <h1 className="text-pretty leading-snug lg:leading-normal lg:-mt-48 text-2xl tracking-normal text-brown-800 sm:text-4xl lang-ar:font-hudhud">
-                    {lang === 'en' ? JSON.parse(about.title)?.en : lang==='fr' ? JSON.parse(about.title)?.fr : JSON.parse(about.title)?.ar}
-                  </h1>
-                  <p className="mt-2 text-pretty text-lg lang-ar:text-xl font-medium text-brown-800 sm:max-w-md sm:text-xl/8 lang-ar:sm:text-3xl lg:max-w-none">
-                    {lang === 'en' ? JSON.parse(about.paragraph_1)?.en : lang==='fr' ? JSON.parse(about.paragraph_1)?.fr : JSON.parse(about.paragraph_1)?.ar}
-                  </p>
+      <main className="min-h-screen bg-[#f7f9f2] text-slate-800" dir={isArabic ? 'rtl' : 'ltr'}>
+        <section className="relative isolate overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#eff7df] via-[#f7f9f2] to-[#fff4df]" />
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 md:py-14 lg:grid-cols-2 lg:items-start lg:gap-12 lg:px-8 lg:py-16 xl:max-w-screen-2xl">
+            <div className="max-w-3xl lg:pt-4">
+              <span className="inline-flex rounded-full border border-green-200 bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-green-700 shadow-sm sm:px-4 sm:text-xs">
+                {tr(copy.badge)}
+              </span>
+              <h1 className={`mt-6 max-w-2xl text-3xl font-extrabold leading-tight text-slate-900 sm:text-5xl lg:text-6xl ${isArabic ? 'font-hudhud font-medium lg:text-7xl' : ''}`}>
+                {localized(about?.title)}
+              </h1>
+              <p className={`mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg ${isArabic ? 'text-2xl sm:text-3xl' : ''}`}>
+                {localized(about?.paragraph_1)}
+              </p>
+              <p className={`mt-4 max-w-2xl text-sm leading-7 text-slate-600 md:text-base ${isArabic ? 'text-xl' : ''}`}>
+                {tr(copy.heroNote)}
+              </p>
+              <div className="mt-10 grid max-w-xl grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3">
+                {copy.stats.map((item) => (
+                  <div key={item.value} className="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm">
+                    <p className="text-2xl font-bold text-slate-900">{item.value}</p>
+                    <p className={`mt-1 text-sm font-medium text-slate-600 ${isArabic ? 'text-base' : ''}`}>{tr(item.label)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:hidden">
+                {images.map((image, index) => (
+                  <div key={image + index} className="overflow-hidden rounded-2xl border border-white/70 bg-white p-2 shadow-xl">
+                    <img src={image} alt="" className="aspect-[4/3] w-full rounded-xl object-cover" />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 hidden justify-end gap-5 overflow-hidden sm:flex sm:gap-4 lg:mt-0">
+                <div className="ml-auto w-36 flex-none space-y-5 pt-24 sm:ml-0 sm:w-44 sm:space-y-8 sm:pt-48 lg:order-last lg:pt-24 xl:order-none xl:pt-44">
+                  <div className="overflow-hidden rounded-[1.5rem] border border-white/70 bg-white p-2 shadow-xl">
+                    <img src={images[0]} alt="" className="aspect-[2/3] w-full rounded-[1rem] object-cover" />
+                  </div>
                 </div>
-                <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
-                  <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
-                    <div className="relative">
-                      <img
-                        alt=""
-                        src={about.picture_1 ? '/' + about.picture_1 : '/pictures/default.jpg'}
-                        // src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                      />
-                      <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
+                <div className="mr-auto w-36 flex-none space-y-5 sm:mr-0 sm:w-44 sm:space-y-8 sm:pt-32 lg:pt-20">
+                  <div className="overflow-hidden rounded-[1.5rem] border border-white/70 bg-white p-2 shadow-xl">
+                    <img src={images[1]} alt="" className="aspect-[2/3] w-full rounded-[1rem] object-cover" />
                   </div>
-                  <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
-                    <div className="relative">
-                      <img
-                        alt=""
-                        src={about.picture_2 ? '/' + about.picture_2 : '/pictures/default.jpg'}
-                        // src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                      />
-                      <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
-                    <div className="relative">
-                      <img
-                        alt=""
-                        src={about.picture_3 ? '/' + about.picture_3 : '/pictures/default.jpg'}
-                        // src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=396&h=528&q=80"
-                        className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                      />
-                      <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
+                  <div className="overflow-hidden rounded-[1.5rem] border border-white/70 bg-white p-2 shadow-xl">
+                    <img src={images[2]} alt="" className="aspect-[2/3] w-full rounded-[1rem] object-cover" />
                   </div>
-                  <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
-                    <div className="relative">
-                      <img
-                        alt=""
-                        src={about.picture_4 ? '/' + about.picture_4 : '/pictures/default.jpg'}
-                        // src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=left&w=400&h=528&q=80"
-                        className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                      />
-                      <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
-                    <div className="relative">
-                      <img
-                        alt=""
-                        src={about.picture_5 ? '/' + about.picture_5 : '/pictures/default.jpg'}
-                        // src="https://images.unsplash.com/photo-1670272505284-8faba1c31f7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
-                        className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                      />
-                      <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
+                </div>
+                <div className="w-36 flex-none space-y-5 pt-16 sm:w-44 sm:space-y-8 sm:pt-0">
+                  <div className="overflow-hidden rounded-[1.5rem] border border-white/70 bg-white p-2 shadow-xl">
+                    <img src={images[3]} alt="" className="aspect-[2/3] w-full rounded-[1rem] object-cover" />
                   </div>
                 </div>
               </div>
-              <div className="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl mt-20 lg:-mt-48">
-                <h1 className="text-pretty leading-snug lg:leading-normal  text-2xl tracking-normal text-brown-800 sm:text-4xl lang-ar:font-hudhud">
-                  {lang === 'en' ? JSON.parse(about.title_2)?.en : lang==='fr' ? JSON.parse(about.title_2)?.fr : JSON.parse(about.title_2)?.ar}
-                </h1>
-                <p className="mt-2 text-pretty text-lg lang-ar:text-xl font-medium text-brown-800 sm:max-w-md sm:text-xl/8 lang-ar:sm:text-3xl lg:max-w-none">
-                  {lang === 'en' ? JSON.parse(about.paragraph_2)?.en : lang==='fr' ? JSON.parse(about.paragraph_2)?.fr : JSON.parse(about.paragraph_2)?.ar}
-                </p>
+              <div className="mt-4 rounded-3xl bg-white p-4 shadow-xl sm:absolute sm:-bottom-5 sm:left-10 sm:mt-0 sm:p-5">
+                <p className="text-sm font-semibold text-slate-900">{tr(copy.badge)}</p>
+                <p className="mt-1 text-xl font-bold text-green-700 sm:text-2xl">B2B</p>
+                <p className="text-sm text-slate-500">{tr(copy.stats[2].label)}</p>
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="bg-white py-12 sm:py-16">
+          <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8 xl:max-w-screen-2xl">
+            <div className="flex flex-col justify-center">
+              <span className="inline-flex w-fit rounded-full bg-green-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
+                {tr(copy.pillarsTitle)}
+              </span>
+              <h2 className={`mt-6 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl md:text-4xl ${isArabic ? 'font-hudhud font-medium md:text-5xl' : ''}`}>
+                {localized(about?.title_2)}
+              </h2>
+              <p className={`mt-5 text-sm leading-8 text-slate-600 md:text-base ${isArabic ? 'text-xl md:text-2xl' : ''}`}>
+                {localized(about?.paragraph_2)}
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {copy.process.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <div key={tr(item.label)} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-100 text-green-700">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <p className={`text-lg font-semibold text-slate-900 ${isArabic ? 'text-xl' : ''}`}>{tr(item.label)}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 xl:max-w-screen-2xl">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-green-700 to-emerald-500 p-6 text-white shadow-xl sm:p-8 md:p-12">
+              <span className="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em]">
+                {tr(copy.badge)}
+              </span>
+              <h2 className={`mt-6 text-2xl font-bold leading-tight sm:text-3xl md:text-4xl ${isArabic ? 'font-hudhud font-medium md:text-5xl' : ''}`}>
+                {tr(copy.pillarsTitle)}
+              </h2>
+              <p className={`mt-4 max-w-2xl text-sm leading-8 text-green-50 md:text-base ${isArabic ? 'text-xl' : ''}`}>
+                {tr(copy.heroNote)}
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              {copy.pillars.map((pillar) => {
+                const Icon = pillar.icon;
+
+                return (
+                  <div key={tr(pillar.title)} className="flex items-start gap-3 border-b border-slate-100 py-5 last:border-b-0 last:pb-0 first:pt-0">
+                    <div className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className={`font-bold text-slate-900 ${isArabic ? 'text-xl' : ''}`}>{tr(pillar.title)}</h3>
+                      <p className={`mt-1 text-sm leading-7 text-slate-600 ${isArabic ? 'text-lg' : ''}`}>{tr(pillar.text)}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <div className="mx-auto my-20 max-w-7xl px-4 sm:px-6 lg:px-8 xl:max-w-screen-2xl">
+          {/* <Contact /> */}
+          <Newsletter />
         </div>
-        {/* End of Hero Section */}
-        {/* <Banner /> */}
-        {/* <Team users={users} /> */}
-        <div className='mx-auto mb-28 sm:px-6 lg:px-8 max-w-7xl'>
-            <Contact />
-        </div>
-    </div>
+      </main>
     </ClientLayout>
   )
 }

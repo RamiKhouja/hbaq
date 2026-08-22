@@ -7,7 +7,7 @@ import { router, usePage } from '@inertiajs/react';
 import { useDispatch, useSelector } from 'react-redux'
 import { MinusCircleIcon, PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { clearCart, removeItemFromCart, updateQuantity } from '@/redux/cartSlice'
-import { ChevronDownIcon, ChevronUpIcon, BanknotesIcon, CreditCardIcon } from '@heroicons/react/24/solid'
+import { ChevronDownIcon, ChevronUpIcon, BanknotesIcon } from '@heroicons/react/24/solid'
 import axios from 'axios'
 import { createOrder } from '@/redux/orderSlice'
 
@@ -20,20 +20,21 @@ export default function Checkout({auth, user, categories, eventCategories}) {
   const lang= i18n.language;
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const [isDelivery, setIsDelivery] = useState(true)
-  const [deliveryCost, setDeliveryCost] = useState(5)
-  const [cutlery, setCutlery] = useState(true);
+  const isDelivery = true;
+  const deliveryCost = 5;
+  const [payWithMealVoucher, setPayWithMealVoucher] = useState(false);
+  const companyAddress = user?.company?.addresses?.[0];
   const [firstname, setFirstname] = useState(user?.firstname);
   const [lastname, setLastname] = useState(user?.lastname);
   const [email, setEmail] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone);
-  const [address1, setAddress1] = useState(user?.address);
-  const [address2, setAddress2] = useState(user?.address_2);
-  const [city, setCity] = useState(user?.city);
-  const [state, setState] = useState(user?.state || "Tunis");
-  const [zip, setZip] = useState(user?.zip);
+  const [address1, setAddress1] = useState(companyAddress?.address_1 ?? user?.address ?? '');
+  const [address2, setAddress2] = useState(companyAddress?.address_2 ?? user?.address_2 ?? '');
+  const [city, setCity] = useState(companyAddress?.city ?? user?.city ?? '');
+  const [state, setState] = useState(companyAddress?.state ?? user?.state ?? "Tunis");
+  const [zip, setZip] = useState(companyAddress?.zip ?? user?.zip ?? '');
   const [message, setMessage] = useState();
-  const [paymentRef, setPaymentRef] = useState();
+  const [isProcessingCash, setIsProcessingCash] = useState(false);
 
   //console.log(env.APP_URL)
 
@@ -66,11 +67,11 @@ export default function Checkout({auth, user, categories, eventCategories}) {
   const normalize = (value) => Math.round((Number(value) + Number.EPSILON) * 10) / 10;
 
   const handleUpdateQuantity = (product, quantity) => {
-    dispatch(updateQuantity({ productId: product.id, quantity: normalize(quantity) }));
+    dispatch(updateQuantity({ productId: product.cart_key || product.id, quantity: normalize(quantity) }));
   };
 
   const handleRemoveItem = (product) => {
-    dispatch(removeItemFromCart(product.id));
+    dispatch(removeItemFromCart(product.cart_key || product.id));
   };
 
   const calculateSubTotal = () => {
@@ -95,55 +96,6 @@ export default function Checkout({auth, user, categories, eventCategories}) {
   useEffect(()=> {
     calculateTotal();
   },[subTotal, deliveryCost])
-
-  const handleDelivery = (state) => {
-    setIsDelivery(state)
-    state ? setDeliveryCost(5) : setDeliveryCost(0);
-  }
-
-  const handleCardPay = async () =>  {
-    let orderResult = await createNewOrder('credit-card');
-    if (createOrder.fulfilled.match(orderResult)) {
-      const orderId = orderResult.payload;
-      const data = {
-        "receiverWalletId": "65626489757f299608eb5265",
-        //"receiverWalletId": "65622c4c1d81aef420ee5e93", //sandbox
-        "token": "TND",
-        "amount": total*1000,
-        "type": "immediate",
-        "description": "payment description",
-        "acceptedPaymentMethods": [
-          "bank_card"
-        ],
-        "lifespan": 20,
-        "checkoutForm": false,
-        "addPaymentFeesToAmount": false,
-        "firstName": firstname,
-        "lastName": lastname??'',
-        "phoneNumber": phone,
-        "email": email,
-        "orderId": orderId.toString(),
-        "webhook": "https://merchant.tech/api/notification_payment",
-        "silentWebhook": true,
-        "successUrl": `http://localhost:8000/api/payment-response/${orderId}`,
-        "failUrl": `http://localhost:8000/api/payment-response/${orderId}`,
-        //"failUrl": "https://gateway.konnect.network/payment-failure",
-        "theme": "light"
-      }
-      axios.post("https://api.konnect.network/api/v2/payments/init-payment", data, {
-        headers: {
-          'x-api-key': '65626489757f299608eb525f:UrkKzvLwuFiOS2lfbHysCckZRsJ5D8cK'
-          //'x-api-key': '65622c4c1d81aef420ee5e8f:PX3zr7Y1atwGJuJ0fXvV' // sandbox
-        }
-      }).then(res => {
-        setPaymentRef(res.data.paymentRef);
-        window.location.assign(res.data.payUrl);
-      })
-
-    } else {
-      return orderResult.payload;
-    }
-  }
 
   const createProfile = async () => {
     const profile = {
@@ -179,29 +131,37 @@ export default function Checkout({auth, user, categories, eventCategories}) {
       'purchases': cart, 
       'delivery': deliveryCost,
       'message': message,
-      'cutlery': cutlery,
+      'cutlery': payWithMealVoucher,
       'deliveryman_id': null,
       'profile_id': user ? null : profId,
       'payment_method': payment_method,
-      'shipping_method': isDelivery ? 'delivery' : 'store'
+      'shipping_method': 'delivery',
+      'language': ['en', 'fr', 'ar'].includes(lang) ? lang : 'fr'
     }
 
     return dispatch(createOrder(order));
   }
 
   const payCash = async () => {
-    let orderResult = await createNewOrder('cash');
-    if (createOrder.fulfilled.match(orderResult)) {
-      dispatch(clearCart());
-      const orderId = orderResult.payload;
-      window.location.href = `/order/${orderId}?success=true`;
+    if (isProcessingCash) return;
+
+    setIsProcessingCash(true);
+
+    try {
+      const orderResult = await createNewOrder('cash');
+      if (createOrder.fulfilled.match(orderResult)) {
+        dispatch(clearCart());
+        const orderId = orderResult.payload;
+        window.location.href = `/order/${orderId}?success=true`;
+      }
+    } finally {
+      setIsProcessingCash(false);
     }
-    
   }
 
   return (
     <ClientLayout user={auth?.user} categories={categories} eventCategories={eventCategories}>
-    <div dir={lang==='ar'?'rtl':'ltr'}>
+    <div dir={lang==='ar'?'rtl':'ltr'} className="md:mt-16">
       {/* Background color split screen for large screens */}
       {/* <div className="fixed left-0 top-0 hidden h-full w-1/2 bg-white lg:block" aria-hidden="true" />
       <div className="fixed right-0 top-0 hidden h-full w-1/2 bg-gray-50 lg:block" aria-hidden="true" /> */}
@@ -220,7 +180,7 @@ export default function Checkout({auth, user, categories, eventCategories}) {
 
             <ul role="list" className="divide-y divide-brown-300 text-sm lang-ar:text-xl font-semibold  lang-ar:font-medium text-gray-900">
               {cart?.map((item) => (
-                <li key={item.product.id} className="flex py-6">
+                <li key={item.product.cart_key || item.product.id} className="flex py-6">
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md">
                   <img
                    
@@ -235,7 +195,7 @@ export default function Checkout({auth, user, categories, eventCategories}) {
                     <div className="flex justify-between items-center text-base lang-ar:text-2xl lg:text-lg lang-ar:lg:text-3xl font-semibold lang-ar:font-medium text-brown-800">
                       <h3>
                  
-                        <a href={`/product/${item.product.url}`} target='_blank'>
+                        <a href={item.product.url ? `/product/${item.product.url}` : undefined} target={item.product.url ? '_blank' : undefined}>
                           {lang=='ar' ? item.product.name.ar : item.product.name.en}
                         </a>
                       </h3>
@@ -259,6 +219,13 @@ export default function Checkout({auth, user, categories, eventCategories}) {
                           {parseFloat(item.product.price)} {t('product.tnd')}
                           {item.product.unit !== 'pack' && (<span className='text-brown-800 font-medium'> ({t(`product.${item.product.unit}`)})</span>)}
                       </h3>
+                    )}
+                    {item.product.type === 'custom_pack' && (
+                      <div className="mt-3 rounded-lg bg-gray-50 p-3 text-xs font-medium text-gray-600">
+                        <p className="font-bold text-brown-800">{item.product.package?.name?.[lang] || item.product.package?.name?.en}</p>
+                        <p className="mt-1">{item.product.custom_products?.map((product) => `${product.quantity} × ${product.name?.[lang] || product.name?.en}`).join(', ')}</p>
+                        {item.product.custom_message && <p className="mt-2 italic">“{item.product.custom_message}”</p>}
+                      </div>
                     )}
                   </div>
                   <div className="flex items-center justify-between mt-3">
@@ -328,22 +295,23 @@ export default function Checkout({auth, user, categories, eventCategories}) {
                 <dt className="text-base lang-ar:text-2xl">{t('checkout.total')}</dt>
                 <dd className="text-base lang-ar:text-2xl">{total} {t('checkout.tnd')}</dd>
               </div>
-              <div className="flex gap-x-8">
+              <div>
                 <button 
-                  disabled={!addressValid}
-                  className="inline-flex items-center gap-x-2 bg-primary border border-primary hover:bg-brown-800 text-white font-bold py-1 px-4 rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                  disabled={!addressValid || isProcessingCash}
+                  className="inline-flex items-center gap-x-2 bg-primary border border-primary hover:bg-secondark hover:border-secondark text-white font-bold py-1 px-4 rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
                   onClick={()=>payCash()}
                 >
-                  <BanknotesIcon className='w-5 h-5' />
-                  {t('checkout.cash-on-delivery')}
-                </button>
-                <button 
-                  disabled={!addressValid}
-                  className="inline-flex items-center gap-x-2 bg-white border border-primary hover:bg-primary hover:border-primary hover:text-white text-primary font-bold py-1 px-4 rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
-                  onClick={()=>handleCardPay()}
-                >
-                  <CreditCardIcon className='w-5 h-5' />
-                {t('checkout.pay-credit-card')}
+                  {isProcessingCash ? (
+                    <>
+                      <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" aria-hidden="true" />
+                      {t('checkout.processing')}
+                    </>
+                  ) : (
+                    <>
+                      <BanknotesIcon className='w-5 h-5' />
+                      {t('checkout.cash-on-delivery')}
+                    </>
+                  )}
                 </button>
               </div>
             </dl>
@@ -483,31 +451,12 @@ export default function Checkout({auth, user, categories, eventCategories}) {
                 </div>
               </div>
 
-              <div className="mt-8 space-y-6 sm:flex sm:items-center sm:gap-x-10 sm:space-y-0">
+              <div className="mt-8">
                   <div className="flex items-center gap-x-3">
-                    <input
-                      id="store"
-                      name="delivery"
-                      type="radio"
-                      onChange={()=>handleDelivery(false)}
-                      className="relative size-4 appearance-none rounded-full border border-brown-500 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-primary checked:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:border-brown-500 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
-                    />
-                    <label htmlFor={"store"} className="block text-sm lang-ar:text-xl/6 font-medium text-gray-900">
-                    {t('checkout.store-pickup')}
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-x-3">
-                    <input
-                      defaultChecked
-                      id="delivery"
-                      name="delivery"
-                      type="radio"
-                      onChange={()=>handleDelivery(true)}
-                      className="relative size-4 appearance-none rounded-full border border-brown-500 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-primary checked:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:border-brown-500 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
-                    />
-                    <label htmlFor={"delivery"} className="block text-sm lang-ar:text-2xl font-medium text-gray-900">
+                    <BanknotesIcon className="h-5 w-5 text-primary" />
+                    <p className="block text-sm lang-ar:text-2xl font-medium text-gray-900">
                     {t('checkout.delivery')} <span className='font-light text-brown-800 text-sm lang-ar:text-base'>({t('checkout.grand-tunis')})</span>
-                    </label>
+                    </p>
                   </div>
               </div>
             </section>
@@ -627,25 +576,25 @@ export default function Checkout({auth, user, categories, eventCategories}) {
             )}
            
             <section aria-labelledby="shipping-heading" className="mt-10">
-              <h2 id="shipping-heading" className="text-lg lg:text-xl lang-ar:lg:text-4xl font-medium text-gray-900">
+              {/* <h2 id="shipping-heading" className="text-lg lg:text-xl lang-ar:lg:text-4xl font-medium text-gray-900">
               {t('checkout.more-options')}
-              </h2>
+              </h2> */}
               <div className="flex gap-3 mt-2">
                 <div className="flex h-6 shrink-0 items-center">
                   <div className="group grid size-4 grid-cols-1">
                     <input
-                      id="cutlery"
-                      name="cutlery"
+                      id="meal-voucher"
+                      name="meal-voucher"
                       type="checkbox"
-                      checked={cutlery}
-                      onChange={()=>setCutlery(!cutlery)}
+                      checked={payWithMealVoucher}
+                      onChange={(event)=>setPayWithMealVoucher(event.target.checked)}
                       className="col-start-1 row-start-1 appearance-none rounded border border-brown-500 bg-white checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:border-brown-500 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
                     />
                   </div>
                 </div>
                 <div className="text-sm lang-ar:text-xl/6">
-                  <label htmlFor="comments" className="font-medium text-gray-900">
-                    {t('checkout.need-cutlery')}
+                  <label htmlFor="meal-voucher" className="font-medium text-gray-900">
+                    {t('checkout.pay-meal-voucher')}
                   </label>
                 </div>
               </div>
@@ -671,20 +620,21 @@ export default function Checkout({auth, user, categories, eventCategories}) {
         </form>
         <div className="flex flex-col gap-y-6 px-4 sm:px-10 md:max-w-lg md:w-full md:mx-auto md:px-0 items-center lg:hidden">
           <button 
-            disabled={!addressValid}
+            disabled={!addressValid || isProcessingCash}
             className="inline-flex items-center gap-x-2 justify-center bg-primary border border-primary hover:bg-brown-800 text-white font-bold py-2 w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={()=>payCash()}
           >
-            <BanknotesIcon className='w-5 h-5' />
-            {t('checkout.cash-on-delivery')}
-          </button>
-          <button 
-            disabled={!addressValid}
-            className="inline-flex items-center gap-x-2 justify-center bg-white border border-primary hover:bg-primary hover:border-primary hover:text-white text-primary font-bold py-2 w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
-            onClick={()=>{router.get('/orders')}}
-          >
-            <CreditCardIcon className='w-5 h-5' />
-          {t('checkout.pay-credit-card')}
+            {isProcessingCash ? (
+              <>
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" aria-hidden="true" />
+                {t('checkout.processing')}
+              </>
+            ) : (
+              <>
+                <BanknotesIcon className='w-5 h-5' />
+                {t('checkout.cash-on-delivery')}
+              </>
+            )}
           </button>
         </div>
       </div>

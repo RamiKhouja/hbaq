@@ -18,19 +18,25 @@ class ClientContactController extends Controller
 
     public function store(Request $request)  {
         $request->validate([
-            
-            'email' => 'required|string',
+            'name' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'email' => 'required|email',
+            'subject' => 'nullable|string',
             'message' => ['required'],
         ]);
         $contact = new Contact;
+        $contact->name = $request->input('name', 'Website visitor');
+        $contact->phone = $request->input('phone');
         $contact->email = $request->input('email');
-        $contact->subject = $request->input('subject');
+        $contact->subject = $request->input('subject', 'New contact message');
         $contact->message = $request->input('message');
         $contact->save();
 
         $details = [
-            'email' => 'khoujarami2@gmail.com',
-            'subject' => $request->input('subject'),
+            'name' => $request->input('name', 'Website visitor'),
+            'phone' => $request->input('phone'),
+            'email' => config('mail.from.address'),
+            'subject' => $request->input('subject', 'New contact message'),
             'message' => $request->input('message'),
             'from' => $request->input('email')
         ];

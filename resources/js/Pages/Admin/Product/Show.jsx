@@ -45,7 +45,7 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
         <div className="flex">
           <div className="py-1"><svg className="fill-current h-6 w-6 text-green-800 mx-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
           <div>
-            <p className="font-bold">Success!</p>
+            <p className="font-bold">Succès !</p>
             <p className="text-sm">{flash.success}</p>
           </div>
         </div>
@@ -105,8 +105,12 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
                 </tr>
                 )}
                 <tr>
-                  <td><p className="text-gray-600">Best Seller :</p></td>
+                  <td><p className="text-gray-600">Meilleure vente :</p></td>
                   <td><p className="text-gray-800 col-span-4">{product.is_featured ? t('yes') : t('no')}</p></td>
+                </tr>
+                <tr>
+                  <td><p className="text-gray-600">Produit de saison :</p></td>
+                  <td><p className="text-gray-800 col-span-4">{product.is_season ? t('yes') : t('no')}</p></td>
                 </tr>
                 {/* <tr>
                   <td><p className="text-gray-600">{t('admin.product.show.new')} :</p></td>
@@ -114,14 +118,14 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
                 </tr> */}
               </table>
               <div className="mt-6">
-                <h2 className="mb-3 text-base font-semibold text-gray-900">Price options</h2>
+                <h2 className="mb-3 text-base font-semibold text-gray-900">Options de prix</h2>
                 <div className="overflow-x-auto rounded-md border border-gray-200">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Price</th>
-                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Qty</th>
-                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Discount</th>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Prix</th>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Qté</th>
+                        <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Remise</th>
                         <th className="px-3 py-2 text-left text-xs font-semibold uppercase text-gray-600">Dates</th>
                       </tr>
                     </thead>
@@ -162,7 +166,7 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
               <div className="text-sm text-gray-700">{parse(product.description?.ar ?? t('admin.product.show.no-description'))}</div>
             </div>
             <div className="mb-6 md:mb-0">
-              <h1 className="text-base font-semibold leading-6 text-gray-900 mb-2">French Description</h1>
+              <h1 className="text-base font-semibold leading-6 text-gray-900 mb-2">Description en français</h1>
               <div className="text-sm text-gray-700">{parse(product.description?.fr ?? t('admin.product.show.no-description'))}</div>
             </div>
           </div>
@@ -192,7 +196,7 @@ export default function Index({product, inventories, prices, attOptions, auth}) 
       id={productToDelete?.id} 
       name={productToDelete?.name?.en}
       deleteItem={deleteProduct}
-      what={"Product"}
+      what={"produit"}
     />
     </>
   )

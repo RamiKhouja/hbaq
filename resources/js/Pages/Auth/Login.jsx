@@ -6,8 +6,10 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 export default function Login({ status, canResetPassword }) {
+    const { t, i18n } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -42,7 +44,9 @@ export default function Login({ status, canResetPassword }) {
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
+            <Head title={t('auth.login.title')} />
+
+            <div dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             {flash.success && isAlertVisible &&
@@ -50,7 +54,7 @@ export default function Login({ status, canResetPassword }) {
                 <div className="flex">
                     <div className="py-1"><svg className="fill-current h-6 w-6 text-green-800 mx-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
                     <div>
-                    <p className="font-bold">Success!</p>
+                    <p className="font-bold">{t('auth.login.success')}</p>
                     <p className="text-sm">{flash.success}</p>
                     </div>
                 </div>
@@ -58,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value={t('auth.fields.email')} />
 
                     <TextInput
                         id="email"
@@ -75,7 +79,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value={t('auth.fields.password')} />
 
                     <TextInput
                         id="password"
@@ -97,11 +101,11 @@ export default function Login({ status, canResetPassword }) {
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="mx-2 text-sm text-gray-600">{t('auth.login.remember')}</span>
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-end mt-4 gap-x-4">
                     {/* {canResetPassword && (
                         <Link
                             href={route('password.request')}
@@ -115,14 +119,15 @@ export default function Login({ status, canResetPassword }) {
                         href={route('register')}
                         className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brown-500"
                     >
-                        Don't have an account? Register
+                        {t('auth.login.register_prompt')}
                     </Link>
 
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Log in
+                    <PrimaryButton disabled={processing}>
+                        {t('auth.login.submit')}
                     </PrimaryButton>
                 </div>
             </form>
+            </div>
         </GuestLayout>
     );
 }

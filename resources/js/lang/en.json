@@ -1,5 +1,12 @@
 {
     "translation": {
+      "auth": {
+        "fields": { "email": "Email", "password": "Password", "confirm_password": "Confirm Password", "first_name": "First name", "last_name": "Last name", "phone": "Phone number", "state": "State", "city": "City", "zip": "Zip Code", "address": "Address", "address_extra": "Apartment, Building...", "mf": "MF", "company_name": "Company name", "company_phone": "Company phone", "company_email": "Company email", "mf_document": "MF document" },
+        "login": { "title": "Log in", "success": "Success!", "remember": "Remember me", "register_prompt": "Don't have an account? Register", "submit": "Log in" },
+        "register": { "title": "Register", "progress": "Registration progress", "login_prompt": "Already have an account?", "register_as": "Register as", "simple_user": "Simple user", "company_member": "Company member", "checking_mf": "Checking...", "check_mf": "Check MF", "company_exists": "The company {{company}} already exists. Are you a member?", "back": "Back", "next": "Next", "submit": "Register", "confirm_membership": "Yes, register me", "steps": { "personal": "Personal Info", "company": "Company Info", "company_address": "Company Address", "address": "Address" } },
+        "validation": { "first_name_required": "First name is required", "valid_email_required": "Valid email is required", "password_length": "Password must be at least 8 characters", "passwords_mismatch": "Passwords do not match", "phone_required": "Phone is required", "state_required": "State is required", "city_required": "City is required", "zip_required": "Zip code is required", "address_required": "Address is required", "mf_required": "MF is required", "company_name_required": "Company name is required", "company_phone_required": "Company phone is required", "valid_company_email": "Valid company email is required", "mf_check_failed": "Could not check the MF right now" }
+      },
+      "hbaq": "Hbaq",
       "yes": "Yes",
       "no": "No",
       "item": "Item",
@@ -9,10 +16,17 @@
       "homepage": {
         "top": {
           "badge": "Farm Fresh • Retail & Wholesale",
+          "organic": "100% Organic",
           "title": "Fresh Fruits & Vegetables Delivered With Care",
           "description": "Buy premium organic produce for your home or place bulk wholesale orders for supermarkets, hotels, restaurants, and resellers.",
+          "shop": "Shop",
           "shop_now": "Shop Now",
           "explore_wholesale": "Explore Wholesale",
+          "slides": {
+            "tomatoes": "Wholesale Tomatoes",
+            "apples": "Wholesale Apples",
+            "grapes": "Wholesale Grapes"
+          },
           "stats": {
             "customers": "Happy Customers",
             "orders": "Daily Orders",
@@ -35,11 +49,17 @@
           "title": "Best selling produce this week",
           "description": "A marketplace-ready product section with discount badges, quick actions, and pricing that you can later connect to your Laravel backend."
         },
+        "seasonal": {
+          "eyebrow": "Product of the Season",
+          "title": "Fresh seasonal picks",
+          "description": "Handpicked products highlighted for the season, with the same quick ordering and live pricing experience."
+        },
         "product": {
           "fresh_stock": "Fresh stock available",
           "price_popup": {
             "title": "Company price tiers",
-            "tooltip": "View company price tiers",
+            "label": "Wholesale Prices",
+            "tooltip": "View wholesale price tiers",
             "qty": "Qty",
             "price": "Price",
             "discount": "Discount"
@@ -50,6 +70,7 @@
           "title": "Bulk ordering for supermarkets, restaurants, and resellers",
           "description": "Add your wholesale onboarding flow, account-based pricing, minimum order quantities, delivery scheduling, and invoice management here.",
           "become_partner": "Become a Wholesale Partner",
+          "discover_products": "Discover our Products",
           "request_price": "Request Price List",
           "why_title": "Why businesses choose us",
           "points": {
@@ -60,7 +81,7 @@
           }
         },
         "about": {
-          "badge": "About FreshMart",
+          "badge": "About Hbaq",
           "title": "Healthy food, trusted farmers, modern ecommerce experience",
           "description": "This section is ideal for telling your brand story and explaining your value proposition for both families and commercial buyers. Keep it focused on quality, sourcing, delivery, and trust.",
           "stats": {
@@ -74,17 +95,51 @@
           "eyebrow": "Testimonials",
           "title": "What our customers say",
           "description": "Social proof works especially well on grocery and wholesale storefronts. Keep testimonials short, specific, and trust-building.",
+          "add_button": "Share your fresh story",
           "role_wholesale": "Wholesale Buyer",
           "role_retail": "Retail Customer",
           "quote_1": "The produce quality is consistently excellent and the bulk ordering process is very smooth.",
-          "quote_2": "Beautiful homepage, easy ordering, and fresh vegetables always arrive on time."
+          "quote_2": "Beautiful homepage, easy ordering, and fresh vegetables always arrive on time.",
+          "form": {
+            "success": "Thank you for your feedback!",
+            "optional": "optional",
+            "image": "Photo",
+            "name": "Name",
+            "name_placeholder": "Your full name",
+            "phone": "Phone",
+            "phone_placeholder": "+216 20 123 456",
+            "profession": "Profession",
+            "profession_placeholder": "Store owner, chef, buyer...",
+            "rating": "Rating",
+            "rating_aria": "{{count}} star",
+            "message": "Message",
+            "message_placeholder": "Tell us what felt fresh, easy, or helpful.",
+            "submit": "Send feedback"
+          }
         },
         "newsletter": {
-          "badge": "Newsletter",
-          "title": "Get weekly deals and wholesale updates",
-          "description": "Add your email capture here for promotions, fresh arrivals, and seasonal stock notifications.",
-          "placeholder": "Enter your email address",
-          "subscribe": "Subscribe"
+          "badge": "Contact",
+          "title": "Talk to Hbaq",
+          "description": "Send us your question, order request, or wholesale inquiry. The Hbaq team will get back to you soon.",
+          "success": "Message sent successfully.",
+          "error": "Unable to send your message. Please try again.",
+          "contact": {
+            "address": "Address",
+            "phone": "Phone",
+            "email": "Email"
+          },
+          "form": {
+            "name": "Name",
+            "name_placeholder": "Your name",
+            "phone": "Phone",
+            "optional": "(optional)",
+            "email": "Email",
+            "email_placeholder": "you@example.com",
+            "message": "Message",
+            "message_placeholder": "How can we help?",
+            "sending": "Sending...",
+            "submit": "Send message"
+          }
         },
         "stats": {
           "fast_delivery": { "title": "Fast Delivery", "text": "Same-day city delivery and scheduled wholesale dispatch." },
@@ -93,10 +148,10 @@
           "b2b": { "title": "B2B Support", "text": "Dedicated support for retailers, restaurants, and resellers." }
         },
         "deals": {
-          "seasonal": "Seasonal Offer",
-          "heading_left": "Fresh fruit combo boxes for families",
-          "desc_left": "Use this banner for weekly offers, campaigns, and limited-time discounts.",
-          "discover": "Discover Deals",
+          "seasonal": "Custom Gift Pack",
+          "heading_left": "Build your own personal gift pack",
+          "desc_left": "Choose their favorite products, select the perfect package, and add a heartfelt message to create a gift made especially for them.",
+          "discover": "Start Building",
           "farm_to_table": "Farm to Table",
           "heading_right": "Locally sourced vegetables picked daily",
           "desc_right": "Perfect place to emphasize trust, traceability, organic quality, or supplier relationships.",
@@ -105,7 +160,13 @@
       },
       "navigation": {
         "home" : "Home",
+        "language": "Language",
         "shop": "Menu",
+        "market": "Market",
+        "wholesale": "Wholesale",
+        "hbaq-boxes": "Hbaq Boxes",
+        "view-all": "View all",
+        "become-partner": "Become a partner",
         "new": "New Arrivals",
         "about": "About us",
         "contact": "Contact us",
@@ -152,6 +213,19 @@
         "any-feedback": "Any Feedback?"
       },
       "footer" : {
+        "Hbaq": "Hbaq",
+        "organic-grocery": "Organic grocery",
+        "brand-description": "Fresh fruits, vegetables, herbs, and thoughtfully prepared products for homes and professional kitchens across Tunisia.",
+        "quick-links": "Quick links",
+        "shop-all": "Shop all",
+        "gift-packs": "Gift packs",
+        "our-services": "Our services",
+        "information": "Information",
+        "about-us": "About us",
+        "delivery-policy": "Delivery Policy",
+        "privacy-policy": "Privacy Policy",
+        "terms-conditions": "Terms & Conditions",
+        "tunis-tunisia": "Tunis, Tunisia",
         "get-touch" : "Get in touch",
         "description" : "Lorem ipsum dolor sit amet consectetur. Purus bibendum sapien porttitor amet. Nunc libero id praesent vitae eget et ut ac. Sit a sem tellus nullam venenatis in. Urna nunc adipiscing interdum aliquam aliquet nec mi. Dignissim ac ornare risus pellentesque. Cursus commodo tempor viverra in in lectus.",
         "newsletter" : "Newsletter",
@@ -179,6 +253,7 @@
         "set" : "Set",
         "add-cart" : "Add to Cart",
         "new" : "New",
+        "season" : "Season",
         "sale" : "Sale",
         "per-category": "Choose among our categories"
       },
@@ -202,6 +277,7 @@
         "attributes" : "Attributes",
         "is_new" : "New",
         "is_featured" : "Featured",
+        "is_season" : "Product of the season",
         "in_sale" : "In Sale",
         "filter" : "Filter",
         "reset" : "Reset",
@@ -303,12 +379,14 @@
         "view-history": "View Order History",
         "more-options": "More options",
         "cash-on-delivery": "Cash on Delivery",
+        "processing": "Processing...",
         "pay-credit-card": "Pay by Credit Card",
         "delivery": "Delivery",
         "only-to": "Only to Tunis and Ariana",
         "grand-tunis": "Grand Tunis",
         "store-pickup" : "Pick up in Store",
         "need-cutlery": "Do you need cutlery with your order?",
+        "pay-meal-voucher": "Pay with Meal voucher",
         "any-comments" : "Any Comments?",
         "dont-hesitate-comment": "Don't hesitate to write us your comments 😊",
         "street-name": "123 Street Name",
@@ -334,17 +412,22 @@
         "view": "View",
         "delivery": "Delivery",
         "cutlery": "Cutlery",
+        "meal-voucher": "Pay with Meal voucher",
         "yes" : "Yes",
         "no" : "No",
-        "pending": "Payment Pending",
-        "paid": "Paid",
-        "canceled": "Canceled",
-        "closed": "Closed",
+        "pending": "Pending",
+        "preparing": "Preparing",
+        "delivering": "Delivering",
+        "done": "Done",
+        "cancel": "Canceled",
+        "close": "Closed",
+        "view-details": "View order details",
+        "download-bill": "Download bill",
         "order-created-success": "Order Created Successfully !"
       },
       "service": {
-        "title": "Our Services",
-        "subtitle": "Learn how to grow your business with our expert advice.",
+        "title": "Events & Services",
+        "subtitle": "Choose the services you need and share your event details to request a tailored booking.",
         "discover-all-services": "Discover all services",
         "book-service": "Book Service",
         "what-expect": "What to expect"
@@ -358,8 +441,8 @@
         "team-subtitle": "Meet our talented team of professionals who are dedicated to delivering exceptional service and creating unforgettable experiences for our customers."
       },
       "consultation": {
-        "title": "Book a Business Consultation",
-        "subtitle": "By selecting the required services, you may book a consultaion.",
+        "title": "Events & Services",
+        "subtitle": "Choose the services you need and share your event details to request a tailored booking.",
         "date": "Convinient Date",
         "firstname": "First name",
         "lastname": "Last name",
@@ -452,6 +535,61 @@
           "messages": "Messages",
           "about":"About",
           "testimonials": "Testimonials"
+        },
+        "order-index": {
+          "title": "Orders",
+          "subtitle": "A list of all customer orders.",
+          "success": "Success!",
+          "search-label": "Search orders",
+          "search-placeholder": "Order ID or customer name",
+          "search-button": "Search",
+          "clear-search": "Clear search",
+          "filter-label": "Filter by status",
+          "all-statuses": "All statuses",
+          "order-id": "Order ID",
+          "status": "Status",
+          "client": "Customer",
+          "total": "Total",
+          "payment": "Payment",
+          "fulfillment": "Fulfillment",
+          "time": "Time",
+          "actions": "Actions",
+          "meal-voucher": "Meal voucher",
+          "cash-delivery": "Cash on delivery",
+          "delivery": "Delivery",
+          "store": "Store pickup",
+          "show": "View",
+          "bill": "Bill",
+          "bill-dialog-title": "Generate bill",
+          "bill-dialog-description": "Confirm or change the bill number before generating the PDF.",
+          "bill-number": "Bill number",
+          "bill-cancel": "Cancel",
+          "bill-generate": "Generate without signature",
+          "bill-generate-signed": "Generate with signature",
+          "bill-generating": "Generating…",
+          "bill-error": "The bill could not be generated. Check that the bill number is unique and try again.",
+          "no-orders": "No orders found."
+        },
+        "order-show": {
+          "title": "Order details",
+          "delivery": "Delivery",
+          "close-panel": "Close panel",
+          "order": "Order",
+          "meal-voucher": "Meal voucher",
+          "cash-delivery": "Cash on delivery",
+          "subtotal": "Subtotal",
+          "total": "Total",
+          "quantity": "Quantity",
+          "package": "Package",
+          "contents": "Contents",
+          "pack-message": "Pack message",
+          "customer-details": "Customer details",
+          "start-preparing": "Start preparing",
+          "start-delivery": "Start delivery",
+          "mark-done": "Mark as done",
+          "close-order": "Close order",
+          "cancel-order": "Cancel order",
+          "action-error": "The order status could not be updated. Please try again."
         },
         "product": {
           "list": {

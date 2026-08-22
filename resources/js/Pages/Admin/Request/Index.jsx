@@ -94,13 +94,13 @@ export default function Index({requests, auth}) {
 
   return (
     <AdminLayout user={auth?.user}>
-      <Head title="Requests" />
+      <Head title="Demandes" />
       {flash.success && isAlertVisible &&
       <div className="bg-green-100 rounded-lg text-green-800 px-4 py-3 shadow mb-4" role="alert">
         <div className="flex">
           <div className="py-1"><svg className="fill-current h-6 w-6 text-green-800 mx-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
           <div>
-            <p className="font-bold">Success!</p>
+            <p className="font-bold">Succès !</p>
             <p className="text-sm">{flash.success}</p>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function Index({requests, auth}) {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">Service Requests</h1>
+          <h1 className="text-base font-semibold leading-6 text-gray-900">Demandes de service</h1>
           <p className="mt-2 text-sm text-gray-500">
             {t('admin.service.list.list-of-services')}
           </p>
@@ -159,7 +159,7 @@ export default function Index({requests, auth}) {
                       Method
                     </th>  */}
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
-                      <span className="sr-only">Edit</span>
+                      <span className="sr-only">Modifier</span>
                     </th>
                   </tr>
                 </thead>
@@ -197,15 +197,15 @@ export default function Index({requests, auth}) {
                       </td> */}
                       <td className="py-4 px-4 text-right text-sm font-medium flex gap-x-2 items-center">
                         {/* <button 
-                          title='Request Details' className="text-gray-800 hover:text-brown-900"
+                          title='Détails de la demande' className="text-gray-800 hover:text-brown-900"
                           onClick={()=>handleShow(request)}
                         >
                           <EyeIcon className='w-5 h-5'/>
                         </button> */}
-                        <Link title="Edit Request" href={`/admin/requests/edit/${request.id}`} className="text-gray-800 hover:text-brown-900">
+                        <Link title="Modifier la demande" href={`/admin/requests/edit/${request.id}`} className="text-gray-800 hover:text-brown-900">
                           <PencilSquareIcon className='w-5 h-5'/>
                         </Link>
-                        <button title="Delete Request" type="button" onClick={() => deleteRequest(request.id)} className="text-red-800 hover:text-brown-900">
+                        <button title="Supprimer la demande" type="button" onClick={() => deleteRequest(request.id)} className="text-red-800 hover:text-brown-900">
                           <TrashIcon className='w-5 h-5'/>
                         </button>
                       </td>
@@ -274,6 +274,4 @@ export default function Index({requests, auth}) {
     </AdminLayout>
   )
 }
-
-
 

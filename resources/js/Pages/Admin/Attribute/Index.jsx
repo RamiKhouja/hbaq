@@ -12,7 +12,7 @@ export default function Index({attributes, auth}) {
   }
   return (
     <AdminLayout user={auth?.user}>
-      <Head title="Attributes" />
+      <Head title="Attributs" />
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -50,7 +50,7 @@ export default function Index({attributes, auth}) {
                     {t('admin.attribute.options')}
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                      <span className="sr-only">Edit</span>
+                      <span className="sr-only">Modifier</span>
                     </th>
                   </tr>
                 </thead>
@@ -60,7 +60,7 @@ export default function Index({attributes, auth}) {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{item.name.en}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{item.name.ar}</td>
                       {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                        {item.type === 'string' ? ('Text') : (item.type==='number' ? ('Number') : ('Yes/No'))}
+                        {item.type === 'string' ? ('Texte') : (item.type==='number' ? ('Nombre') : ('Oui/Non'))}
                       </td> */}
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{item.filtrable ? t('yes') : t('no')}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">

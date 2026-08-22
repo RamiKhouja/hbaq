@@ -26,7 +26,6 @@ const CreateAbout = ({ auth, abt }) => {
     picture_2: null,
     picture_3: null,
     picture_4: null,
-    picture_5: null,
   });
 
   const handleChange = (e) => {
@@ -102,9 +101,6 @@ const CreateAbout = ({ auth, abt }) => {
     if (about.picture_4) {
       formData.append('picture_4', about.picture_4);
     }
-    if (about.picture_5) {
-      formData.append('picture_5', about.picture_5);
-    }
 
     console.log(about);
     
@@ -116,7 +112,7 @@ const CreateAbout = ({ auth, abt }) => {
   return (
     <AdminLayout user={auth?.user}>
       <div className="sm:flex-auto mb-8">
-        <h1 className="text-base font-semibold leading-6 text-gray-900">Fill in your about page</h1>
+        <h1 className="text-base font-semibold leading-6 text-gray-900">Remplissez votre page À propos</h1>
         <p className="mt-2 text-sm text-gray-700">
         These informations will appear in the about page as well as in the home page.
         </p>
@@ -153,7 +149,7 @@ const CreateAbout = ({ auth, abt }) => {
               <img
                 id="main-image-preview"
                 src={about.image ? URL.createObjectURL(about.image) : abt.image ? ('/'+abt.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -272,7 +268,7 @@ const CreateAbout = ({ auth, abt }) => {
           </p>
         </div>  
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
+          {Array.from({ length: 4 }, (_, i) => i + 1).map((num) => (
             <div key={`picture_${num}`}>
               <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Picture {num}
@@ -289,7 +285,7 @@ const CreateAbout = ({ auth, abt }) => {
                           : '/pictures/default.jpg'
                     }
 
-                    alt="Preview"
+                    alt="Aperçu"
                     className='w-32 rounded-lg'
                   />
                 </div>

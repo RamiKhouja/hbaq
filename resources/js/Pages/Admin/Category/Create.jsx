@@ -23,7 +23,7 @@ const CreateCategory = ({parentCats, auth}) => {
 
   const typeOptions = [
     { label: 'Menu', value: 'menu' },
-    { label: 'Event', value: 'event' }
+    { label: 'Événement', value: 'event' }
   ];
   const [selectedType, setSelectedType] = useState(typeOptions[0]);
 
@@ -127,12 +127,12 @@ const CreateCategory = ({parentCats, auth}) => {
                 name="name_en"
                 id="name_en"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Category name"
+                placeholder="Nom de la catégorie"
                 value={category.name_en}
                 onChange={handleChange}
               />
               {submitted && category.name_en=='' && (
-                <p className='text-xs text-red-500 mt-1'>Category name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom de la catégorie est obligatoire</p>
               )}
             </div>
           </div>
@@ -151,7 +151,7 @@ const CreateCategory = ({parentCats, auth}) => {
                 onChange={handleChange}
               />
               {submitted && category.name_fr=='' && (
-                <p className='text-xs text-red-500 mt-1'>Category name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom de la catégorie est obligatoire</p>
               )}
             </div>
           </div>
@@ -170,7 +170,7 @@ const CreateCategory = ({parentCats, auth}) => {
                 onChange={handleChange}
               />
               {submitted && category.name_ar=='' && (
-                <p className='text-xs text-red-500 mt-1'>Category name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom de la catégorie est obligatoire</p>
               )}
             </div>
           </div>
@@ -184,7 +184,7 @@ const CreateCategory = ({parentCats, auth}) => {
               <img
                 id="image-preview"
                 src={category.image ? URL.createObjectURL(category.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -195,7 +195,7 @@ const CreateCategory = ({parentCats, auth}) => {
             />
           </div>
           {submitted && !category.image && (
-            <p className='text-xs text-red-500 mt-1'>Please choose an image</p>
+            <p className='text-xs text-red-500 mt-1'>Veuillez choisir une image</p>
           )}
         </div>
         <div className='mb-4'>
@@ -207,7 +207,7 @@ const CreateCategory = ({parentCats, auth}) => {
               rows={4}
               name="description_en"
               id="description_en"
-              placeholder='Fully describe the category.'
+              placeholder='Décrivez complètement la catégorie.'
               value={category.description_en}
               onChange={handleChange}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"

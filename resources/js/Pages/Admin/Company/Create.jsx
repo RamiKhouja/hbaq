@@ -45,10 +45,10 @@ const createCompany = ({companyGroups, auth}) => {
 
   return (
       <AdminLayout user={auth?.user}>
-        <h1>Create Company</h1>
+        <h1>Créer une entreprise</h1>
         <form  onSubmit={handleSubmit}>
             <div >
-              <InputLabel htmlFor="name_ar">Arabic Name:</InputLabel>
+              <InputLabel htmlFor="name_ar">Nom en arabe :</InputLabel>
               <TextInput
                 type="text"
                 id="name_ar"
@@ -59,7 +59,7 @@ const createCompany = ({companyGroups, auth}) => {
               />
           </div>
           <div className="mt-4">
-            <InputLabel htmlFor="name_en">English Name</InputLabel>
+            <InputLabel htmlFor="name_en">Nom en anglais</InputLabel>
             <TextInput
               type="text"
               id="name_en"
@@ -70,7 +70,7 @@ const createCompany = ({companyGroups, auth}) => {
             />
           </div>
           <div className="mt-4">
-            <InputLabel htmlFor="phone">phone</InputLabel>
+            <InputLabel htmlFor="phone">Téléphone</InputLabel>
             <TextInput
               type="text"
               id="phone"
@@ -81,7 +81,7 @@ const createCompany = ({companyGroups, auth}) => {
             />
           </div>
           <div className="mt-4">
-            <InputLabel htmlFor="role">role</InputLabel>
+            <InputLabel htmlFor="role">Rôle</InputLabel>
             <TextInput
               type="text"
               id="role"
@@ -92,7 +92,7 @@ const createCompany = ({companyGroups, auth}) => {
             />
           </div>
           <div className="mt-4">
-            <InputLabel htmlFor="company_group_id">company group</InputLabel>
+            <InputLabel htmlFor="company_group_id">Groupe d’entreprises</InputLabel>
             <select 
               name="companyGroup_id" 
               id="companyGroup_id"
@@ -105,7 +105,7 @@ const createCompany = ({companyGroups, auth}) => {
             </select>
           </div>
           <div className="form-group">
-            <PrimaryButton>create</PrimaryButton>
+            <PrimaryButton>Créer</PrimaryButton>
           </div>
         </form>
       </AdminLayout>

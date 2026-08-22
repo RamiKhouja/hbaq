@@ -21,9 +21,9 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
   const dateValue = (value) => value ? String(value).slice(0, 10) : '';
 
   const unitOptions = [
-    { label: 'Piece', value: 'piece' },
+    { label: 'Pièce', value: 'piece' },
     { label: 'Kg', value: 'kg' },
-    { label: 'Liter', value: 'liter' },
+    { label: 'Litre', value: 'liter' },
     { label: 'Pack', value: 'pack' },
   ];
 
@@ -45,6 +45,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
     stock: prod.stock ?? 0,
 
     is_featured: prod.is_featured,
+    is_season: prod.is_season,
 
     main_image: null,
     pictures: prod.pictures || [],
@@ -158,6 +159,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
     const formData = new FormData();
     formData.append('is_new', product.is_new ? 1 : 0); 
     formData.append('is_featured', product.is_featured ? 1 : 0);
+    formData.append('is_season', product.is_season ? 1 : 0);
     formData.append('name_en', product.name_en);
     formData.append('name_ar', product.name_ar);
     formData.append('name_fr', product.name_fr);
@@ -229,7 +231,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
               <img
                 id="image-preview"
                 src={product.image ? URL.createObjectURL(product.image) : prod.main_image ? ('/'+prod.main_image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -251,12 +253,12 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 name="name_en"
                 id="name_en"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Product name"
+                placeholder="Nom du produit"
                 value={product.name_en}
                 onChange={handleChange}
               />
               {submitted && product.name_en=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -276,7 +278,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 onChange={handleChange}
               />
               {submitted && product.name_ar=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -295,7 +297,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 onChange={handleChange}
               />
               {submitted && product.name_fr=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -374,12 +376,12 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 name="url"
                 id="url"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Product URL"
+                placeholder="URL du produit"
                 value={product.url}
                 onChange={handleChange}
               />
               {submitted && product.url=='' && (
-                <p className='text-xs text-red-500 mt-1'>Product name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du produit est obligatoire</p>
               )}
             </div>
           </div>
@@ -400,6 +402,23 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
               />
             </div>
           </div>
+          <div className="relative flex items-start md:mx-auto">
+            <div className={`${lang=='ar'? 'ml-3':'mr-3'} text-sm leading-6`}>
+              <label htmlFor="is_season" className="font-medium text-gray-900">
+              Product of the season
+              </label>
+            </div>
+            <div className="flex h-6 items-center">
+              <input
+                id="is_season"
+                name="is_season"
+                type="checkbox"
+                checked={product.is_season}
+                onChange={handleChange}
+                className="h-4 w-4 rounded border-gray-300 text-brown-600 focus:ring-brown-600"
+              />
+            </div>
+          </div>
         </div>
         <div className="grid md:grid-cols-2 gap-x-4 lg:grid-cols-3 mb-4">
           <div>
@@ -411,7 +430,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                 rows={4}
                 name="description_en"
                 id="description_en"
-                placeholder='Fully describe the product.'
+                placeholder='Décrivez complètement le produit.'
                 value={product.description_en}
                 onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
@@ -495,7 +514,7 @@ const EditProduct = ({prod, categories, brands, prodCats, auth}) => {
                   </button>
                 </div>
                 <div className="mt-4 flex gap-x-2 items-center justify-center">
-                  <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Order</label>
+                  <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Ordre</label>
                   <input
                     type="number"
                     min="1"

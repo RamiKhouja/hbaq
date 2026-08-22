@@ -1,5 +1,12 @@
 {
     "translation": {
+        "auth": {
+            "fields": { "email": "E-mail", "password": "Mot de passe", "confirm_password": "Confirmer le mot de passe", "first_name": "Prénom", "last_name": "Nom", "phone": "Numéro de téléphone", "state": "Gouvernorat", "city": "Ville", "zip": "Code postal", "address": "Adresse", "address_extra": "Appartement, bâtiment...", "mf": "Matricule fiscal", "company_name": "Nom de l’entreprise", "company_phone": "Téléphone de l’entreprise", "company_email": "E-mail de l’entreprise", "mf_document": "Document du matricule fiscal" },
+            "login": { "title": "Connexion", "success": "Succès !", "remember": "Se souvenir de moi", "register_prompt": "Vous n’avez pas de compte ? Inscrivez-vous", "submit": "Se connecter" },
+            "register": { "title": "Inscription", "progress": "Progression de l’inscription", "login_prompt": "Vous avez déjà un compte ?", "register_as": "S’inscrire en tant que", "simple_user": "Utilisateur particulier", "company_member": "Membre d’une entreprise", "checking_mf": "Vérification...", "check_mf": "Vérifier le matricule", "company_exists": "L’entreprise {{company}} existe déjà. En êtes-vous membre ?", "back": "Retour", "next": "Suivant", "submit": "S’inscrire", "confirm_membership": "Oui, m’inscrire", "steps": { "personal": "Informations personnelles", "company": "Informations de l’entreprise", "company_address": "Adresse de l’entreprise", "address": "Adresse" } },
+            "validation": { "first_name_required": "Le prénom est obligatoire", "valid_email_required": "Une adresse e-mail valide est obligatoire", "password_length": "Le mot de passe doit contenir au moins 8 caractères", "passwords_mismatch": "Les mots de passe ne correspondent pas", "phone_required": "Le téléphone est obligatoire", "state_required": "Le gouvernorat est obligatoire", "city_required": "La ville est obligatoire", "zip_required": "Le code postal est obligatoire", "address_required": "L’adresse est obligatoire", "mf_required": "Le matricule fiscal est obligatoire", "company_name_required": "Le nom de l’entreprise est obligatoire", "company_phone_required": "Le téléphone de l’entreprise est obligatoire", "valid_company_email": "Une adresse e-mail d’entreprise valide est obligatoire", "mf_check_failed": "Impossible de vérifier le matricule fiscal pour le moment" }
+        },
+        "hbaq": "Hbaq",
         "yes": "Oui",
         "no": "Non",
         "item": "Article",
@@ -9,10 +16,17 @@
         "homepage": {
             "top": {
                 "badge": "Produits frais • Détail & Gros",
+                "organic": "100 % biologique",
                 "title": "Fruits et légumes frais livrés avec soin",
                 "description": "Achetez des produits biologiques de qualité pour la maison ou passez des commandes en gros pour supermarchés, hôtels et restaurants.",
-                "shop_now": "Acheter",
+                "shop": "Acheter",
+                "shop_now": "Acheter maintenant",
                 "explore_wholesale": "Découvrir le gros",
+                "slides": {
+                    "tomatoes": "Tomates en gros",
+                    "apples": "Pommes en gros",
+                    "grapes": "Raisins en gros"
+                },
                 "stats": {
                     "customers": "Clients satisfaits",
                     "orders": "Commandes quotidiennes",
@@ -35,11 +49,17 @@
                 "title": "Les meilleures ventes de la semaine",
                 "description": "Une section produits prête pour la marketplace avec badges de remise, actions rapides et prix connectables à votre backend Laravel."
             },
+            "seasonal": {
+                "eyebrow": "Produit de saison",
+                "title": "Sélection fraîche de saison",
+                "description": "Des produits mis en avant pour la saison, avec la même commande rapide et les prix dynamiques."
+            },
             "product": {
                 "fresh_stock": "Stock frais disponible",
                 "price_popup": {
                     "title": "Tarifs entreprise",
-                    "tooltip": "Voir les tarifs entreprise",
+                    "label": "Prix de gros",
+                    "tooltip": "Voir les prix de gros",
                     "qty": "Qté",
                     "price": "Prix",
                     "discount": "Remise"
@@ -50,6 +70,7 @@
                 "title": "Commandes en gros pour supermarchés, restaurants et revendeurs",
                 "description": "Ajoutez votre flux d'intégration grossiste, tarification par compte, quantités minimales, planification des livraisons et gestion des factures.",
                 "become_partner": "Devenir partenaire grossiste",
+                "discover_products": "Découvrir nos produits",
                 "request_price": "Demander la grille tarifaire",
                 "why_title": "Pourquoi les entreprises nous choisissent",
                 "points": {
@@ -60,7 +81,7 @@
                 }
             },
             "about": {
-                "badge": "À propos de FreshMart",
+                "badge": "À propos de Hbaq",
                 "title": "Alimentation saine, agriculteurs de confiance, expérience e‑commerce moderne",
                 "description": "Idéal pour raconter l'histoire de votre marque et expliquer votre proposition de valeur pour familles et acheteurs professionnels.",
                 "stats": { "farms": "Partenaires agricoles", "cities": "Villes desservies", "online": "Commande en ligne", "rating": "Note clients" }
@@ -69,17 +90,51 @@
                 "eyebrow": "Témoignages",
                 "title": "Ce que disent nos clients",
                 "description": "La preuve sociale fonctionne particulièrement bien pour les épiceries et boutiques grossistes. Restez concis et crédible.",
+                "add_button": "Partager votre avis frais",
                 "role_wholesale": "Acheteur en gros",
                 "role_retail": "Client détail",
                 "quote_1": "La qualité des produits est constamment excellente et le processus de commande en gros est très fluide.",
-                "quote_2": "Belle page d'accueil, commande facile et légumes frais toujours livrés à l'heure."
+                "quote_2": "Belle page d'accueil, commande facile et légumes frais toujours livrés à l'heure.",
+                "form": {
+                    "success": "Merci pour votre avis !",
+                    "optional": "optionnel",
+                    "image": "Photo",
+                    "name": "Nom",
+                    "name_placeholder": "Votre nom complet",
+                    "phone": "Téléphone",
+                    "phone_placeholder": "+216 20 123 456",
+                    "profession": "Profession",
+                    "profession_placeholder": "Commerçant, chef, acheteur...",
+                    "rating": "Note",
+                    "rating_aria": "{{count}} étoile",
+                    "message": "Message",
+                    "message_placeholder": "Dites-nous ce qui était frais, simple ou utile.",
+                    "submit": "Envoyer l'avis"
+                }
             },
             "newsletter": {
-                "badge": "Newsletter",
-                "title": "Recevez nos offres hebdomadaires et nouveautés grossistes",
-                "description": "Ajoutez votre capture d'e-mails pour les promotions, arrivages et notifications saisonnières.",
-                "placeholder": "Entrez votre adresse e-mail",
-                "subscribe": "S'abonner"
+                "badge": "Contact",
+                "title": "Contactez Hbaq",
+                "description": "Envoyez-nous votre question, demande de commande ou demande grossiste. L'équipe Hbaq vous répondra bientôt.",
+                "success": "Message envoyé avec succès.",
+                "error": "Impossible d'envoyer votre message. Veuillez réessayer.",
+                "contact": {
+                    "address": "Adresse",
+                    "phone": "Téléphone",
+                    "email": "Email"
+                },
+                "form": {
+                    "name": "Nom",
+                    "name_placeholder": "Votre nom",
+                    "phone": "Téléphone",
+                    "optional": "(optionnel)",
+                    "email": "Email",
+                    "email_placeholder": "vous@example.com",
+                    "message": "Message",
+                    "message_placeholder": "Comment pouvons-nous vous aider ?",
+                    "sending": "Envoi...",
+                    "submit": "Envoyer le message"
+                }
             },
             "stats": {
                 "fast_delivery": { "title": "Livraison rapide", "text": "Livraison le jour même en ville et expédition planifiée pour le gros." },
@@ -88,10 +143,10 @@
                 "b2b": { "title": "Support B2B", "text": "Support dédié pour détaillants, restaurants et revendeurs." }
             },
             "deals": {
-                "seasonal": "Offre saisonnière",
-                "heading_left": "Boxes de fruits frais pour les familles",
-                "desc_left": "Utilisez cette bannière pour offres hebdomadaires et promotions limitées.",
-                "discover": "Découvrir les offres",
+                "seasonal": "Coffret personnalisé",
+                "heading_left": "Composez votre propre coffret cadeau",
+                "desc_left": "Choisissez leurs produits préférés, sélectionnez l’emballage idéal et ajoutez un message personnel pour créer un cadeau rien que pour eux.",
+                "discover": "Créer mon coffret",
                 "farm_to_table": "De la ferme à l'assiette",
                 "heading_right": "Légumes locaux cueillis quotidiennement",
                 "desc_right": "Parfait pour mettre en avant confiance, traçabilité et qualité biologique.",
@@ -100,7 +155,13 @@
         },
         "navigation": {
             "home": "Accueil",
+            "language": "Langue",
             "shop": "Menu",
+            "market": "Marché",
+            "wholesale": "Vente en gros",
+            "hbaq-boxes": "Coffrets Hbaq",
+            "view-all": "Voir tout",
+            "become-partner": "Devenir partenaire",
             "new": "Nouveautés",
             "about": "À propos",
             "contact": "Contactez-nous",
@@ -147,6 +208,19 @@
             "any-feedback": "Des Commentaires?"
         },
         "footer": {
+            "Hbaq": "Hbaq",
+            "organic-grocery": "Épicerie biologique",
+            "brand-description": "Fruits, légumes, herbes et produits soigneusement préparés pour les familles et les cuisines professionnelles partout en Tunisie.",
+            "quick-links": "Liens rapides",
+            "shop-all": "Toute la boutique",
+            "gift-packs": "Packs cadeaux",
+            "our-services": "Nos services",
+            "information": "Informations",
+            "about-us": "À propos",
+            "delivery-policy": "Politique de livraison",
+            "privacy-policy": "Politique de confidentialité",
+            "terms-conditions": "Conditions générales",
+            "tunis-tunisia": "Tunis, Tunisie",
             "get-touch": "Entrer en contact",
             "description": "Lorem ipsum dolor sit amet consectetur. Purus bibendum sapien porttitor amet. Nunc libero id praesent vitae eget et ut ac. Sit a sem tellus nullam venenatis in. Urna nunc adipiscing interdum aliquam aliquet nec mi. Dignissim ac ornare risus pellentesque. Cursus commodo tempor viverra in in lectus.",
             "newsletter": "Bulletin",
@@ -174,6 +248,7 @@
             "set": "Ensemble",
             "add-cart": "Ajouter au panier",
             "new": "Nouveau",
+            "season": "Saison",
             "sale": "Remise",
             "per-category": "Choisissez parmi nos catégories"
         },
@@ -197,6 +272,7 @@
             "attributes": "Attributs",
             "is_new": "Nouveau",
             "is_featured": "En vedette",
+            "is_season": "Produit de saison",
             "in_sale": "En solde",
             "filter": "Filtrer",
             "reset": "Réinitialiser",
@@ -298,12 +374,14 @@
             "view-history": "Voir l'historique des commandes",
             "more-options": "Plus d'options",
             "cash-on-delivery": "Paiement à la livraison",
+            "processing": "Traitement en cours...",
             "pay-credit-card": "Payer par carte de crédit",
             "delivery": "Livraison",
             "only-to": "Seulement Tunis et Ariana",
             "grand-tunis" : "Grand Tunis",
             "store-pickup" : "Retrait à Twin Peaks",
             "need-cutlery": "Avez-vous besoin de couverts avec votre commande?",
+            "pay-meal-voucher": "Payer avec des tickets restaurant",
             "any-comments" : "Des Commentaires?",
             "dont-hesitate-comment": "N'hésitez pas de nous passer vos commentaires 😊",
             "street-name": "123 Nom de Rue",
@@ -329,17 +407,22 @@
             "view": "Voir",
             "delivery": "Livraison",
             "cutlery": "Couvert",
+            "meal-voucher": "Ticket restaurant",
             "yes" : "Oui",
             "no" : "Non",
-            "pending": "En attente de paiement",
-            "paid": "Payé",
-            "canceled": "Annulé",
-            "closed": "Fermé",
+            "pending": "En attente",
+            "preparing": "En préparation",
+            "delivering": "En livraison",
+            "done": "Terminée",
+            "cancel": "Annulée",
+            "close": "Fermée",
+            "view-details": "Voir les détails",
+            "download-bill": "Télécharger la facture",
             "order-created-success": "Commande créée avec succès !"
         },
         "service": {
-            "title": "Nos services",
-            "subtitle": "Apprenez à développer votre entreprise grâce à nos conseils d'experts.",
+            "title": "Événements et services",
+            "subtitle": "Choisissez les services souhaités et partagez les détails de votre événement pour recevoir une réservation sur mesure.",
             "discover-all-services": "Découvrez tous les services",
             "book-service": "Réserver le Service",
             "what-expect": "Qu'attendre de ce service"
@@ -353,8 +436,8 @@
             "team-subtitle": "Rencontrez notre équipe de professionnels passionnés qui travaillent dur pour vous offrir la meilleure expérience possible."
         },
         "consultation": {
-            "title": "Réserver une consultation d'affaires",
-            "subtitle": "En sélectionnant les services requis, vous pouvez réserver une consultation.",
+            "title": "Événements et services",
+            "subtitle": "Choisissez les services souhaités et partagez les détails de votre événement pour recevoir une réservation sur mesure.",
             "date": "Date pratique",
             "firstname": "Prénom",
             "lastname": "Nom de famille",
@@ -404,6 +487,63 @@
             "canceled": "Annulé",
             "closed": "Fermé",
             "request-created-success": "Demande créée avec succès !"
-        }        
+        },
+        "admin": {
+            "order-index": {
+                "title": "Commandes",
+                "subtitle": "Liste de toutes les commandes clients.",
+                "success": "Succès !",
+                "search-label": "Rechercher une commande",
+                "search-placeholder": "ID de commande ou nom du client",
+                "search-button": "Rechercher",
+                "clear-search": "Effacer la recherche",
+                "filter-label": "Filtrer par statut",
+                "all-statuses": "Tous les statuts",
+                "order-id": "ID commande",
+                "status": "Statut",
+                "client": "Client",
+                "total": "Total",
+                "payment": "Paiement",
+                "fulfillment": "Mode de réception",
+                "time": "Heure",
+                "actions": "Actions",
+                "meal-voucher": "Tickets restaurant",
+                "cash-delivery": "Paiement à la livraison",
+                "delivery": "Livraison",
+                "store": "Retrait en magasin",
+                "show": "Voir",
+                "bill": "Facture",
+                "bill-dialog-title": "Générer la facture",
+                "bill-dialog-description": "Confirmez ou modifiez le numéro de facture avant de générer le PDF.",
+                "bill-number": "Numéro de facture",
+                "bill-cancel": "Annuler",
+                "bill-generate": "Générer sans signature",
+                "bill-generate-signed": "Générer avec signature",
+                "bill-generating": "Génération…",
+                "bill-error": "La facture n’a pas pu être générée. Vérifiez que le numéro est unique puis réessayez.",
+                "no-orders": "Aucune commande trouvée."
+            },
+            "order-show": {
+                "title": "Détails de la commande",
+                "delivery": "Livraison",
+                "close-panel": "Fermer le panneau",
+                "order": "Commande",
+                "meal-voucher": "Tickets restaurant",
+                "cash-delivery": "Paiement à la livraison",
+                "subtotal": "Sous-total",
+                "total": "Total",
+                "quantity": "Quantité",
+                "package": "Emballage",
+                "contents": "Contenu",
+                "pack-message": "Message du pack",
+                "customer-details": "Détails du client",
+                "start-preparing": "Commencer la préparation",
+                "start-delivery": "Commencer la livraison",
+                "mark-done": "Marquer comme terminée",
+                "close-order": "Fermer la commande",
+                "cancel-order": "Annuler la commande",
+                "action-error": "Le statut de la commande n’a pas pu être mis à jour. Veuillez réessayer."
+            }
+        }
     }
 }

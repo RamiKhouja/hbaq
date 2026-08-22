@@ -59,13 +59,9 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
         else if(type === "liked") {
             widthClasses = 'w-80';
         }
-    } else {
-        if (width === '48') {
-            widthClasses = 'w-48';
-        }
-        if (width === '36') {
-            widthClasses = 'w-36';
-        }
+    } 
+    else {
+        widthClasses = 'w-48';
     }
 
     return (

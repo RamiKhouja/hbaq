@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Contact;
-use App\Models\Email;
+use App\Mail\ContactMail;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
@@ -57,6 +57,16 @@ class ContactController extends Controller
         ]);
 
         $contact = Contact::create($validatedData);
+        $subject = $validatedData['subject'] ?: 'New contact message';
+
+        Mail::to(config('mail.from.address'))->send(new ContactMail([
+            'name' => $validatedData['name'],
+            'phone' => $validatedData['phone'] ?? null,
+            'email' => config('mail.from.address'),
+            'subject' => $subject,
+            'message' => $validatedData['message'],
+            'from' => $validatedData['email'],
+        ]));
 
         return response()->json([
             'success' => true,

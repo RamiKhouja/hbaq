@@ -23,7 +23,7 @@ const EditCategory = ({cat, parentCats, auth}) => {
 
   const typeOptions = [
       { label: 'Menu', value: 'menu' },
-      { label: 'Event', value: 'event' }
+      { label: 'Événement', value: 'event' }
     ];
   const [selectedType, setSelectedType] = useState(cat.type ? { label: cat.type.charAt(0).toUpperCase() + cat.type.slice(1), value: cat.type }: null);
   const handleTypeChange = (type) => {
@@ -119,7 +119,7 @@ const EditCategory = ({cat, parentCats, auth}) => {
                 name="name_en"
                 id="name_en"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Category name"
+                placeholder="Nom de la catégorie"
                 value={category.name_en}
                 onChange={handleChange}
               />
@@ -167,7 +167,7 @@ const EditCategory = ({cat, parentCats, auth}) => {
               <img
                 id="image-preview"
                 src={category.image ? URL.createObjectURL(category.image) : cat.image ? ('/'+cat.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -188,7 +188,7 @@ const EditCategory = ({cat, parentCats, auth}) => {
               rows={4}
               name="description_en"
               id="description_en"
-              placeholder='Fully describe the category.'
+              placeholder='Décrivez complètement la catégorie.'
               value={category.description_en}
               onChange={handleChange}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"

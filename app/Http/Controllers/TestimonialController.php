@@ -28,6 +28,8 @@ class TestimonialController extends Controller
             'name' => 'required|string',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'phone' => 'nullable|string',
+            'rating' => 'required|integer|min:1|max:5',
+            'profession' => 'nullable|string|max:255',
             'message' => 'required|string',
         ]);
 
@@ -39,7 +41,9 @@ class TestimonialController extends Controller
         $testimonial = Testimonial::create([
             'name' => $validatedData['name'],
             'picture' => $picturePath,
-            'phone' => $validatedData['phone'],
+            'phone' => $validatedData['phone'] ?? null,
+            'rating' => $validatedData['rating'],
+            'profession' => $validatedData['profession'] ?? null,
             'message' => $validatedData['message'],
             'is_approved' => false, // Default to false
         ]);

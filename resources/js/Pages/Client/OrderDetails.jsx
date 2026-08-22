@@ -1,8 +1,10 @@
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { DocumentArrowDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import ClientLayout from '@/Layouts/ClientLayout'
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect } from 'react'
+import { router } from '@inertiajs/react'
+import { XCircleIcon } from '@heroicons/react/24/solid'
 
 
 const OrderDetails = ({order, auth, categories, eventCategories}) => {
@@ -24,15 +26,31 @@ const OrderDetails = ({order, auth, categories, eventCategories}) => {
     }
   }, [success]);
 
+  useEffect(() => {
+    if (['done', 'close'].includes(order.status)) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      router.reload({ only: ['order'], preserveScroll: true });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [order.status]);
+
   const renderStatus = (status) => {
     switch (status) {
       case 'pending':
         return <CheckCircleIcon className="h-5 w-5 text-orange-500" aria-hidden="true" />
-      case 'paid':
+      case 'preparing':
+        return <CheckCircleIcon className="h-5 w-5 text-orange-600" aria-hidden="true" />
+      case 'delivering':
+        return <CheckCircleIcon className="h-5 w-5 text-purple-500" aria-hidden="true" />
+      case 'done':
         return <CheckCircleIcon className="h-5 w-5 text-green-500" aria-hidden="true" />
-      case 'canceled':
+      case 'cancel':
         return <XCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
-      case 'closed':
+      case 'close':
         return <CheckCircleIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
       default:
         return <CheckCircleIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
@@ -80,6 +98,15 @@ const OrderDetails = ({order, auth, categories, eventCategories}) => {
                               {t('order.'+order.status)}
                             </p>
                           </div>
+                          {order.status === 'done' && (
+                            <a
+                              href={`/orders/${order.id}/bill`}
+                              className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white hover:bg-green-800"
+                            >
+                              <DocumentArrowDownIcon className="h-5 w-5" />
+                              {t('order.download-bill')}
+                            </a>
+                          )}
                         </div>
                         <div className="hidden sm:block">
                           <dt className="font-medium text-gray-900">{t('order.date-placed')}</dt>
@@ -119,6 +146,13 @@ const OrderDetails = ({order, auth, categories, eventCategories}) => {
                               <p className={`mt-2 sm:mt-0 lg:text-lg ${i18n.language==='ar' ? 'text-left' : 'text-right'}`}>{purchase.quantity * purchase.product.price} {t('order.dt')}</p>
                             </div>
                             <p className="hidden text-gray-500 sm:mt-2 sm:block">{i18n.language == "en" ? purchase.product.description?.en : i18n.language == "ar" ? purchase.product.description?.ar : purchase.product.description?.fr}</p>
+                            {purchase.product.type === 'custom_pack' && (
+                              <div className="mt-3 rounded-lg bg-gray-50 p-3 text-gray-600">
+                                <p className="font-semibold">{purchase.product.package?.name?.[lang] || purchase.product.package?.name?.en}</p>
+                                <p className="mt-1">{purchase.product.custom_products?.map((product) => `${product.quantity} × ${product.name?.[lang] || product.name?.en}`).join(', ')}</p>
+                                {purchase.product.custom_message && <p className="mt-1 italic">“{purchase.product.custom_message}”</p>}
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -144,7 +178,7 @@ const OrderDetails = ({order, auth, categories, eventCategories}) => {
                         <p>{order.delivery} {t('order.dt')}</p>
                       </div>
                       <div className="mt-4 text-gray-700">
-                        <p>{t('order.cutlery')}: {order.cutlery ? t('order.yes') : ('order.no')}</p>
+                        <p>{t('order.meal-voucher')}: {order.cutlery ? t('order.yes') : t('order.no')}</p>
                         <p className='mt-2'>{order.message}</p>
                       </div>
                     </li>

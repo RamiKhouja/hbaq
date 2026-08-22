@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" type="image/ico" href="/pictures/favicon-light.ico" media="(prefers-color-scheme: light)"/>
-        <link rel="icon" type="image/ico" href="/pictures/favicon-dark.ico" media="(prefers-color-scheme: dark)"/>
+        <link rel="icon" type="image/png" href="/pictures/hbaq-favicon.png"/>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

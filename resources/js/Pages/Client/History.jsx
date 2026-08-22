@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { DocumentArrowDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import ClientLayout from '@/Layouts/ClientLayout'
 import { useTranslation } from 'react-i18next'
@@ -14,11 +14,15 @@ const History = ({orders}) => {
     switch (status) {
       case 'pending':
         return <CheckCircleIcon className="h-5 w-5 text-orange-500" aria-hidden="true" />
-      case 'paid':
+      case 'preparing':
+        return <CheckCircleIcon className="h-5 w-5 text-orange-600" aria-hidden="true" />
+      case 'delivering':
+        return <CheckCircleIcon className="h-5 w-5 text-purple-500" aria-hidden="true" />
+      case 'done':
         return <CheckCircleIcon className="h-5 w-5 text-green-500" aria-hidden="true" />
-      case 'canceled':
+      case 'cancel':
         return <XCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
-      case 'closed':
+      case 'close':
         return <CheckCircleIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
       default:
         return <CheckCircleIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
@@ -64,6 +68,18 @@ const History = ({orders}) => {
                         <div>
                           <dt className="font-medium text-gray-900">{t('order.order-number')}</dt>
                           <dd className="mt-1 text-gray-500">#{order.id.toString().padStart(5, '0')}</dd>
+                          <a href={`/order/${order.id}`} className="mt-2 inline-block text-sm font-medium text-primary hover:underline">
+                            {t('order.view-details')}
+                          </a>
+                          {order.status === 'done' && (
+                            <a
+                              href={`/orders/${order.id}/bill`}
+                              className="mt-3 flex w-fit items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white hover:bg-green-800"
+                            >
+                              <DocumentArrowDownIcon className="h-5 w-5" />
+                              {t('order.download-bill')}
+                            </a>
+                          )}
                           <div className="flex items-center mt-4">
                             {renderStatus(order.status)}
                             <p className={`${lang=='ar'?'mr-2':'ml-2'} text-sm font-medium text-gray-500`}>
@@ -134,7 +150,7 @@ const History = ({orders}) => {
                         <p>{order.delivery} {t('order.dt')}</p>
                       </div>
                       <div className="mt-4 text-gray-700">
-                        <p>{t('order.cutlery')}: {order.cutlery ? t('order.yes') : ('order.no')}</p>
+                        <p>{t('order.meal-voucher')}: {order.cutlery ? t('order.yes') : t('order.no')}</p>
                         <p className='mt-2'>{order.message}</p>
                       </div>
                     </li>

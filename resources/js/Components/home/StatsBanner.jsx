@@ -10,7 +10,7 @@ function StatsBanner() {
         { icon: Phone, title: t('homepage.stats.b2b.title'), text: t('homepage.stats.b2b.text') },
     ];
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+    <section className="mx-auto max-w-7xl xl:max-w-screen-2xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {stats.map((item) => {
             const Icon = item.icon;

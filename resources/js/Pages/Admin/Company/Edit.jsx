@@ -42,10 +42,10 @@ const createCompany = ({companyGroups, auth}) => {
 
   return (
       <AdminLayout user={auth?.user}>
-        <h1>Create Company</h1>
+        <h1>Créer une entreprise</h1>
         <form action="" method="post" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="name_ar">Arabic Name:</label>
+              <label htmlFor="name_ar">Nom en arabe :</label>
               <input
                 type="text"
                 id="name_ar"
@@ -55,7 +55,7 @@ const createCompany = ({companyGroups, auth}) => {
               />
           </div>
           <div className="form-group">
-            <label htmlFor="name_en">English Name</label>
+            <label htmlFor="name_en">Nom en anglais</label>
             <input
               type="text"
               id="name_en"
@@ -65,7 +65,7 @@ const createCompany = ({companyGroups, auth}) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="phone">phone</label>
+            <label htmlFor="phone">Téléphone</label>
             <input
               type="text"
               id="phone"
@@ -75,7 +75,7 @@ const createCompany = ({companyGroups, auth}) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="role">role</label>
+            <label htmlFor="role">Rôle</label>
             <input
               type="text"
               id="role"
@@ -85,7 +85,7 @@ const createCompany = ({companyGroups, auth}) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="company_group_id">company group</label>
+            <label htmlFor="company_group_id">Groupe d’entreprises</label>
             <select 
               name="company_group_id" 
               id="company_group_id"

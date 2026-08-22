@@ -10,7 +10,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 export default function Edit({ auth, mustVerifyEmail, status }) {
     return (
         <AdminLayout user={auth.user}>
-            <Head title="Profile" />
+            <Head title="Profil" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -25,10 +25,10 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                         {/* <div className="md:col-span-1 p-4 sm:p-8 bg-white shadow sm:rounded-lg h-fit">
                             <div className='flex justify-center gap-x-4 items-center'>
                                 <WalletIcon className='w-10 h-10 text-primary' />
-                                <p className="text-2xl font-medium text-primary">Wallet</p>
+                                <p className="text-2xl font-medium text-primary">Portefeuille</p>
                             </div>
                             <div className="mt-8 flex space-x-4">
-                                <p className="text-lg text-gray-900 font-medium">Amount</p>
+                                <p className="text-lg text-gray-900 font-medium">Montant</p>
                                 <p className="text-lg text-gray-900 font-medium">{wallet.balance} SAR</p>
                                 {wallet.status == 'positive'
                                 ? (<ArrowTrendingUpIcon className='text-green-700 w-6 h-6'/>)

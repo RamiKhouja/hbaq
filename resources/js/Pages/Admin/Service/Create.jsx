@@ -89,12 +89,12 @@ const CreateService = ({auth}) => {
                 name="name_en"
                 id="name_en"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"
-                placeholder="Service name"
+                placeholder="Nom du service"
                 value={service.name_en}
                 onChange={handleChange}
               />
               {submitted && service.name_en=='' && (
-                <p className='text-xs text-red-500 mt-1'>Service name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du service est obligatoire</p>
               )}
             </div>
           </div>
@@ -114,7 +114,7 @@ const CreateService = ({auth}) => {
                 onChange={handleChange}
               />
               {submitted && service.name_ar=='' && (
-                <p className='text-xs text-red-500 mt-1'>Service name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du service est obligatoire</p>
               )}
             </div>
           </div>
@@ -133,7 +133,7 @@ const CreateService = ({auth}) => {
                 onChange={handleChange}
               />
               {submitted && service.name_fr=='' && (
-                <p className='text-xs text-red-500 mt-1'>Service name required</p>
+                <p className='text-xs text-red-500 mt-1'>Le nom du service est obligatoire</p>
               )}
             </div>
           </div>
@@ -169,7 +169,7 @@ const CreateService = ({auth}) => {
               <img
                 id="image-preview"
                 src={service.image ? URL.createObjectURL(service.image) : '/pictures/default.jpg'}
-                alt="Preview"
+                alt="Aperçu"
                 className='w-32 rounded-lg'
               />
             </div>
@@ -190,7 +190,7 @@ const CreateService = ({auth}) => {
               />
             </div>
             {submitted && !service.image && (
-              <p className='text-xs text-red-500 mt-1'>Please choose an image</p>
+              <p className='text-xs text-red-500 mt-1'>Veuillez choisir une image</p>
             )}
             {/* <input
               type="file"
@@ -209,7 +209,7 @@ const CreateService = ({auth}) => {
                 rows={4}
                 name="description_en"
                 id="description_en"
-                placeholder='Fully describe the service.'
+                placeholder='Décrivez complètement le service.'
                 value={service.description_en}
                 onChange={handleChange}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brown-600 sm:text-sm sm:leading-6"

@@ -29,7 +29,7 @@ export default function Services({auth, categories, services, eventCategories}) 
     <ClientLayout showMain={true} user={auth?.user} categories={categories} eventCategories={eventCategories}>
     <div className="bg-white py-10 sm:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-balance text-2xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
             {t('service.title')}
           </h2>
@@ -58,9 +58,9 @@ export default function Services({auth, categories, services, eventCategories}) 
               </p>
               <button 
                 onClick={() => handleOpenModal(service.id)}
-                className="mt-6 z-40 rounded-full bg-primary border border-primary hover:bg-transparent hover:border-white hover:text-white shadow-lg px-3 py-1 text-brown-800 text-sm font-semibold w-fit"
+                className="mt-6 z-40 rounded-full bg-secondark border border-secondark hover:bg-transparent hover:border-white hover:text-white shadow-lg px-3 py-1 text-brown-800 text-sm font-semibold w-fit"
               >
-                Book Service
+                {t('service.book-service')}
               </button>
             </article>
           ))}
