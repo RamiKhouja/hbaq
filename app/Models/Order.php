@@ -13,10 +13,13 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'total', 'subTotal', 'status', 'delivery', 'purchases',
         'payment_method', 'message', 'cutlery', 'deliveryman_id', 'profile_id',
-        'shipping_method', 'phase', 'language'
+        'shipping_method', 'phase', 'language', 'bill_number', 'bill_generated_at'
     ];
     protected $cast =[
         "purchases" =>'array'
+    ];
+    protected $casts = [
+        'bill_generated_at' => 'datetime',
     ];
     public function user() {
         return $this->belongsTo(User::class);

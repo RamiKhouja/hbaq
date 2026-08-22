@@ -26,7 +26,10 @@ i18n
       fr: {
         translation: {
           ...fr.translation,
-          admin: adminFr,
+          admin: {
+            ...(fr.translation.admin ?? {}),
+            ...adminFr,
+          },
         },
       },
       en: en,

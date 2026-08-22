@@ -32,7 +32,7 @@ const numberValue = (value) => {
 
 const moneyValue = (value) => Number(value).toFixed(2);
 
-export default function PackForm({ auth, products, pack = null }) {
+export default function PackForm({ auth, products, categories = [], pack = null }) {
   const { i18n } = useTranslation();
   const lang = i18n.language;
   const [submitted, setSubmitted] = useState(false);
@@ -65,6 +65,7 @@ export default function PackForm({ auth, products, pack = null }) {
       weight: product.pivot?.weight || '',
     }))
   );
+  const [selectedCategories, setSelectedCategories] = useState((pack?.categories || []).map((category) => category.id));
   const [existingPictures, setExistingPictures] = useState(
     (pack?.pictures || []).map((picture) => ({
       id: picture.id,
@@ -82,6 +83,8 @@ export default function PackForm({ auth, products, pack = null }) {
   const selectedOptions = productOptions.filter((option) =>
     selectedProducts.some((product) => product.product_id === option.value)
   );
+  const categoryOptions = useMemo(() => categories.map((category) => ({ value: category.id, label: category.name?.[lang] || category.name?.fr || category.name?.en })), [categories, lang]);
+  const selectedCategoryOptions = categoryOptions.filter((option) => selectedCategories.includes(option.value));
   const priceValue = numberValue(form.price);
   const discountPriceValue = numberValue(form.discount_price);
   const discountPercentageValue = numberValue(form.discount_percentage);
@@ -258,6 +261,7 @@ export default function PackForm({ auth, products, pack = null }) {
         formData.append(`products[${index}][weight]`, product.weight);
       }
     });
+    selectedCategories.forEach((categoryId) => formData.append('categories[]', categoryId));
 
     existingPictures.forEach((picture) => {
       formData.append('existing_pictures[]', picture.id);
@@ -367,6 +371,11 @@ export default function PackForm({ auth, products, pack = null }) {
           <Input name="price" label="Price *" value={form.price} onChange={handleChange} type="number" step="0.01" />
           <Input name="stock" label="Stock *" value={form.stock} onChange={handleChange} type="number" step="1" />
           <Input name="weight" label="Pack weight *" value={form.weight} onChange={handleChange} type="number" step="0.01" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium leading-6 text-gray-900">Pack categories</label>
+          <Select className="mt-2" options={categoryOptions} value={selectedCategoryOptions} isMulti onChange={(options) => setSelectedCategories((options || []).map((option) => option.value))} />
         </div>
 
         <div className="rounded-lg border border-gray-200 bg-white p-4">

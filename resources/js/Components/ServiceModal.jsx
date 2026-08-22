@@ -237,7 +237,7 @@ function ServiceModal({open, setOpen, user, id}) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-primary bg-opacity-90 transition-opacity" />
+          <div className="fixed inset-0 bg-slate-900 bg-opacity-90 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">

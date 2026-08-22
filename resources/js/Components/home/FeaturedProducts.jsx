@@ -23,7 +23,7 @@ function FeaturedProducts({featured, products, type = 'featured'}) {
         />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {productList.map((product) => (
+            {productList.slice(0, 8).map((product) => (
             <ProductCard key={product.id} product={product} />
             ))}
         </div>

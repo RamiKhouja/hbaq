@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { DocumentArrowDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import ClientLayout from '@/Layouts/ClientLayout'
 import { useTranslation } from 'react-i18next'
@@ -98,6 +98,15 @@ const OrderDetails = ({order, auth, categories, eventCategories}) => {
                               {t('order.'+order.status)}
                             </p>
                           </div>
+                          {order.status === 'done' && (
+                            <a
+                              href={`/orders/${order.id}/bill`}
+                              className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white hover:bg-green-800"
+                            >
+                              <DocumentArrowDownIcon className="h-5 w-5" />
+                              {t('order.download-bill')}
+                            </a>
+                          )}
                         </div>
                         <div className="hidden sm:block">
                           <dt className="font-medium text-gray-900">{t('order.date-placed')}</dt>

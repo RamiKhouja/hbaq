@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pack;
+use App\Models\PackCategory;
 use App\Models\Picture;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class PackController extends Controller
     public function index()
     {
         return inertia('Admin/Pack/Index', [
-            'packs' => Pack::with('products', 'pictures')->latest()->paginate(30),
+            'packs' => Pack::with('products', 'pictures', 'categories')->latest()->paginate(30),
         ]);
     }
 
@@ -23,6 +24,7 @@ class PackController extends Controller
     {
         return inertia('Admin/Pack/Create', [
             'products' => Product::orderBy('name->en')->get(['id', 'name', 'main_image', 'unit']),
+            'categories' => PackCategory::orderBy('name->en')->get(['id', 'name']),
         ]);
     }
 
@@ -36,6 +38,7 @@ class PackController extends Controller
         $pack->save();
 
         $this->syncProducts($pack, $validated['products'] ?? []);
+        $pack->categories()->sync($validated['categories'] ?? []);
         $this->storePictures($request, $pack);
 
         return redirect()->route('admin.packs.index')->with('success', 'Pack created successfully!');
@@ -43,11 +46,12 @@ class PackController extends Controller
 
     public function edit(Pack $pack)
     {
-        $pack->load('products', 'pictures');
+        $pack->load('products', 'pictures', 'categories');
 
         return inertia('Admin/Pack/Edit', [
             'pack' => $pack,
             'products' => Product::orderBy('name->en')->get(['id', 'name', 'main_image', 'unit']),
+            'categories' => PackCategory::orderBy('name->en')->get(['id', 'name']),
         ]);
     }
 
@@ -64,6 +68,7 @@ class PackController extends Controller
 
         $pack->save();
         $this->syncProducts($pack, $validated['products'] ?? []);
+        $pack->categories()->sync($validated['categories'] ?? []);
         $this->syncPictures($request, $pack);
 
         return redirect()->route('admin.packs.index')->with('success', 'Pack updated successfully!');
@@ -100,6 +105,8 @@ class PackController extends Controller
             'products.*.product_id' => 'required_with:products|exists:products,id',
             'products.*.quantity' => 'nullable|integer|min:0',
             'products.*.weight' => 'nullable|numeric|min:0|max:99999999.99',
+            'categories' => 'nullable|array',
+            'categories.*' => 'integer|exists:pack_categories,id',
             'pictures' => 'nullable|array',
             'pictures.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'pictures_order' => 'nullable|array',

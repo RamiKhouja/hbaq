@@ -134,11 +134,11 @@ function TopBanner({ featured = [] }) {
 
             <Link
               href={`/product/${activeProduct.url}`}
-              className="group absolute -right-7 top-5 z-30 flex h-[68px] w-[68px] items-center justify-center rounded-full bg-orange-500 text-center text-[10px] font-extrabold uppercase leading-[1.25] tracking-[0.14em] text-white shadow-lg transition hover:scale-105 hover:bg-orange-400 sm:-right-8 sm:h-20 sm:w-20 sm:text-xs"
+              className="group absolute -right-8 top-5 z-30 flex h-20 w-20 items-center justify-center rounded-full bg-orange-500 text-center text-xs font-extrabold uppercase leading-[1.25] tracking-[0.14em] text-white shadow-lg transition hover:scale-105 hover:bg-orange-400 sm:-right-10 sm:h-24 sm:w-24 sm:text-sm lang-ar:text-lg"
             >
-              <span className="absolute right-[calc(100%-12px)] top-1/2 h-0 w-0 -translate-y-1/2 border-y-[21px] border-r-[22px] border-y-transparent border-r-orange-500 transition group-hover:border-r-orange-400 sm:right-[calc(100%-14px)] sm:border-y-[25px] sm:border-r-[27px]" />
-              <span className="relative z-10 max-w-[3.25rem]">
-                {t('homepage.top.shop_now')}
+              <span className="absolute right-[calc(100%-14px)] top-1/2 h-0 w-0 -translate-y-1/2 border-y-[25px] border-r-[27px] border-y-transparent border-r-orange-500 transition group-hover:border-r-orange-400 sm:right-[calc(100%-17px)] sm:border-y-[30px] sm:border-r-[32px]" />
+              <span className="relative z-10">
+                {t('homepage.top.shop')}
               </span>
             </Link>
 

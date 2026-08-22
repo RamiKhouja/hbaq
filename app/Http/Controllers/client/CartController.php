@@ -154,9 +154,14 @@ class CartController extends Controller
         $user = null;
         if(auth()->check()) {
             $userId =   auth()->user()->id; 
-            $user = User::with(['addresses' => function ($query) {
-                $query->where('type', 'shipping');
-            }])->find($userId);  
+            $user = User::with([
+                'addresses' => function ($query) {
+                    $query->where('type', 'shipping');
+                },
+                'company.addresses' => function ($query) {
+                    $query->where('type', 'shipping');
+                },
+            ])->find($userId);
         }
         return inertia('Client/Checkout',[
             'user'=>$user,

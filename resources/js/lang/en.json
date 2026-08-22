@@ -1,5 +1,11 @@
 {
     "translation": {
+      "auth": {
+        "fields": { "email": "Email", "password": "Password", "confirm_password": "Confirm Password", "first_name": "First name", "last_name": "Last name", "phone": "Phone number", "state": "State", "city": "City", "zip": "Zip Code", "address": "Address", "address_extra": "Apartment, Building...", "mf": "MF", "company_name": "Company name", "company_phone": "Company phone", "company_email": "Company email", "mf_document": "MF document" },
+        "login": { "title": "Log in", "success": "Success!", "remember": "Remember me", "register_prompt": "Don't have an account? Register", "submit": "Log in" },
+        "register": { "title": "Register", "progress": "Registration progress", "login_prompt": "Already have an account?", "register_as": "Register as", "simple_user": "Simple user", "company_member": "Company member", "checking_mf": "Checking...", "check_mf": "Check MF", "company_exists": "The company {{company}} already exists. Are you a member?", "back": "Back", "next": "Next", "submit": "Register", "confirm_membership": "Yes, register me", "steps": { "personal": "Personal Info", "company": "Company Info", "company_address": "Company Address", "address": "Address" } },
+        "validation": { "first_name_required": "First name is required", "valid_email_required": "Valid email is required", "password_length": "Password must be at least 8 characters", "passwords_mismatch": "Passwords do not match", "phone_required": "Phone is required", "state_required": "State is required", "city_required": "City is required", "zip_required": "Zip code is required", "address_required": "Address is required", "mf_required": "MF is required", "company_name_required": "Company name is required", "company_phone_required": "Company phone is required", "valid_company_email": "Valid company email is required", "mf_check_failed": "Could not check the MF right now" }
+      },
       "hbaq": "Hbaq",
       "yes": "Yes",
       "no": "No",
@@ -13,6 +19,7 @@
           "organic": "100% Organic",
           "title": "Fresh Fruits & Vegetables Delivered With Care",
           "description": "Buy premium organic produce for your home or place bulk wholesale orders for supermarkets, hotels, restaurants, and resellers.",
+          "shop": "Shop",
           "shop_now": "Shop Now",
           "explore_wholesale": "Explore Wholesale",
           "slides": {
@@ -51,7 +58,8 @@
           "fresh_stock": "Fresh stock available",
           "price_popup": {
             "title": "Company price tiers",
-            "tooltip": "View company price tiers",
+            "label": "Wholesale Prices",
+            "tooltip": "View wholesale price tiers",
             "qty": "Qty",
             "price": "Price",
             "discount": "Discount"
@@ -94,6 +102,7 @@
           "quote_2": "Beautiful homepage, easy ordering, and fresh vegetables always arrive on time.",
           "form": {
             "success": "Thank you for your feedback!",
+            "optional": "optional",
             "image": "Photo",
             "name": "Name",
             "name_placeholder": "Your full name",
@@ -151,7 +160,13 @@
       },
       "navigation": {
         "home" : "Home",
+        "language": "Language",
         "shop": "Menu",
+        "market": "Market",
+        "wholesale": "Wholesale",
+        "hbaq-boxes": "Hbaq Boxes",
+        "view-all": "View all",
+        "become-partner": "Become a partner",
         "new": "New Arrivals",
         "about": "About us",
         "contact": "Contact us",
@@ -198,6 +213,19 @@
         "any-feedback": "Any Feedback?"
       },
       "footer" : {
+        "Hbaq": "Hbaq",
+        "organic-grocery": "Organic grocery",
+        "brand-description": "Fresh fruits, vegetables, herbs, and thoughtfully prepared products for homes and professional kitchens across Tunisia.",
+        "quick-links": "Quick links",
+        "shop-all": "Shop all",
+        "gift-packs": "Gift packs",
+        "our-services": "Our services",
+        "information": "Information",
+        "about-us": "About us",
+        "delivery-policy": "Delivery Policy",
+        "privacy-policy": "Privacy Policy",
+        "terms-conditions": "Terms & Conditions",
+        "tunis-tunisia": "Tunis, Tunisia",
         "get-touch" : "Get in touch",
         "description" : "Lorem ipsum dolor sit amet consectetur. Purus bibendum sapien porttitor amet. Nunc libero id praesent vitae eget et ut ac. Sit a sem tellus nullam venenatis in. Urna nunc adipiscing interdum aliquam aliquet nec mi. Dignissim ac ornare risus pellentesque. Cursus commodo tempor viverra in in lectus.",
         "newsletter" : "Newsletter",
@@ -394,11 +422,12 @@
         "cancel": "Canceled",
         "close": "Closed",
         "view-details": "View order details",
+        "download-bill": "Download bill",
         "order-created-success": "Order Created Successfully !"
       },
       "service": {
-        "title": "Our Services",
-        "subtitle": "Learn how to grow your business with our expert advice.",
+        "title": "Events & Services",
+        "subtitle": "Choose the services you need and share your event details to request a tailored booking.",
         "discover-all-services": "Discover all services",
         "book-service": "Book Service",
         "what-expect": "What to expect"
@@ -412,8 +441,8 @@
         "team-subtitle": "Meet our talented team of professionals who are dedicated to delivering exceptional service and creating unforgettable experiences for our customers."
       },
       "consultation": {
-        "title": "Book a Business Consultation",
-        "subtitle": "By selecting the required services, you may book a consultaion.",
+        "title": "Events & Services",
+        "subtitle": "Choose the services you need and share your event details to request a tailored booking.",
         "date": "Convinient Date",
         "firstname": "First name",
         "lastname": "Last name",
@@ -506,6 +535,61 @@
           "messages": "Messages",
           "about":"About",
           "testimonials": "Testimonials"
+        },
+        "order-index": {
+          "title": "Orders",
+          "subtitle": "A list of all customer orders.",
+          "success": "Success!",
+          "search-label": "Search orders",
+          "search-placeholder": "Order ID or customer name",
+          "search-button": "Search",
+          "clear-search": "Clear search",
+          "filter-label": "Filter by status",
+          "all-statuses": "All statuses",
+          "order-id": "Order ID",
+          "status": "Status",
+          "client": "Customer",
+          "total": "Total",
+          "payment": "Payment",
+          "fulfillment": "Fulfillment",
+          "time": "Time",
+          "actions": "Actions",
+          "meal-voucher": "Meal voucher",
+          "cash-delivery": "Cash on delivery",
+          "delivery": "Delivery",
+          "store": "Store pickup",
+          "show": "View",
+          "bill": "Bill",
+          "bill-dialog-title": "Generate bill",
+          "bill-dialog-description": "Confirm or change the bill number before generating the PDF.",
+          "bill-number": "Bill number",
+          "bill-cancel": "Cancel",
+          "bill-generate": "Generate without signature",
+          "bill-generate-signed": "Generate with signature",
+          "bill-generating": "Generating…",
+          "bill-error": "The bill could not be generated. Check that the bill number is unique and try again.",
+          "no-orders": "No orders found."
+        },
+        "order-show": {
+          "title": "Order details",
+          "delivery": "Delivery",
+          "close-panel": "Close panel",
+          "order": "Order",
+          "meal-voucher": "Meal voucher",
+          "cash-delivery": "Cash on delivery",
+          "subtotal": "Subtotal",
+          "total": "Total",
+          "quantity": "Quantity",
+          "package": "Package",
+          "contents": "Contents",
+          "pack-message": "Pack message",
+          "customer-details": "Customer details",
+          "start-preparing": "Start preparing",
+          "start-delivery": "Start delivery",
+          "mark-done": "Mark as done",
+          "close-order": "Close order",
+          "cancel-order": "Cancel order",
+          "action-error": "The order status could not be updated. Please try again."
         },
         "product": {
           "list": {

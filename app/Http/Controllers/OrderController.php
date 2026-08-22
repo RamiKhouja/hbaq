@@ -172,6 +172,7 @@ class OrderController extends Controller
 
         $order->status = $validated['status'];
         $order->save();
+        $order->available_actions = $order->getAvailableActions();
 
         if ($validated['status'] === 'preparing') {
             $this->notifyCustomerOrderIsPreparing($order);

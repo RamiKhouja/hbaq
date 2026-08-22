@@ -222,9 +222,10 @@ function ProductCard({ product }) {
               type="button"
               onClick={() => setShowPrices(true)}
               title={t('homepage.product.price_popup.tooltip')}
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-green-50 text-green-700 hover:bg-green-100"
+              className="inline-flex p-1 items-center gap-x-2 justify-center rounded-full bg-green-50 text-green-700 hover:bg-green-100"
             >
               <Info className="h-4 w-4" />
+              <p className="text-xs">{t('homepage.product.price_popup.label')}</p>
             </button>
           )}
         </div>

@@ -1,6 +1,7 @@
 import {PhoneIcon, EnvelopeIcon, MapPinIcon} from '@heroicons/react/24/solid'
 import { Leaf } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from '@inertiajs/react';
 
 export default function Footer() {
     const social = [
@@ -25,8 +26,21 @@ export default function Footer() {
     ]
 
     const { t, i18n } = useTranslation();
+    const quickLinks = [
+      { label: 'footer.shop-all', href: '/shop' },
+      { label: 'footer.gift-packs', href: '/gift-packs' },
+      { label: 'footer.our-services', href: '/services' },
+      { label: 'footer.contact', href: '/#contact' },
+    ];
+    const informationLinks = [
+      { label: 'footer.about-us', href: '/about' },
+      { label: 'footer.delivery-policy', href: '/delivery-policy' },
+      { label: 'footer.privacy-policy', href: '/privacy-policy' },
+      { label: 'footer.terms-conditions', href: '/terms-and-conditions' },
+    ];
+
     return (
-    <div>
+    <div dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
         <footer id="contact" className="border-t border-slate-200 bg-white">
           <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
             <div className="md:col-span-2 lg:col-span-1">
@@ -36,45 +50,47 @@ export default function Footer() {
                 </div>
                 <div>
                     <p className="text-lg font-extrabold text-slate-900">Hbaq | حبق</p>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Organic Grocery</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t('footer.organic-grocery')}</p>
                 </div>
                 </div>
                 <p className="mt-5 text-sm leading-7 text-slate-600">
-                A homepage template inspired by an organic grocery Figma style, adapted into a reusable React layout for Laravel + Inertia projects.
+                {t('footer.brand-description')}
                 </p>
             </div>
 
             <div>
-                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Quick Links</h4>
+                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">{t('footer.quick-links')}</h4>
                 <div className="mt-5 space-y-3 text-sm text-slate-600">
-                <a href="#" className="block hover:text-green-700">Shop All</a>
-                <a href="#" className="block hover:text-green-700">Wholesale</a>
-                <a href="#" className="block hover:text-green-700">New Arrivals</a>
-                <a href="#" className="block hover:text-green-700">Contact</a>
+                  {quickLinks.map((item) => (
+                    <Link key={item.href} href={item.href} className="block hover:text-green-700">
+                      {t(item.label)}
+                    </Link>
+                  ))}
                 </div>
             </div>
 
             <div>
-                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Information</h4>
+                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">{t('footer.information')}</h4>
                 <div className="mt-5 space-y-3 text-sm text-slate-600">
-                <a href="#" className="block hover:text-green-700">About Us</a>
-                <a href="#" className="block hover:text-green-700">Delivery Policy</a>
-                <a href="#" className="block hover:text-green-700">Privacy Policy</a>
-                <a href="#" className="block hover:text-green-700">Terms & Conditions</a>
+                  {informationLinks.map((item) => (
+                    <Link key={item.href} href={item.href} className="block hover:text-green-700">
+                      {t(item.label)}
+                    </Link>
+                  ))}
                 </div>
             </div>
 
             <div>
-                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Contact</h4>
+                <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">{t('footer.contact')}</h4>
                 <div className="mt-5 space-y-3 text-sm text-slate-600">
                 <p>+216 00 000 000</p>
                 <p>hello@freshmart.com</p>
-                <p>Tunis, Tunisia</p>
+                <p>{t('footer.tunis-tunisia')}</p>
                 </div>
             </div>
           </div>
         </footer>
-        <div className="bg-brown-800" dir={i18n.language==='ar' ? 'rtl' : 'ltr'}>
+        <div className="bg-brown-800">
             <div className="mx-auto max-w-7xl px-6 pb-8  lg:px-8" >
                 <div className="pt-8 md:flex md:items-center md:justify-between">
                     <div className="flex gap-x-6 md:order-2">

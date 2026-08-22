@@ -1,6 +1,23 @@
 {
   "navigation": {
-    "dashboard": "Tableau de bord", "team": "Équipe", "admins": "Administrateurs", "roles": "Rôles", "catalog": "Catalogue", "categories": "Catégories", "products": "Produits", "packs": "Packs", "packages": "Emballages", "brands": "Marques", "inventory": "Stock", "attributes": "Attributs", "clients": "Clients", "customers": "Clients", "stores": "Magasins", "groups": "Groupes", "sales": "Ventes", "orders": "Commandes", "prices": "Prix", "shopping-lists": "Listes d’achats", "settings": "Paramètres", "search": "Rechercher…", "logout": "Se déconnecter", "profile": "Profil", "services": "Services", "requests": "Demandes", "messages": "Messages", "about": "À propos", "testimonials": "Témoignages"
+    "dashboard": "Tableau de bord", "team": "Équipe", "admins": "Administrateurs", "roles": "Rôles", "catalog": "Catalogue", "categories": "Catégories", "products": "Produits", "packs": "Packs", "packages": "Emballages", "brands": "Marques", "inventory": "Stock", "attributes": "Attributs", "clients": "Clients", "customers": "Clients", "stores": "Magasins", "groups": "Groupes", "sales": "Ventes", "orders": "Commandes", "prices": "Prix", "shopping-lists": "Listes d’achats", "settings": "Paramètres", "search": "Rechercher…", "logout": "Se déconnecter", "profile": "Profil", "services": "Services", "requests": "Demandes", "messages": "Messages", "about": "À propos", "testimonials": "Témoignages", "hbaq-settings": "Informations Hbaq"
+  },
+  "hbaq-settings": {
+    "title": "Informations Hbaq",
+    "description": "Ces informations et images seront utilisées sur les factures.",
+    "company-name": "Nom de la société",
+    "fiscal-number": "Matricule fiscal",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "rib": "RIB (optionnel)",
+    "vat-rate": "TVA (%)",
+    "logo": "Logo",
+    "signature": "Signature",
+    "stamp": "Cachet",
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "saved": "Informations enregistrées."
   },
   "product": {
     "list": {

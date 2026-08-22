@@ -43,6 +43,7 @@ export default function Index({ auth, packs }) {
                 <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Prix</th>
                 <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Stock</th>
                 <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Produits</th>
+                <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Catégories</th>
                 <th className="px-3 py-3.5 text-sm font-semibold text-gray-900">Mis en avant</th>
                 <th className="relative px-3 py-3.5"><span className="sr-only">Actions</span></th>
               </tr>
@@ -60,6 +61,7 @@ export default function Index({ auth, packs }) {
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{pack.stock}</td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{pack.products?.length || 0}</td>
+                  <td className="px-3 py-4 text-sm text-gray-700">{pack.categories?.map((category) => category.name?.[lang] || category.name?.fr || category.name?.en).join(', ') || '—'}</td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{pack.is_featured ? 'Oui' : 'Non'}</td>
                   <td className="flex items-center gap-x-2 px-3 py-4 text-right text-sm font-medium">
                     <Link title="Voir sur le site" href="/gift-packs" className="text-gray-800 hover:text-brown-900">

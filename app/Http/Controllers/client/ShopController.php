@@ -120,9 +120,15 @@ class ShopController extends Controller
         $query = trim($request->input('query'));
 
         $results = Product::where(function ($q) use ($query) {
-            $q->where('name->en', 'LIKE', "%{$query}%")
+            $q->whereRaw(
+                "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.en'))) LIKE LOWER(?)",
+                ["%{$query}%"]
+            )
             ->orWhere('name->ar', 'LIKE', "%{$query}%")
-            ->orWhere('name->fr', 'LIKE', "%{$query}%");
+            ->orWhereRaw(
+                "LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, '$.fr'))) LIKE LOWER(?)",
+                ["%{$query}%"]
+            );
         })->get();
 
         return response()->json($results);

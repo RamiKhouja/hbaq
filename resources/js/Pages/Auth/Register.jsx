@@ -2,18 +2,20 @@ import { useMemo, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import GuestLayout from '@/Layouts/GuestLayout';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, router } from '@inertiajs/react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function Register() {
+    const { t, i18n } = useTranslation();
     const [currentStep, setCurrentStep] = useState(1);
     const [accountType, setAccountType] = useState('user');
     const [errors, setErrors] = useState([]);
     const [serverErrors, setServerErrors] = useState({});
     const [alertVisible, setAlertVisible] = useState(false);
-    const [checkingMf, setCheckingMf] = useState(false);
     const [existingCompany, setExistingCompany] = useState(null);
     const [mfChecked, setMfChecked] = useState(false);
 
@@ -49,12 +51,12 @@ export default function Register() {
     const steps = useMemo(() => {
         if (accountType === 'company') {
             return existingCompany
-                ? [{ id: 1, name: 'Personal Info' }, { id: 2, name: 'Company Info' }]
-                : [{ id: 1, name: 'Personal Info' }, { id: 2, name: 'Company Info' }, { id: 3, name: 'Company Address' }];
+                ? [{ id: 1, name: t('auth.register.steps.personal') }, { id: 2, name: t('auth.register.steps.company') }]
+                : [{ id: 1, name: t('auth.register.steps.personal') }, { id: 2, name: t('auth.register.steps.company') }, { id: 3, name: t('auth.register.steps.company_address') }];
         }
 
-        return [{ id: 1, name: 'Personal Info' }, { id: 2, name: 'Address' }];
-    }, [accountType, existingCompany]);
+        return [{ id: 1, name: t('auth.register.steps.personal') }, { id: 2, name: t('auth.register.steps.address') }];
+    }, [accountType, existingCompany, t]);
 
     const currentStepMeta = steps.find((step) => step.id === currentStep) || steps[0];
 
@@ -104,13 +106,13 @@ export default function Register() {
         if (typeof company.name === 'string') {
             try {
                 const parsed = JSON.parse(company.name);
-                return parsed.en || parsed.ar || company.name;
+                return parsed[i18n.language] || parsed.en || parsed.fr || parsed.ar || company.name;
             } catch {
                 return company.name;
             }
         }
 
-        return company.name.en || company.name.ar || '';
+        return company.name[i18n.language] || company.name.en || company.name.fr || company.name.ar || '';
     };
 
     const checkUserInfo = () => {
@@ -122,11 +124,11 @@ export default function Register() {
         const invalidConfirm = userInfo.password !== userInfo.password_confirmation;
         const invalidPhone = !userInfo.phone.trim();
 
-        if (invalidName) addError('firstname', 'First name is required');
-        if (invalidEmail) addError('email', 'Valid email is required');
-        if (invalidPass) addError('password', 'Password must be at least 8 characters');
-        if (invalidConfirm) addError('password_confirmation', 'Passwords do not match');
-        if (invalidPhone) addError('phone', 'Phone is required');
+        if (invalidName) addError('firstname', t('auth.validation.first_name_required'));
+        if (invalidEmail) addError('email', t('auth.validation.valid_email_required'));
+        if (invalidPass) addError('password', t('auth.validation.password_length'));
+        if (invalidConfirm) addError('password_confirmation', t('auth.validation.passwords_mismatch'));
+        if (invalidPhone) addError('phone', t('auth.validation.phone_required'));
 
         return !(invalidName || invalidEmail || invalidPass || invalidConfirm || invalidPhone);
     };
@@ -135,10 +137,10 @@ export default function Register() {
         resetErrors();
 
         const required = [
-            ['state', 'State is required'],
-            ['city', 'City is required'],
-            ['zip', 'Zip code is required'],
-            ['address_1', 'Address is required'],
+            ['state', t('auth.validation.state_required')],
+            ['city', t('auth.validation.city_required')],
+            ['zip', t('auth.validation.zip_required')],
+            ['address_1', t('auth.validation.address_required')],
         ];
 
         const invalid = required.filter(([field]) => !String(address[field] || '').trim());
@@ -151,7 +153,7 @@ export default function Register() {
         resetErrors();
 
         if (!companyInfo.mf.trim()) {
-            addError('company_mf', 'MF is required');
+            addError('company_mf', t('auth.validation.mf_required'));
             return false;
         }
 
@@ -160,10 +162,10 @@ export default function Register() {
         }
 
         const missing = [];
-        if (!companyInfo.name.trim()) missing.push(['company_name', 'Company name is required']);
-        if (!companyInfo.phone.trim()) missing.push(['company_phone', 'Company phone is required']);
+        if (!companyInfo.name.trim()) missing.push(['company_name', t('auth.validation.company_name_required')]);
+        if (!companyInfo.phone.trim()) missing.push(['company_phone', t('auth.validation.company_phone_required')]);
         if (companyInfo.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(companyInfo.email)) {
-            missing.push(['company_email', 'Valid company email is required']);
+            missing.push(['company_email', t('auth.validation.valid_company_email')]);
         }
 
         missing.forEach(([name, message]) => addError(name, message));
@@ -174,11 +176,9 @@ export default function Register() {
         resetErrors();
 
         if (!companyInfo.mf.trim()) {
-            addError('company_mf', 'MF is required');
+            addError('company_mf', t('auth.validation.mf_required'));
             return;
         }
-
-        setCheckingMf(true);
 
         try {
             const response = await axios.get('/register/company-mf', {
@@ -188,9 +188,7 @@ export default function Register() {
             setExistingCompany(response.data.company);
             setMfChecked(true);
         } catch {
-            addError('company_mf', 'Could not check the MF right now');
-        } finally {
-            setCheckingMf(false);
+            addError('company_mf', t('auth.validation.mf_check_failed'));
         }
     };
 
@@ -284,7 +282,7 @@ export default function Register() {
     };
 
     const renderProgress = () => (
-        <nav aria-label="Progress" className="w-full">
+        <nav aria-label={t('auth.register.progress')} className="w-full">
             <ol role="list" className="divide-y divide-gray-300 rounded-md border border-gray-300 bg-white md:flex md:divide-y-0">
                 {steps.map((step, stepIdx) => {
                     const complete = step.id < currentStep;
@@ -300,12 +298,12 @@ export default function Register() {
                                         <span className={current ? 'text-primary' : 'text-gray-500'}>{step.id}</span>
                                     )}
                                 </span>
-                                <span className={`ml-4 text-sm font-medium ${current || complete ? 'text-primary' : 'text-gray-500'}`}>{step.name}</span>
+                                <span className={`${i18n.language === 'ar' ? 'mr-4' : 'ml-4'} text-sm font-medium ${current || complete ? 'text-primary' : 'text-gray-500'}`}>{step.name}</span>
                             </div>
 
                             {stepIdx !== steps.length - 1 && (
-                                <div className="absolute right-0 top-0 hidden h-full w-5 md:block" aria-hidden="true">
-                                    <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
+                                <div className={`absolute top-0 hidden h-full w-5 md:block ${i18n.language === 'ar' ? 'left-0' : 'right-0'}`} aria-hidden="true">
+                                    <svg className={`h-full w-full text-gray-300 ${i18n.language === 'ar' ? '-scale-x-100' : ''}`} viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
                                         <path d="M0 -2L20 40L0 82" vectorEffect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
                                     </svg>
                                 </div>
@@ -321,7 +319,7 @@ export default function Register() {
         <>
             <div className="grid gap-4 sm:grid-cols-3">
                 <div>
-                    <InputLabel htmlFor={`${prefix}state`} value="State" />
+                    <InputLabel htmlFor={`${prefix}state`} value={t('auth.fields.state')} />
                     <select
                         id={`${prefix}state`}
                         name="state"
@@ -335,23 +333,23 @@ export default function Register() {
                     <InputError message={serverErrors[`${prefix}state`]} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor={`${prefix}city`} value="City" />
+                    <InputLabel htmlFor={`${prefix}city`} value={t('auth.fields.city')} />
                     <TextInput id={`${prefix}city`} name="city" value={data.city} className="mt-1 block w-full" onChange={onChange} />
                     <InputError message={serverErrors[`${prefix}city`]} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor={`${prefix}zip`} value="Zip Code" />
+                    <InputLabel htmlFor={`${prefix}zip`} value={t('auth.fields.zip')} />
                     <TextInput id={`${prefix}zip`} name="zip" value={data.zip} className="mt-1 block w-full" onChange={onChange} />
                     <InputError message={serverErrors[`${prefix}zip`]} className="mt-2" />
                 </div>
             </div>
             <div className="mt-4">
-                <InputLabel htmlFor={`${prefix}address_1`} value="Address" />
+                <InputLabel htmlFor={`${prefix}address_1`} value={t('auth.fields.address')} />
                 <TextInput id={`${prefix}address_1`} name="address_1" value={data.address_1} className="mt-1 block w-full" onChange={onChange} />
                 <InputError message={serverErrors[`${prefix}address_1`]} className="mt-2" />
             </div>
             <div className="mt-4">
-                <InputLabel htmlFor={`${prefix}address_2`} value="Apartment, Building..." />
+                <InputLabel htmlFor={`${prefix}address_2`} value={t('auth.fields.address_extra')} />
                 <TextInput id={`${prefix}address_2`} name="address_2" value={data.address_2} className="mt-1 block w-full" onChange={onChange} />
                 <InputError message={serverErrors[`${prefix}address_2`]} className="mt-2" />
             </div>
@@ -359,9 +357,15 @@ export default function Register() {
     );
 
     return (
-        <>
-            <Head title="Register" />
-            <div className="min-h-screen bg-gray-100 px-4 py-8">
+        <div className="flex min-h-screen flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+            <Head title={t('auth.register.title')} />
+            <div>
+                <Link href="/">
+                    <img className="w-44" src="/pictures/hbaq-logo.png" alt="Hbaq" />
+                    {/* <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" /> */}
+                </Link>
+            </div>
+            <div className="bg-gray-100 px-4 py-8">
                 <div className="mx-auto w-full max-w-3xl">
                     {errors.length > 0 && alertVisible && (
                         <div className="mb-6 rounded-lg bg-red-50 px-4 pt-4 text-red-800 shadow-sm" role="alert">
@@ -387,7 +391,7 @@ export default function Register() {
                         <div className="mb-6 flex items-center justify-between gap-4">
                             <h1 className="text-lg font-medium text-gray-900">{currentStepMeta.name}</h1>
                             <Link href={route('login')} className="text-sm text-gray-600 underline hover:text-gray-900">
-                                Already have an account?
+                                {t('auth.register.login_prompt')}
                             </Link>
                         </div>
 
@@ -395,51 +399,51 @@ export default function Register() {
                             <>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <InputLabel htmlFor="firstname" value="Firstname" />
+                                        <InputLabel htmlFor="firstname" value={t('auth.fields.first_name')} />
                                         <TextInput id="firstname" name="firstname" value={userInfo.firstname} className="mt-1 block w-full" onChange={handleUserChange} required />
                                         <InputError message={serverErrors.firstname} className="mt-2" />
                                     </div>
                                     <div>
-                                        <InputLabel htmlFor="lastname" value="Lastname" />
+                                        <InputLabel htmlFor="lastname" value={t('auth.fields.last_name')} />
                                         <TextInput id="lastname" name="lastname" value={userInfo.lastname} className="mt-1 block w-full" onChange={handleUserChange} />
                                         <InputError message={serverErrors.lastname} className="mt-2" />
                                     </div>
                                 </div>
 
                                 <div className="mt-4">
-                                    <InputLabel htmlFor="email" value="Email" />
+                                    <InputLabel htmlFor="email" value={t('auth.fields.email')} />
                                     <TextInput id="email" type="email" name="email" value={userInfo.email} className="mt-1 block w-full" onChange={handleUserChange} required />
                                     <InputError message={serverErrors.email} className="mt-2" />
                                 </div>
 
                                 <div className="mt-4">
-                                    <InputLabel htmlFor="phone" value="Phone number" />
+                                    <InputLabel htmlFor="phone" value={t('auth.fields.phone')} />
                                     <TextInput id="phone" type="tel" name="phone" value={userInfo.phone} className="mt-1 block w-full" onChange={handleUserChange} required />
                                     <InputError message={serverErrors.phone} className="mt-2" />
                                 </div>
 
                                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <InputLabel htmlFor="password" value="Password" />
+                                        <InputLabel htmlFor="password" value={t('auth.fields.password')} />
                                         <TextInput id="password" type="password" name="password" value={userInfo.password} className="mt-1 block w-full" onChange={handleUserChange} required />
                                         <InputError message={serverErrors.password} className="mt-2" />
                                     </div>
                                     <div>
-                                        <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+                                        <InputLabel htmlFor="password_confirmation" value={t('auth.fields.confirm_password')} />
                                         <TextInput id="password_confirmation" type="password" name="password_confirmation" value={userInfo.password_confirmation} className="mt-1 block w-full" onChange={handleUserChange} required />
                                     </div>
                                 </div>
 
                                 <fieldset className="mt-6">
-                                    <legend className="text-sm font-medium text-gray-900">Register as</legend>
+                                    <legend className="text-sm font-medium text-gray-900">{t('auth.register.register_as')}</legend>
                                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
                                         <label className="flex cursor-pointer items-center rounded-md border border-gray-300 px-4 py-3">
                                             <input type="radio" name="account_type" value="user" checked={accountType === 'user'} onChange={() => handleAccountTypeChange('user')} className="text-primary focus:ring-primary" />
-                                            <span className="ml-3 text-sm text-gray-700">Simple user</span>
+                                            <span className="mx-3 text-sm text-gray-700">{t('auth.register.simple_user')}</span>
                                         </label>
                                         <label className="flex cursor-pointer items-center rounded-md border border-gray-300 px-4 py-3">
                                             <input type="radio" name="account_type" value="company" checked={accountType === 'company'} onChange={() => handleAccountTypeChange('company')} className="text-primary focus:ring-primary" />
-                                            <span className="ml-3 text-sm text-gray-700">Company member</span>
+                                            <span className="mx-3 text-sm text-gray-700">{t('auth.register.company_member')}</span>
                                         </label>
                                     </div>
                                 </fieldset>
@@ -448,45 +452,42 @@ export default function Register() {
 
                         {accountType === 'company' && currentStep === 2 && (
                             <>
-                                <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+                                <div>
                                     <div>
-                                        <InputLabel htmlFor="mf" value="MF" />
+                                        <InputLabel htmlFor="mf" value={t('auth.fields.mf')} />
                                         <TextInput id="mf" name="mf" value={companyInfo.mf} className="mt-1 block w-full" onChange={handleCompanyChange} onBlur={checkMf} />
                                         <InputError message={serverErrors.company_mf} className="mt-2" />
                                     </div>
-                                    <button type="button" onClick={checkMf} disabled={checkingMf} className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 disabled:opacity-50">
-                                        {checkingMf ? 'Checking...' : 'Check MF'}
-                                    </button>
                                 </div>
 
                                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <InputLabel htmlFor="company_name" value="Company name" />
+                                        <InputLabel htmlFor="company_name" value={t('auth.fields.company_name')} />
                                         <TextInput id="company_name" name="name" value={existingCompany ? companyDisplayName(existingCompany) : companyInfo.name} disabled={!!existingCompany} className="mt-1 block w-full disabled:bg-gray-100" onChange={handleCompanyChange} />
                                         <InputError message={serverErrors.company_name} className="mt-2" />
                                     </div>
                                     <div>
-                                        <InputLabel htmlFor="company_phone" value="Company phone" />
+                                        <InputLabel htmlFor="company_phone" value={t('auth.fields.company_phone')} />
                                         <TextInput id="company_phone" name="phone" value={existingCompany?.phone || companyInfo.phone} disabled={!!existingCompany} className="mt-1 block w-full disabled:bg-gray-100" onChange={handleCompanyChange} />
                                         <InputError message={serverErrors.company_phone} className="mt-2" />
                                     </div>
                                 </div>
 
                                 <div className="mt-4">
-                                    <InputLabel htmlFor="company_email" value="Company email" />
+                                    <InputLabel htmlFor="company_email" value={t('auth.fields.company_email')} />
                                     <TextInput id="company_email" type="email" name="email" value={existingCompany?.email || companyInfo.email} disabled={!!existingCompany} className="mt-1 block w-full disabled:bg-gray-100" onChange={handleCompanyChange} />
                                     <InputError message={serverErrors.company_email} className="mt-2" />
                                 </div>
 
                                 <div className="mt-4">
-                                    <InputLabel htmlFor="mf_image" value="MF document" />
+                                    <InputLabel htmlFor="mf_image" value={t('auth.fields.mf_document')} />
                                     <input id="mf_image" name="mf_image" type="file" disabled={!!existingCompany} accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx" onChange={handleCompanyChange} className="mt-1 block w-full text-sm text-gray-700 disabled:opacity-50" />
                                     <InputError message={serverErrors.mf_image} className="mt-2" />
                                 </div>
 
                                 {existingCompany && (
                                     <div className="mt-6 rounded-md bg-brown-50 p-4 text-sm text-brown-900">
-                                        The company {companyDisplayName(existingCompany)} already exists, are you a member?
+                                        {t('auth.register.company_exists', { company: companyDisplayName(existingCompany) })}
                                     </div>
                                 )}
                             </>
@@ -498,17 +499,17 @@ export default function Register() {
 
                         <div className="mt-8 flex items-center justify-between gap-4">
                             <button type="button" onClick={goBack} disabled={currentStep === 1} className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 disabled:opacity-40">
-                                Back
+                                {t('auth.register.back')}
                             </button>
                             <div className="flex items-center gap-3">
                                 {existingCompany && currentStep === 2 && (
                                     <PrimaryButton type="button" onClick={submit}>
-                                        Yes, register me
+                                        {t('auth.register.confirm_membership')}
                                     </PrimaryButton>
                                 )}
                                 {!(existingCompany && currentStep === 2) && (
                                     <PrimaryButton type="button" onClick={goNext}>
-                                        {currentStep === steps.length ? 'Register' : 'Next'}
+                                        {currentStep === steps.length ? t('auth.register.submit') : t('auth.register.next')}
                                     </PrimaryButton>
                                 )}
                             </div>
@@ -516,6 +517,6 @@ export default function Register() {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

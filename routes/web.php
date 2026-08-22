@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\CompanyGroupController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\PackCategoryController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\PackController as AdminPackController;
 use App\Http\Controllers\admin\PackageController as AdminPackageController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\admin\AttributeController;
 use App\Http\Controllers\admin\AdressController;
 use App\Http\Controllers\admin\ContactController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\HbaqSettingController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\RequestController;
 
@@ -67,12 +69,15 @@ Route::group([], function(){
     Route::get('/menu/{url}', [ShopController::class, 'catprods'])->name('shop.catprods');
     Route::get('/occasion/{url}', [ShopController::class, 'eventprods'])->name('shop.eventprods');
     Route::get('/product/{url}', [ShowController::class, 'index'])->name('product.index');
-    Route::get('/contact',[ClientContactController::class,"create"])->name('contact.create');
+    Route::redirect('/contact', '/#contact')->name('contact.create');
     Route::post('/contact',[ClientContactController::class,"store"]);
     Route::get('/checkout', [CartController::class, "checkout"])->name('checkout');
     Route::get('/services', [ClientServiceController::class, 'list'])->name('services.index');
     Route::get('/service/{url}', [ClientServiceController::class, 'show'])->name('service.show');
     Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+    Route::get('/delivery-policy', fn () => Inertia::render('Client/Policy', ['policy' => 'delivery']))->name('policy.delivery');
+    Route::get('/privacy-policy', fn () => Inertia::render('Client/Policy', ['policy' => 'privacy']))->name('policy.privacy');
+    Route::get('/terms-and-conditions', fn () => Inertia::render('Client/Policy', ['policy' => 'terms']))->name('policy.terms');
     Route::get('/order/{order}',[CartController::class,"orderDetails"])->name('order.details');
     Route::get('/service/request/{request}',[ClientRequestController::class,"requestDetails"])->name('request.details');
 });
@@ -138,9 +143,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/about', [AboutController::class, 'create'])->name('about.create');
         //Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
         Route::post('/about', [AboutController::class, 'store'])->name('about.store');
+        Route::get('/hbaq-settings', [HbaqSettingController::class, 'edit'])->name('hbaq-settings.edit');
+        Route::post('/hbaq-settings', [HbaqSettingController::class, 'update'])->name('hbaq-settings.update');
         //Route::put('/about/update', [AboutController::class, 'update'])->name('about.update');
-
-        Route::get('/sales/orders/history',[OrderController::class, 'history'])->name('orders.history');
 
         Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
         Route::get('/company/create', [CompanyController::class, 'create'])->name('company.create');
@@ -166,6 +171,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/catalog/categories/edit/{category}', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::post('/catalog/categories/update/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/catalog/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.delete');
+
+        Route::get('/catalog/pack-categories', [PackCategoryController::class, 'index'])->name('pack-categories.index');
+        Route::get('/catalog/pack-categories/create', [PackCategoryController::class, 'create'])->name('pack-categories.create');
+        Route::post('/catalog/pack-categories', [PackCategoryController::class, 'store'])->name('pack-categories.store');
+        Route::get('/catalog/pack-categories/edit/{packCategory}', [PackCategoryController::class, 'edit'])->name('pack-categories.edit');
+        Route::post('/catalog/pack-categories/update/{packCategory}', [PackCategoryController::class, 'update'])->name('pack-categories.update');
+        Route::delete('/catalog/pack-categories/{packCategory}', [PackCategoryController::class, 'destroy'])->name('pack-categories.delete');
 
         Route::get('/catalog/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/catalog/products/show/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -210,6 +222,7 @@ Route::middleware('auth')->group(function () {
         'as'=> 'admin.'
     ], function(){
         Route::get('/sales/orders',[OrderController::class, 'index'])->name('orders.index');
+        Route::post('/sales/orders/{order}/bill',[OrderController::class, 'bill'])->name('orders.bill');
     });
 
     Route::group([], function(){
@@ -226,6 +239,7 @@ Route::middleware('auth')->group(function () {
         //Route::get('/orders',[CartController::class,"history"])->name('cart.checkout');
         //Route::get('/orders/download/{order}',[CartController::class,"downloadPDF"])->name('cart.download1');
         Route::get('/orders',[CartController::class,"history"])->name('orders.history');
+        Route::get('/orders/{order}/bill', [OrderController::class, 'clientBill'])->name('orders.bill');
         //Route::get('/product/price/{id}/{quantity}/{type}', [ShopController::class, "calculatePrice"])->name('product.price');
 
     })->middleware(['auth', 'verified']);

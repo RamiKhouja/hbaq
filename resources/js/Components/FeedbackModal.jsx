@@ -2,6 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { StarIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
+import { Send } from 'lucide-react';
 import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
@@ -105,7 +106,7 @@ function FeedbackModal({open, setOpen}) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm lg:max-w-2xl sm:p-6">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-3xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm lg:max-w-2xl sm:p-6">
                 {isSubmitted 
                 ? (
                   <div className='p-4 text-center flex flex-col items-center justify-center'>
@@ -120,7 +121,7 @@ function FeedbackModal({open, setOpen}) {
                 <div className="p-8">
                   <div className="col-span-full mb-4">
                     <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                    {t('homepage.testimonials.form.image')}
+                    {t('homepage.testimonials.form.image')} <span className="font-normal text-gray-500">({t('homepage.testimonials.form.optional')})</span>
                     </label>
                     <div className="mt-2 flex items-center gap-x-3">
                       <div>
@@ -159,7 +160,7 @@ function FeedbackModal({open, setOpen}) {
                     </div>
                     <div>
                       <label htmlFor="phone" className="block text-sm/6 font-semibold text-brown-800">
-                        {t('homepage.testimonials.form.phone')}
+                        {t('homepage.testimonials.form.phone')} <span className="font-normal text-gray-500">({t('homepage.testimonials.form.optional')})</span>
                       </label>
                       <div className="mt-2.5">
                         <input
@@ -178,7 +179,7 @@ function FeedbackModal({open, setOpen}) {
                   <div className="mt-8 grid gap-8 grid-cols-1 sm:grid-cols-2">
                     <div>
                       <label htmlFor="profession" className="block text-sm/6 font-semibold text-brown-800">
-                        {t('homepage.testimonials.form.profession')}
+                        {t('homepage.testimonials.form.profession')} <span className="font-normal text-gray-500">({t('homepage.testimonials.form.optional')})</span>
                       </label>
                       <div className="mt-2.5">
                         <input
@@ -236,8 +237,9 @@ function FeedbackModal({open, setOpen}) {
                   <div className="mt-8 flex justify-end">
                     <button
                       type="submit"
-                      className="rounded-full bg-gradient-to-r from-emerald-600 to-lime-500 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm shadow-lime-200 transition hover:from-emerald-500 hover:to-lime-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-500"
+                      className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-secondark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
+                      <Send className="h-4 w-4" />
                       {t('homepage.testimonials.form.submit')}
                     </button>
                   </div>

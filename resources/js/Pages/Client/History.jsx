@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { DocumentArrowDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import ClientLayout from '@/Layouts/ClientLayout'
 import { useTranslation } from 'react-i18next'
@@ -71,6 +71,15 @@ const History = ({orders}) => {
                           <a href={`/order/${order.id}`} className="mt-2 inline-block text-sm font-medium text-primary hover:underline">
                             {t('order.view-details')}
                           </a>
+                          {order.status === 'done' && (
+                            <a
+                              href={`/orders/${order.id}/bill`}
+                              className="mt-3 flex w-fit items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white hover:bg-green-800"
+                            >
+                              <DocumentArrowDownIcon className="h-5 w-5" />
+                              {t('order.download-bill')}
+                            </a>
+                          )}
                           <div className="flex items-center mt-4">
                             {renderStatus(order.status)}
                             <p className={`${lang=='ar'?'mr-2':'ml-2'} text-sm font-medium text-gray-500`}>

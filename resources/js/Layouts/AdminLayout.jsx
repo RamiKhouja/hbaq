@@ -4,7 +4,7 @@ import {
   Bars3Icon, BellIcon, UsersIcon, UserGroupIcon, XMarkIcon, TagIcon,
   Square3Stack3DIcon, EnvelopeIcon, ShoppingBagIcon, MegaphoneIcon,
   CalendarDaysIcon, PencilSquareIcon, ChatBubbleOvalLeftEllipsisIcon,
-  UserCircleIcon, GiftIcon,
+  UserCircleIcon, GiftIcon, BuildingOffice2Icon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from '@inertiajs/react'
@@ -90,16 +90,18 @@ export default function AdminLayout({ children, user }) {
     setNavigation([
       { id: 1, name: t('admin.navigation.team'), visible: hasRole(['admin']), href: '/admin/team/users', icon: UsersIcon, current: false||isPath('/admin/team/*'), open: false||isPath('/admin/team/*')},
       { id: 2, name: t('admin.navigation.categories'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/categories', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/categories/*') },
+      { id: 13, name: i18n.language === 'ar' ? 'فئات الباقات' : 'Catégories de packs', visible: hasRole(['admin', 'staff']), href: '/admin/catalog/pack-categories', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/pack-categories/*') },
       { id: 3, name: t('admin.navigation.products'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/products', icon: TagIcon, current: false||isPath('/admin/catalog/products/*')},
       { id: 10, name: t('admin.navigation.packs'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packs', icon: GiftIcon, current: false||isPath('/admin/catalog/packs/*')},
       { id: 12, name: t('admin.navigation.packages'), visible: hasRole(['admin', 'staff']), href: '/admin/catalog/packages', icon: Square3Stack3DIcon, current: false||isPath('/admin/catalog/packages/*')},
       { id: 4, name: t('admin.navigation.customers'), visible: hasRole(['admin']), href: '/admin/clients/customers', icon: UserGroupIcon, current: false||isPath('/admin/clients/customers/*') },
       { id: 5, name: t('admin.navigation.orders'), visible: hasRole(['admin', 'staff', 'delivery']), href: '/admin/sales/orders', icon: ShoppingBagIcon, current: false||isPath('/admin/sales/orders/*') },
-      // { id: 6, name: t('admin.navigation.services'), visible: hasRole(['admin']), href: '/admin/services', icon: MegaphoneIcon, current: false||isPath('/admin/services/*') },
+      { id: 6, name: t('admin.navigation.services'), visible: hasRole(['admin']), href: '/admin/services', icon: MegaphoneIcon, current: false||isPath('/admin/services/*') },
       // { id: 7, name: t('admin.navigation.requests'), visible: hasRole(['admin']), href: '/admin/requests', icon: CalendarDaysIcon, current: false||isPath('/admin/requests/*') },
       { id: 8, name: t('admin.navigation.messages'), visible: hasRole(['admin']), href: '/admin/contacts', icon: EnvelopeIcon, current: false||isPath('/admin/contacts/*') },
       { id: 9, name: t('admin.navigation.about'), visible: hasRole(['admin']), href: '/admin/about', icon: PencilSquareIcon, current: false||isPath('/admin/about/*') },
       { id: 11, name: t('admin.navigation.testimonials'), visible: hasRole(['admin']), href: '/admin/testimonials', icon: ChatBubbleOvalLeftEllipsisIcon, current: false||isPath('/admin/testimonials/*') },
+      { id: 14, name: t('admin.navigation.hbaq-settings'), visible: hasRole(['admin']), href: '/admin/hbaq-settings', icon: BuildingOffice2Icon, current: isPath('/admin/hbaq-settings') },
     ]);
   }, [i18n.language]);
 
@@ -166,8 +168,8 @@ export default function AdminLayout({ children, user }) {
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="/pictures/logo-white.png"
-                        alt="Twin Peaks"
+                        src="/pictures/hbaq-logo.png"
+                        alt="Hbaq Logo"
                       />
                     </div>
                     <nav className="flex flex-1 flex-col">
@@ -262,9 +264,9 @@ export default function AdminLayout({ children, user }) {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-brown-900 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center w-full">
               <img
-                className="h-8 mx-auto w-auto"
-                src="/pictures/logo-white.png"
-                alt="Mesmia Logo"
+                className="h-12 mt-4 mx-auto w-auto"
+                src="/pictures/hbaq-logo.png"
+                alt="Hbaq Logo"
               />
             </div>
             <nav className="flex flex-1 flex-col">

@@ -23,15 +23,16 @@ export default function Checkout({auth, user, categories, eventCategories}) {
   const isDelivery = true;
   const deliveryCost = 5;
   const [payWithMealVoucher, setPayWithMealVoucher] = useState(false);
+  const companyAddress = user?.company?.addresses?.[0];
   const [firstname, setFirstname] = useState(user?.firstname);
   const [lastname, setLastname] = useState(user?.lastname);
   const [email, setEmail] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone);
-  const [address1, setAddress1] = useState(user?.address);
-  const [address2, setAddress2] = useState(user?.address_2);
-  const [city, setCity] = useState(user?.city);
-  const [state, setState] = useState(user?.state || "Tunis");
-  const [zip, setZip] = useState(user?.zip);
+  const [address1, setAddress1] = useState(companyAddress?.address_1 ?? user?.address ?? '');
+  const [address2, setAddress2] = useState(companyAddress?.address_2 ?? user?.address_2 ?? '');
+  const [city, setCity] = useState(companyAddress?.city ?? user?.city ?? '');
+  const [state, setState] = useState(companyAddress?.state ?? user?.state ?? "Tunis");
+  const [zip, setZip] = useState(companyAddress?.zip ?? user?.zip ?? '');
   const [message, setMessage] = useState();
   const [isProcessingCash, setIsProcessingCash] = useState(false);
 

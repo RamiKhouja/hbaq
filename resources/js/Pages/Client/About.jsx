@@ -1,4 +1,5 @@
 import Contact from '@/Components/Contact'
+import Newsletter from '@/Components/home/Newsletter'
 import ClientLayout from '@/Layouts/ClientLayout'
 import {
   ArrowPathIcon,
@@ -128,7 +129,7 @@ function About({auth, about, users, categories, eventCategories}) {
                 ))}
               </div>
 
-              <div className="mt-8 hidden justify-end gap-5 overflow-hidden sm:flex sm:gap-8 lg:mt-0">
+              <div className="mt-8 hidden justify-end gap-5 overflow-hidden sm:flex sm:gap-4 lg:mt-0">
                 <div className="ml-auto w-36 flex-none space-y-5 pt-24 sm:ml-0 sm:w-44 sm:space-y-8 sm:pt-48 lg:order-last lg:pt-24 xl:order-none xl:pt-44">
                   <div className="overflow-hidden rounded-[1.5rem] border border-white/70 bg-white p-2 shadow-xl">
                     <img src={images[0]} alt="" className="aspect-[2/3] w-full rounded-[1rem] object-cover" />
@@ -222,8 +223,9 @@ function About({auth, about, users, categories, eventCategories}) {
           </div>
         </section>
 
-        <div className="mx-auto mb-20 max-w-7xl px-4 sm:px-6 lg:px-8 xl:max-w-screen-2xl">
-          <Contact />
+        <div className="mx-auto my-20 max-w-7xl px-4 sm:px-6 lg:px-8 xl:max-w-screen-2xl">
+          {/* <Contact /> */}
+          <Newsletter />
         </div>
       </main>
     </ClientLayout>

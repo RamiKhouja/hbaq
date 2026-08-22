@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
 function About({ about }) {
@@ -53,6 +54,12 @@ function About({ about }) {
                 </div>
             ))}
             </div>
+            <Link
+                href="/about"
+                className="mt-8 inline-flex w-fit items-center rounded-full bg-primary border border-primary px-6 py-2 text-sm font-semibold text-white transition hover:bg-white hover:text-primary"
+            >
+                {t('about.learn-more')}
+            </Link>
         </div>
         </div>
     </section>

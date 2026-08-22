@@ -5,21 +5,35 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Pack;
+use App\Models\PackCategory;
 use App\Models\Package;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class PackController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->role === 'admin') {
             return redirect()->route('admin.dashboard');
         }
 
+        $selectedCategory = $request->integer('category') ?: null;
+        $packs = Pack::with('products', 'pictures', 'categories')
+            ->when($selectedCategory, fn ($query) => $query->whereHas(
+                'categories',
+                fn ($categoryQuery) => $categoryQuery->where('pack_categories.id', $selectedCategory)
+            ))
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
         return inertia('Client/Packs', [
             'categories' => Category::where('parent_id', null)->where('type', 'menu')->with('children')->get(),
             'eventCategories' => Category::where('parent_id', null)->where('type', 'event')->with('children')->get(),
-            'packs' => Pack::with('products', 'pictures')->latest()->paginate(12),
+            'packCategories' => PackCategory::where('menu_show', true)->orderBy('name->en')->get(['id', 'name']),
+            'selectedCategory' => $selectedCategory,
+            'packs' => $packs,
         ]);
     }
 

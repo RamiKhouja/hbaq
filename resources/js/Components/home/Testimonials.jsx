@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SectionTitle from './SectionTitle';
-import { LeafyGreen, Star } from 'lucide-react';
+import { LeafyGreen, PencilLine, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -27,10 +27,10 @@ function Testimonials({ testimonials = [] }) {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="group inline-flex w-fit items-center gap-2 rounded-full border border-lime-200 bg-gradient-to-r from-emerald-600 via-lime-600 to-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-lime-200/70 transition hover:-translate-y-0.5 hover:from-emerald-500 hover:to-lime-500 hover:shadow-md focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-lime-500"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-primary bg-transparent px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/5"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-lime-50 transition group-hover:bg-white/30">
-              <LeafyGreen className="h-4 w-4" />
+            <span className="flex h-7 w-7 items-center justify-center rounded-full">
+              <PencilLine className="h-4 w-4" />
             </span>
             {t('homepage.testimonials.add_button')}
           </button>

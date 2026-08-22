@@ -3,7 +3,7 @@ import PackCard from '@/Components/home/PackCard';
 import { Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
-export default function Packs({ auth, packs, categories, eventCategories }) {
+export default function Packs({ auth, packs, categories, eventCategories, packCategories = [], selectedCategory = null }) {
   const { i18n } = useTranslation();
   const packList = packs?.data || [];
 
@@ -37,6 +37,38 @@ export default function Packs({ auth, packs, categories, eventCategories }) {
               {i18n.language === 'ar' ? 'كوّن باقتك' : i18n.language === 'fr' ? 'Composez votre coffret' : 'Build your own pack'}
             </Link>
           </div>
+
+          {packCategories.length > 0 && (
+            <div className="mb-10 overflow-x-auto pb-2">
+              <div className="flex min-w-max items-center gap-3">
+                <Link
+                  href="/gift-packs"
+                  preserveScroll
+                  className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+                    !selectedCategory
+                      ? 'bg-primary text-white shadow'
+                      : 'bg-white text-brown-800 ring-1 ring-inset ring-gray-200 hover:bg-green-50 hover:ring-green-600'
+                  }`}
+                >
+                  {i18n.language === 'ar' ? 'الكل' : i18n.language === 'fr' ? 'Tous' : 'All'}
+                </Link>
+                {packCategories.map((category) => (
+                  <Link
+                    key={category.id}
+                    href={`/gift-packs?category=${category.id}`}
+                    preserveScroll
+                    className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+                      Number(selectedCategory) === category.id
+                        ? 'bg-primary text-white shadow'
+                        : 'bg-white text-brown-800 ring-1 ring-inset ring-gray-200 hover:bg-green-50 hover:ring-green-600'
+                    }`}
+                  >
+                    {category.name?.[i18n.language] || category.name?.fr || category.name?.en}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {packList.length > 0 ? (
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">

@@ -53,6 +53,11 @@ class Pack extends Model
             ->withTimestamps();
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(PackCategory::class, 'pack_pack_category');
+    }
+
     public function pictures()
     {
         return $this->hasMany(Picture::class)->orderBy('order');

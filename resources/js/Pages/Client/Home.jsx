@@ -21,14 +21,14 @@ export default function Home({auth, categories, featured, seasonal, packs, about
 
       <main dir={i18n.language==='ar'?'rtl':'ltr'}>
         <TopBanner featured={featured} />
-        <StatsBanner />
+        {/* <StatsBanner /> */}
         <Categories categories={categories} />
         <FeaturedProducts products={seasonal} type="seasonal" />
-        <Wholesale />
+        {/* <Wholesale /> */}
+        <About about={about} />
         <GiftPacks packs={packs} />
         <Deals />
         <FeaturedProducts products={featured} type="featured" />
-        <About about={about} />
         <Testimonials testimonials={testimonials} />
         <Newsletter />
       </main>

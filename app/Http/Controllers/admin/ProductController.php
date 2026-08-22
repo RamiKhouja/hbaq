@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('categories', 'prices')->paginate(30);
+        $products = Product::with('categories', 'prices')->paginate(20);
         return inertia('Admin/Product/Index', [
             'products' => $products,
         ]);
